@@ -1,0 +1,10 @@
+x<-read.csv('phen_corr_res.txt')
+x_mirrored=x[,c(1,3,2,4,5)]
+colnames(x_mirrored)[c(2,3)]=colnames(x_mirrored)[c(3,2)]
+x=rbind(x,x_mirrored)
+library(data.table)
+setDT(x)
+corr_matrix=dcast(x, gwas_id_1 ~ gwas_id_2, value.var = "corr")
+corr_matrix[is.na(corr_matrix)]=1
+colnames(corr_matrix)=c('',corr_matrix[,1])
+write.table(corr_matrix,'pheno_corr_matrix.txt')
