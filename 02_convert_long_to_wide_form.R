@@ -6,5 +6,5 @@ library(data.table)
 setDT(x)
 corr_matrix=dcast(x, gwas_id_1 ~ gwas_id_2, value.var = "corr")
 corr_matrix[is.na(corr_matrix)]=1
-colnames(corr_matrix)=c('',corr_matrix[,1])
+colnames(corr_matrix)=c('',colnames(corr_matrix)[c(-1)])
 write.table(corr_matrix,'pheno_corr_matrix.txt')

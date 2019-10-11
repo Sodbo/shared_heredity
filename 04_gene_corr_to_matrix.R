@@ -1,0 +1,8 @@
+corr_files<-list.files('gene_corr', full.names=T, pattern='*.csv')
+corr_tables<-lapply(corr_files,read.csv)
+library(data.table)
+united_corr_table<-rbindlist(corr_tables)
+setDT(united_corr_table)
+corr_matrix=dcast(united_corr_table, gwas_id_1 ~ gwas_id_2, value.var = "rg")
+colnames(corr_matrix)=c('',colnames(corr_matrix)[c(-1)])
+write.table(corr_matrix,'gene_corr_matrix.txt')
