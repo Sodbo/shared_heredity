@@ -38,3 +38,5 @@ rsconnect/
 # Result files
 *res.txt
 *matrix.txt
+*.csv
+*.log
