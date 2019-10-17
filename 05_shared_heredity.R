@@ -1,9 +1,5 @@
-st=ls())
-setwd('~/Dropbox/Dropbox/MV_PAIN/results/20181010/data/')
-#setwd('D:/Yasha2018')
-load('20181116_four_pains.RData')
-CorPhenTr <- as.matrix(phe)
-A0 <- as.matrix(rgs_cov)
+CorPhenTr <- as.matrix(read.table('pheno_corr_matrix.txt', check.names=F))
+A0 <- as.matrix(read.table('gene_corr_matrix.txt', check.names=F))
 h2 <- diag(A0)
 CorGenTr <- cov2cor(A0)
 Ntr <- length(h2)
@@ -141,5 +137,5 @@ resu1 <- MAXIM(test1$w)
 
 
 test1$w; resu1
-
-
+write.table(resu1,'alphas.txt',quote=F)
+write.table(test1$w,'w.txt',quote=F)
