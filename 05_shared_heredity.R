@@ -137,5 +137,5 @@ resu1 <- MAXIM(test1$w)
 
 
 test1$w; resu1
-write.table(resu1,'alphas.txt',quote=F)
-write.table(test1$w,'w.txt',quote=F)
+write.table(resu1,'/home/common/projects/shared_heredity/data/pain_check_results/test1/alphas.txt',quote=F)
+write.table(test1$w,'/home/common/projects/shared_heredity/data/pain_check_results/test1/w.txt',quote=F)
