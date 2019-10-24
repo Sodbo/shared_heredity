@@ -1,5 +1,11 @@
 CorPhenTr <- as.matrix(read.table('pheno_corr_matrix.txt', check.names=F))
 A0 <- as.matrix(read.table('gene_cov_matrix.txt', check.names=F))
+
+#sort by trait id
+CorPhenTr <- CorPhenTr[,order(colnames(CorPhenTr))]
+CorPhenTr <- CorPhenTr[order(rownames(CorPhenTr)),]
+A0 <- A0[,order(colnames(A0))]
+A0 <- A0[order(rownames(A0)),]
 h2 <- diag(A0)
 CorGenTr <- cov2cor(A0)
 Ntr <- length(h2)
