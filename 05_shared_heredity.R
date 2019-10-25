@@ -6,6 +6,11 @@ CorPhenTr <- CorPhenTr[,order(colnames(CorPhenTr))]
 CorPhenTr <- CorPhenTr[order(rownames(CorPhenTr)),]
 A0 <- A0[,order(colnames(A0))]
 A0 <- A0[order(rownames(A0)),]
+if(any(colnames(A0)!=colnames(CorPhenTr))){
+	write('Error: The names of traits are not identical for phenotype correlation and genotype covariance matrices: ',stderr())
+	write.table(cbind(c('pheno_corr_matrix:','gene_cov_matrix:'),rbind(colnames(CorPhenTr),colnames(A0))), stderr(), col.names=F, row.names=F, quote=F)
+	quit(save="no")
+}
 h2 <- diag(A0)
 CorGenTr <- cov2cor(A0)
 Ntr <- length(h2)
