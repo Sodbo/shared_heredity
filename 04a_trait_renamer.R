@@ -1,0 +1,8 @@
+pheno<-read.table('pheno_corr_matrix.txt', check.names=F)
+colnames(pheno)<-paste0(c(4:1),colnames(pheno))
+rownames(pheno)<-paste0(c(4:1),rownames(pheno))
+write.table(pheno,'pheno_corr_matrix_numbered.txt', quote=F)
+gene<-read.table('gene_cov_matrix.txt', check.names=F)
+colnames(gene)<-paste0(c(4:1),colnames(gene))
+rownames(gene)<-paste0(c(4:1),rownames(gene))
+write.table(gene,'gene_cov_matrix_numbered.txt', quote=F)

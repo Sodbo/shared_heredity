@@ -1,11 +1,13 @@
-CorPhenTr <- as.matrix(read.table('pheno_corr_matrix.txt', check.names=F))
-A0 <- as.matrix(read.table('gene_cov_matrix.txt', check.names=F))
+args = commandArgs(trailingOnly=TRUE)
+CorPhenTr <- as.matrix(read.table(args[1], check.names=F))
+A0 <- as.matrix(read.table(args[2], check.names=F))
 
 #sort by trait id
-CorPhenTr <- CorPhenTr[,order(colnames(CorPhenTr))]
-CorPhenTr <- CorPhenTr[order(rownames(CorPhenTr)),]
-A0 <- A0[,order(colnames(A0))]
-A0 <- A0[order(rownames(A0)),]
+#CorPhenTr <- CorPhenTr[,order(colnames(CorPhenTr))]
+#CorPhenTr <- CorPhenTr[order(rownames(CorPhenTr)),]
+#A0 <- A0[,order(colnames(A0))]
+#A0 <- A0[order(rownames(A0)),]
+
 if(any(colnames(A0)!=colnames(CorPhenTr))){
 	write('Error: The names of traits are not identical for phenotype correlation and genotype covariance matrices: ',stderr())
 	write.table(cbind(c('pheno_corr_matrix:','gene_cov_matrix:'),rbind(colnames(CorPhenTr),colnames(A0))), stderr(), col.names=F, row.names=F, quote=F)
@@ -148,5 +150,5 @@ resu1 <- MAXIM(test1$w)
 
 
 test1$w; resu1
-write.table(resu1,'/home/common/projects/shared_heredity/data/pain_check_results/test1/alphas.txt',quote=F)
-write.table(test1$w,'/home/common/projects/shared_heredity/data/pain_check_results/test1/w.txt',quote=F)
+#write.table(resu1,'/home/common/projects/shared_heredity/data/pain_check_results/test1/alphas.txt',quote=F)
+#write.table(test1$w,'/home/common/projects/shared_heredity/data/pain_check_results/test1/w.txt',quote=F)
