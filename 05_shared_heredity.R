@@ -1,5 +1,5 @@
-CorPhenTr <- as.matrix(read.table('~/common/projects/shared_heredity/data/anthropometry_results/pheno_corr_matrix.txt', check.names=F))
-A0 <- as.matrix(read.table('~/common/projects/shared_heredity/data/anthropometry_results/gene_cov_matrix.txt', check.names=F))
+CorPhenTr <- as.matrix(read.table('/home/common/projects/shared_heredity/data/anthropometry_results/pheno_corr_matrix.txt', check.names=F))
+A0 <- as.matrix(read.table('/home/common/projects/shared_heredity/data/anthropometry_results/gene_cov_matrix.txt', check.names=F))
 
 #sort by trait id
 CorPhenTr <- CorPhenTr[,order(colnames(CorPhenTr))]
@@ -13,11 +13,11 @@ if(any(colnames(A0)!=colnames(CorPhenTr))){
 }
 h2 <- diag(A0)
 CorGenTr <- cov2cor(A0)
-Ntr <- length(h2)
+
 CorPhenTr; CorGenTr; h2 #plot(hclust(as.dist(CorGenTr)))
 
 shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL){
-
+	Ntr <- length(h2)
 	library(Rsolnp)  #install.packages('Rsolnp')
 
 	#####################################
@@ -156,5 +156,5 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 
 x<-shared_heredity(CorPhenTr=CorPhenTr, CorGenTr=CorGenTr, h2=h2)
 
-write.table(x$Alphas,'/home/common/projects/shared_heredity/data/pain_check_results/test1/alphas.txt',quote=F)
-write.table(x$W,'/home/common/projects/shared_heredity/data/pain_check_results/test1/w.txt',quote=F)
+write.table(x$Alphas,'/home/common/projects/shared_heredity/data/anthropometry_res_5traits/alphas.txt',quote=F)
+write.table(x$W,'/home/common/projects/shared_heredity/data/anthropometry_res_5traits/w.txt',quote=F)
