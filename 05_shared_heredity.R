@@ -1,22 +1,39 @@
-CorPhenTr <- as.matrix(read.table('/home/common/projects/shared_heredity/data/anthropometry_results/pheno_corr_matrix.txt', check.names=F))
-A0 <- as.matrix(read.table('/home/common/projects/shared_heredity/data/anthropometry_results/gene_cov_matrix.txt', check.names=F))
+CorPhenTr <- as.matrix(read.table('input/pheno_corr_matrix.txt', check.names=F))
+A0 <- as.matrix(read.table('input/gene_cov_matrix.txt', check.names=F))
 
-#sort by trait id
-CorPhenTr <- CorPhenTr[,order(colnames(CorPhenTr))]
-CorPhenTr <- CorPhenTr[order(rownames(CorPhenTr)),]
-A0 <- A0[,order(colnames(A0))]
-A0 <- A0[order(rownames(A0)),]
-if(any(colnames(A0)!=colnames(CorPhenTr))){
-	write('Error: The names of traits are not identical for phenotype correlation and genotype covariance matrices: ',stderr())
-	write.table(cbind(c('pheno_corr_matrix:','gene_cov_matrix:'),rbind(colnames(CorPhenTr),colnames(A0))), stderr(), col.names=F, row.names=F, quote=F)
-	quit(save="no")
-}
-h2 <- diag(A0)
-CorGenTr <- cov2cor(A0)
 
-CorPhenTr; CorGenTr; h2 #plot(hclust(as.dist(CorGenTr)))
 
 shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL){
+	if(is.null(CorPhenTr)){
+		write('Error: The phenotype correlation matrix is not loaded.',stderr())
+		quit(save="no")
+	}else{
+		if(!is.null(CovGenTr) && is.null(CorGenTr) && is.null(h2)){
+			write('Gene covariation matrix is converted to correlation matrix and heritability vector',stdout())
+			h2 <- diag(CovGenTr)
+			CorGenTr <- cov2cor(CovGenTr)
+		} else if (is.null(CovGenTr) && !is.null(CorGenTr) && !is.null(h2)){
+			write('Gene correlation matrix and heritability is loaded',stdout())
+		} else {
+			write('Error: Incorrect input data. Please, input gene covariation matrix or both gene correlation matrix and heritability vector',stderr())
+			quit(save="no")
+		}
+	}
+
+	if(any(colnames(CorGenTr)!=colnames(CorPhenTr))){
+		write('Error: The names of traits are not identical for phenotype correlation and genotype covariance matrices: ',stderr())
+		write.table(cbind(c('pheno_corr_matrix:','gene_cov_matrix:'),rbind(colnames(CorPhenTr),colnames(A0))), stderr(), col.names=F, row.names=F, quote=F)
+		quit(save="no")
+	}
+	'input data:'
+	CorPhenTr; CorGenTr; h2 #plot(hclust(as.dist(CorGenTr)))
+	
+	#sort matrices by trait id
+	#CorPhenTr <- CorPhenTr[,order(colnames(CorPhenTr))]
+	#CorPhenTr <- CorPhenTr[order(rownames(CorPhenTr)),]
+	#A0 <- A0[,order(colnames(A0))]
+	#A0 <- A0[order(rownames(A0)),]
+	
 	Ntr <- length(h2)
 	library(Rsolnp)  #install.packages('Rsolnp')
 
@@ -64,18 +81,18 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 		Points <- (nnn^Ntr)-1
 		if (PosRes==T) Begin <- 0 else Begin <- (-1)
 		for (iii in 0:Points){
-		dx <-ConVert(iii,nnn,Ntr)
-		w <- as.vector(sapply(dx,function(x) param[x]) ) * Znak_Weights
-		VVV <- w %*% t(w) + diag(1.- w^2)
-		p.min <- min(CorGenTr - VVV + diag(Ntr)) # without diagonal elements
-		p.max <- max(CorGenTr - VVV + diag(Ntr))
-		if((Begin <= p.min) & (p.max <= 1)) {
-			B <- VVV %*% InvCorGenTr
-			Loss.1 <- c(Loss.1,sum(diag(B)) - log(abs(det(B))) - Ntr)
-			Loss.2 <- c(Loss.2,sum(diag((B - diag(Ntr)) %^% 2)))
-			d <- c(d,paste(round(w,2), collapse = ' '))
-			WW <- cbind(WW,w)
-		}	
+			dx <-ConVert(iii,nnn,Ntr)
+			w <- as.vector(sapply(dx,function(x) param[x]) ) * Znak_Weights
+			VVV <- w %*% t(w) + diag(1.- w^2)
+			p.min <- min(CorGenTr - VVV + diag(Ntr)) # without diagonal elements
+			p.max <- max(CorGenTr - VVV + diag(Ntr))
+			if((Begin <= p.min) & (p.max <= 1)) {
+				B <- VVV %*% InvCorGenTr
+				Loss.1 <- c(Loss.1,sum(diag(B)) - log(abs(det(B))) - Ntr)
+				Loss.2 <- c(Loss.2,sum(diag((B - diag(Ntr)) %^% 2)))
+				d <- c(d,paste(round(w,2), collapse = ' '))
+				WW <- cbind(WW,w)
+			}
 		}
 		names(Loss.1) <- names(Loss.2) <- d
 		if(LossFun == 'L1') {
@@ -154,7 +171,7 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 	return (output)
 }
 
-x<-shared_heredity(CorPhenTr=CorPhenTr, CorGenTr=CorGenTr, h2=h2)
+x<-shared_heredity(CovGenTr=A0, CorPhenTr=CorPhenTr)
 
-write.table(x$Alphas,'/home/common/projects/shared_heredity/data/anthropometry_res_5traits/alphas.txt',quote=F)
-write.table(x$W,'/home/common/projects/shared_heredity/data/anthropometry_res_5traits/w.txt',quote=F)
+write.table(x$Alphas,'output_test/alphas.txt',quote=F)
+write.table(x$W,'outout_test/w.txt',quote=F)
