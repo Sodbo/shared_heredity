@@ -1,29 +1,27 @@
-CorPhenTr <- as.matrix(read.table('input/pheno_corr_matrix.txt', check.names=F))
-A0 <- as.matrix(read.table('input/gene_cov_matrix.txt', check.names=F))
+#CorPhenTr <- as.matrix(read.table('input/pheno_corr_matrix.txt', check.names=F))
+#A0 <- as.matrix(read.table('input/gene_cov_matrix.txt', check.names=F))
 
 
 
 shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL){
 	if(is.null(CorPhenTr)){
-		write('Error: The phenotype correlation matrix is not loaded.',stderr())
-		quit(save="no")
+		stop('Error: The phenotype correlation matrix is not loaded.')
 	}else{
 		if(!is.null(CovGenTr) && is.null(CorGenTr) && is.null(h2)){
-			write('Gene covariation matrix is converted to correlation matrix and heritability vector',stdout())
+			write('Gene covariation matrix is converted to correlation matrix and heritability vector')
 			h2 <- diag(CovGenTr)
 			CorGenTr <- cov2cor(CovGenTr)
 		} else if (is.null(CovGenTr) && !is.null(CorGenTr) && !is.null(h2)){
-			write('Gene correlation matrix and heritability is loaded',stdout())
+			write('Gene correlation matrix and heritability is loaded')
 		} else {
-			write('Error: Incorrect input data. Please, input gene covariation matrix or both gene correlation matrix and heritability vector',stderr())
-			quit(save="no")
+			stop('Error: Incorrect input data. Please, input gene covariation matrix or both gene correlation matrix and heritability vector')
 		}
 	}
 
 	if(any(colnames(CorGenTr)!=colnames(CorPhenTr))){
 		write('Error: The names of traits are not identical for phenotype correlation and genotype covariance matrices: ',stderr())
 		write.table(cbind(c('pheno_corr_matrix:','gene_cov_matrix:'),rbind(colnames(CorPhenTr),colnames(A0))), stderr(), col.names=F, row.names=F, quote=F)
-		quit(save="no")
+		stop()
 	}
 	'input data:'
 	CorPhenTr; CorGenTr; h2 #plot(hclust(as.dist(CorGenTr)))
@@ -171,7 +169,7 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 	return (output)
 }
 
-x<-shared_heredity(CovGenTr=A0, CorPhenTr=CorPhenTr)
+#x<-shared_heredity(CovGenTr=A0, CorPhenTr=CorPhenTr)
 
-write.table(x$Alphas,'output_test/alphas.txt',quote=F)
-write.table(x$W,'outout_test/w.txt',quote=F)
+#write.table(x$Alphas,'output_test/alphas.txt',quote=F)
+#write.table(x$W,'outout_test/w.txt',quote=F)
