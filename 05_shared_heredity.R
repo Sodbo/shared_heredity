@@ -2,145 +2,65 @@ CorPhenTr <- as.matrix(read.table('input/pheno_corr_matrix.txt', check.names=F))
 A0 <- as.matrix(read.table('input/gene_cov_matrix.txt', check.names=F))
 
 
+############################## DATA SET 2 #######################################
+rm(list=ls())
+library(rsvd)
+library(Rsolnp) 
+library(psych)
 
-shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL){
-	if(is.null(CorPhenTr)){
-		write('Error: The phenotype correlation matrix is not loaded.',stderr())
-		quit(save="no")
-	}else{
-		if(!is.null(CovGenTr) && is.null(CorGenTr) && is.null(h2)){
-			write('Gene covariation matrix is converted to correlation matrix and heritability vector',stdout())
-			h2 <- diag(CovGenTr)
-			CorGenTr <- cov2cor(CovGenTr)
-		} else if (is.null(CovGenTr) && !is.null(CorGenTr) && !is.null(h2)){
-			write('Gene correlation matrix and heritability is loaded',stdout())
-		} else {
-			write('Error: Incorrect input data. Please, input gene covariation matrix or both gene correlation matrix and heritability vector',stderr())
-			quit(save="no")
+#####################################
+###              U %^% k          ###
+#####################################
+"%^%" <- function(U, k) {  
+	UUU <- eigen(U, symmetric = TRUE)  # UUU = Uvec %*% diag(Uval) %*% t(Uvec)
+	Uval <- UUU$val; Uvec <- UUU$vec
+	Uvec <- Uvec[, Uval > 1.e-12];	Uval <- Uval[Uval > 1.e-12]
+	Uvec %*% (t(Uvec) * (Uval ^ k))   #	Uvec %*% (diag(Uval ^ k) %*% t(Uvec))
+}
+
+###############################################################
+###         testing whether there Are  shared SNPs?         ###                   
+###############################################################
+Test.SharedSNP <- function(CorGenTr,eps=0.1){ #eps: significant threshold for correlation coefficients
+if (min(abs(CorGenTr)) > eps) {
+	Z <- sign(CorGenTr)
+	if (qr(Z)$rank==1) {
+		print('there are shared SNPs!!! ');return(TRUE)
+	}else {
+		print('there are no shared SNPs!!! ');return(FALSE)
+	}} else {
+		print('there is no significant correlation coefficient')
+		return(FALSE)
 		}
-	}
+}
 
-	if(any(colnames(CorGenTr)!=colnames(CorPhenTr))){
-		write('Error: The names of traits are not identical for phenotype correlation and genotype covariance matrices: ',stderr())
-		write.table(cbind(c('pheno_corr_matrix:','gene_cov_matrix:'),rbind(colnames(CorPhenTr),colnames(A0))), stderr(), col.names=F, row.names=F, quote=F)
-		quit(save="no")
-	}
-	'input data:'
-	CorPhenTr; CorGenTr; h2 #plot(hclust(as.dist(CorGenTr)))
-	
-	#sort matrices by trait id
-	#CorPhenTr <- CorPhenTr[,order(colnames(CorPhenTr))]
-	#CorPhenTr <- CorPhenTr[order(rownames(CorPhenTr)),]
-	#A0 <- A0[,order(colnames(A0))]
-	#A0 <- A0[order(rownames(A0)),]
-	
-	Ntr <- length(h2)
-	library(Rsolnp)  #install.packages('Rsolnp')
-
-	#####################################
-	###              U %^% k          ###
-	#####################################
-	"%^%" <- function(U, k) {  
-		UUU <- eigen(U, symmetric = TRUE)  # UUU = Uvec %*% diag(Uval) %*% t(Uvec)
-		Uval <- UUU$val; Uvec <- UUU$vec
-		Uvec <- Uvec[, Uval > 1.e-12];	Uval <- Uval[Uval > 1.e-12]
-		Uvec %*% (t(Uvec) * (Uval ^ k))   #	Uvec %*% (diag(Uval ^ k) %*% t(Uvec))
-	}
-
-	ConVert <- function(k,nnn,Ntr){
-		d<-c()
-		for(i in 1:Ntr){d <- c(k %% nnn,d);	k <- k %/% nnn}
-		return(d+1)
-	}
-
-	###############################################################
-	###         testing whether there Are  shared SNPs?         ###                   
-	###############################################################
-	Test.SharedSNP <- function(eps=0.1){ # significant threshold for correlation coefficients
-	if (min(abs(CorGenTr)) > eps) {
-		Z <- CorGenTr/abs(CorGenTr)
-		if (qr(Z)$rank==1) {
-			print('there are shared SNPs!!! ')
-		}else {
-			print('there are no shared SNPs!!! ')
-		}} else print('there are no shared SNPs!!! ')
-	}
-
-	###############################################################
-	###  estimation of initial values for parameters            ###                   
-	###############################################################	
-	### Begin: parameter regulating Residuals Matrix	
-	INITIAL <- function(PosRes = TRUE,LossFun = 'L2'){
-		ZZZ <- eigen(CorGenTr/abs(CorGenTr),sym=TRUE)$vec[,1]
-		Znak_Weights <- ZZZ/abs(ZZZ)
-		
-		d <- p <- Loss.1 <- Loss.2 <- c()
-		WW<-rep(NaN,Ntr)
-		param <- sqrt(seq(0.005,1,by=0.1)); print(param)
-		nnn <- length(param)
-		Points <- (nnn^Ntr)-1
-		if (PosRes==T) Begin <- 0 else Begin <- (-1)
-		for (iii in 0:Points){
-			dx <-ConVert(iii,nnn,Ntr)
-			w <- as.vector(sapply(dx,function(x) param[x]) ) * Znak_Weights
-			VVV <- w %*% t(w) + diag(1.- w^2)
-			p.min <- min(CorGenTr - VVV + diag(Ntr)) # without diagonal elements
-			p.max <- max(CorGenTr - VVV + diag(Ntr))
-			if((Begin <= p.min) & (p.max <= 1)) {
-				B <- VVV %*% InvCorGenTr
-				Loss.1 <- c(Loss.1,sum(diag(B)) - log(abs(det(B))) - Ntr)
-				Loss.2 <- c(Loss.2,sum(diag((B - diag(Ntr)) %^% 2)))
-				d <- c(d,paste(round(w,2), collapse = ' '))
-				WW <- cbind(WW,w)
-			}
-		}
-		names(Loss.1) <- names(Loss.2) <- d
-		if(LossFun == 'L1') {
-		qwe <- which(min(Loss.1) == Loss.1)
-		} else {qwe <- which(min(Loss.2) == Loss.2)}
-		initial <- WW[,qwe] 
-		return(initial)
-		#mat <- as.matrix(cbind(Loss.1,Loss.2));plot(mat[,2]);plot(mat[,1])
-	}
-
-	###########################################################################
-	###            minimization of loss function  L2                        ###
-	###########################################################################
-
-	fun <- function(w,InvCorGenTr = InvCorGenTr) {
-		VVV <- w %*% t(w) + diag(1.- w^2)
-		L2 <- sum(diag((VVV %*% InvCorGenTr - diag(Ntr)) %^% 2)); 	return(L2)
-	}
-
-	ineqfun <- function(w,InvCorGenTr = InvCorGenTr){
-		VVV <- w %*% t(w) + diag(1.- w^2)
-		min(CorGenTr - VVV + diag(Ntr))
-	}
-
-	OPTIM <- function(PosRes=TRUE){
-		eps<-1e-7
-		gr1 <- initial/abs(initial)
-		gr2 <- rep(0,Ntr)
-		gr12 <- cbind(gr1,gr2)
-		gr12 <- cbind(apply(gr12,1,min),apply(gr12,1,max))
-		if (PosRes==TRUE){
-		res0 <- solnp(pars = initial, fun = fun, ineqfun = ineqfun, ineqLB = 0, ineqUB = 1-eps, 
-						LB = gr12[,1], UB = gr12[,2],InvCorGenTr = InvCorGenTr)
+################################################################################
+### minimization of loss function  L1:max.Lh, L2:min.sum.squared.residuals   ###
+################################################################################
+fun <- function(w) {
+	D <- (w %*% t(w) + diag(1.- w^2)) %*% abs.InvCorGenTr
+	detD <- det(D)
+	if (detD < 0) {
+		return(1.e+16)
 		}else{
-		res0 <- solnp(pars = initial, fun = fun,
-						LB = gr12[,1], UB = gr12[,2],InvCorGenTr = InvCorGenTr)
-		}
-		w <- res0$pars
-		return(list(w = w, fun_w = fun(w,InvCorGenTr),VVV = (w %*% t(w)) + diag(1.- w^2)))
+		return(sum(diag(D)) - log(detD) - Ntr)
 	}
+}
 
-	#####################################################################
-	###            Maximization of shared heritability                ###
-	#####################################################################
-	MAXIM <- function(w){
+OPTIM <- function(initial=initial){
+	eps <- 1.e-7
+	w <- solnp(pars = initial, fun = fun,LB = rep(0+eps,Ntr), UB = rep(1-eps,Ntr))$pars
+	return(list(w = w, fun_w = fun(w)))
+}
+
+#####################################################################
+###            Maximization of shared heritability                ###
+#####################################################################
+
+MAXIM <- function(w,method){
 	A0 <- CorGenTr   * sqrt(h2 %*% t(h2))             # total genotype corr.matrix component 
-	A2 <- (w%*%t(w)) * sqrt(h2 %*% t(h2))			  # shared genotype corr.matrix component
-	
+	A2 <- (w %*% t(w)) * sqrt(h2 %*% t(h2))			  # shared genotype corr.matrix component
+
 	VarianceComp <- function(alphas){
 		Phen = t(alphas) %*% CorPhenTr %*% alphas	
 		total  = (t(alphas) %*% A0 %*% alphas)/Phen
@@ -148,30 +68,75 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 		Unique = (t(alphas) %*% (A0-A2) %*% alphas)/Phen
 		return(c(total,Shared,Unique,alphas))
 	}
-	
-	a.1=eigen(((CorPhenTr - A0) %^% -1) %*% A0)$vec[,1] 				#max Gen/Phen
-	a.2=eigen(((CorPhenTr - A2) %^% -1) %*% A2)$vec[,1] 				#max Shared/Phen
-	a.3=eigen(((CorGenTr - (w%*%t(w))) %^% -1) %*% (w%*%t(w)))$vec[,1]	#max Shared/Gen
-		
-	study.1 <- VarianceComp(a.1);study.2 <- VarianceComp(a.2);study.3 <- VarianceComp(a.3)
-	
-	res <- rbind(study.1,study.2,study.3 )
-	colnames(res) <- c('Gen/Phen','Shared/Phen','Unique/Phen',paste(' Alpha',1:length(h2),sep = '')) 
-	rownames(res) <- c('max Gen/Phen','max Shared/Phen','max Shared/Gen')
-	return(res)
-	}
 
-	InvCorGenTr  <- CorGenTr %^%-1
-	initial <- INITIAL(PosRes=TRUE,LossFun='L1')
-	test1 <- OPTIM(PosRes=TRUE)
-	resu1 <- MAXIM(test1$w)
+	S1 = (CorPhenTr - A0) %^% -0.5
+	S2 = (CorPhenTr - A2) %^% -0.5
 	
-	output <- list (test1$w, resu1)
-	names(output) <- c('W', 'Alphas')
-	return (output)
+	a.1=eigen((S1 %*% A0) %*% S1,symmetric=TRUE)$vec[,1] 				#max Gen/Phen
+	a.2=eigen((S2 %*% A2) %*% S2,symmetric=TRUE)$vec[,1] 				#max Shared/Phen
+
+	study.1 <- VarianceComp(a.1)
+	study.2 <- VarianceComp(a.2)
+
+	res <- rbind(study.1,study.2)
+	colnames(res) <- c('h2(Gen/Phen)','h2(Shared/Phen)','h2(Unique/Phen)',
+					 paste(' Alpha.',rownames(A0),sep = ''))
+
+	rownames(res) <- paste0(method,c('.max(Gen/Phen)','.max(Shared/Phen)'))
+	return(res)
 }
 
-x<-shared_heredity(CovGenTr=A0, CorPhenTr=CorPhenTr)
+####################################################################
+###                   BEGIN                                      ###
+####################################################################
 
-write.table(x$Alphas,'output_test/alphas.txt',quote=F)
-write.table(x$W,'outout_test/w.txt',quote=F)
+
+if(any(colnames(A0)!=colnames(CorPhenTr))){
+	write('Error: The names of traits are not identical for phenotype correlation and genotype covariance matrices: ',stderr())
+	write.table(cbind(c('pheno_corr_matrix:','gene_cov_matrix:'),rbind(colnames(CorPhenTr),colnames(A0))), stderr(), col.names=F, row.names=F, quote=F)
+	quit(save="no")
+}
+
+### testing: sort by trait id
+#CorPhenTr <- CorPhenTr[,order(colnames(CorPhenTr))]
+#CorPhenTr <- CorPhenTr[order(rownames(CorPhenTr)),]
+#A0 <- A0[,order(colnames(A0))]
+#A0 <- A0[order(rownames(A0)),]
+
+### testing:  change of signs in cor.matrices
+#znak <- c(1,4)
+#CorPhenTr[,znak] <- CorPhenTr[,znak]*-1
+#CorPhenTr[znak,] <- CorPhenTr[znak,]*-1
+#A0[,znak] <- A0[,znak]*-1
+#A0[znak,] <- A0[znak,]*-1
+
+h2 <- diag(A0)           # vector of heritabilities
+CorGenTr <- cov2cor(A0)  # convert Cov to Cor
+Ntr <- length(h2)
+CorPhenTr; CorGenTr; h2 
+Test.SharedSNP(CorGenTr,0.1)
+
+abs.InvCorGenTr  <- (abs(CorGenTr)) %^% -1
+
+### OPTIM decomposition
+PCA <- rpca(CorGenTr%^%.5, k=1, center = FALSE, scale = FALSE) #  only PC1
+weig = as.vector(PCA$x)
+test <- OPTIM(initial = abs(weig))
+W <- test$w * sign(weig); names(W) <- names(h2)
+res <- MAXIM(W,method='OPTIM')
+
+#############################################################################
+### Measures of quality of  reconstructed matrix                         ###
+### nrmse    : The normalized root mean squared error                     ###
+### Loss_fun : normal loss function value                                 ###
+#############################################################################
+	CorGenTr.re <- W %*% t(W) + diag(1.- W^2)
+	nrmse <- sqrt(sum((CorGenTr - CorGenTr.re) ^ 2 ) / sum(CorGenTr ^ 2)) 
+    Mean.Weigs.2 <- mean(W^2)            # contribution of Shared SNPs to the genetic component
+	est <- list(weights=W,nrmse=nrmse,Loss_fun=test$fun_w ,Mean.Weigs.2=Mean.Weigs.2,res=res)
+	est
+	
+
+
+#write.table(x$Alphas,'output_test/alphas.txt',quote=F)
+#write.table(x$W,'outout_test/w.txt',quote=F)
