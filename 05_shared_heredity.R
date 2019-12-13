@@ -52,7 +52,7 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 			return(FALSE)
 			}
 	}
-	Ntr <- length(h2)
+
 	################################################################################
 	### minimization of loss function  L1:max.Lh, L2:min.sum.squared.residuals   ###
 	################################################################################
@@ -66,19 +66,19 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 		}
 	}
 
-	OPTIM <- function(initial_w,fun){
+	OPTIM <- function(initial=initial){
 		eps <- 1.e-7
 		print(Ntr)
-		w <- solnp(pars = initial_w, fun = fun, LB = rep(0+eps,Ntr), UB = rep(1-eps,Ntr))$pars
+		w <- solnp(pars = initial, fun = fun, LB = rep(0+eps,Ntr), UB = rep(1-eps,Ntr))$pars
 		return(list(w = w, fun_w = fun(w)))
 	}
 
 	#####################################################################
 	###            Maximization of shared heritability                ###
 	#####################################################################
-	MAXIM <- function(w,method,herit){
-		A0 <- CorGenTr   * sqrt(herit %*% t(herit))             # total genotype corr.matrix component 
-		A2 <- (w %*% t(w)) * sqrt(herit %*% t(herit))			  # shared genotype corr.matrix component
+	MAXIM <- function(w,method){
+		A0 <- CorGenTr   * sqrt(h2 %*% t(h2))             # total genotype corr.matrix component 
+		A2 <- (w %*% t(w)) * sqrt(h2 %*% t(h2))			  # shared genotype corr.matrix component
 
 		VarianceComp <- function(alphas){
 			Phen = t(alphas) %*% CorPhenTr %*% alphas	
@@ -134,9 +134,9 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 	### OPTIM decomposition
 	PCA <- rpca(CorGenTr%^%.5, k=1, center = FALSE, scale = FALSE) #  only PC1
 	weig = as.vector(PCA$x)
-	test <- OPTIM(abs(weig), fun)
+	test <- OPTIM(initial=abs(weig))
 	W <- test$w * sign(weig); names(W) <- names(h2)
-	res <- MAXIM(W,method='OPTIM',h2)
+	res <- MAXIM(W,method='OPTIM')
 
 	#############################################################################
 	### Measures of quality of  reconstructed matrix                         ###
@@ -151,6 +151,6 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 }
 x<-shared_heredity(CovGenTr=A0, CorPhenTr=CorPhenTr)
 
-#write.table(x$Alphas,'output_test/alphas.txt',quote=F)
+      #write.table(x$Alphas,'output_test/alphas.txt',quote=F)
 #write.table(x$W,'outout_test/w.txt',quote=F)
 
