@@ -1,7 +1,7 @@
-CorPhenTr <- as.matrix(read.table('../data/input/pheno_corr_matrix.txt', check.names=F))
-A0 <- as.matrix(read.table('../data/input/gene_cov_matrix.txt', check.names=F))
+#CorPhenTr <- as.matrix(read.table('../data/input/pheno_corr_matrix.txt', check.names=F))
+#A0 <- as.matrix(read.table('../data/input/gene_cov_matrix.txt', check.names=F))
 
-shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL){
+  shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL){
 	if(is.null(CorPhenTr)){
 		stop('Error: The phenotype correlation matrix is not loaded.')
 	}else{
@@ -18,7 +18,7 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 
 	if(any(colnames(CorGenTr)!=colnames(CorPhenTr))){
 		write('Error: The names of traits are not identical for phenotype correlation and genotype covariance matrices: ',stderr())
-		write.table(cbind(c('pheno_corr_matrix:','gene_cov_matrix:'),rbind(colnames(CorPhenTr),colnames(A0))), stderr(), col.names=F, row.names=F, quote=F)
+		write.table(cbind(c('pheno_corr_matrix:','gene_cov_matrix:'),rbind(colnames(CorPhenTr),colnames(CorGenTr))), stderr(), col.names=F, row.names=F, quote=F)
 		stop()
 	}
 	'input data:'
@@ -99,12 +99,21 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 		study.1 <- VarianceComp(a.1)
 		study.2 <- VarianceComp(a.2)
 
+		#Checking for positive Alpha1 values and alpha vectors sign inversion if necessary 
+    if(a.1[1]<0){
+      a.1<-a.1*(-1)
+    }
+    if(a.2[1]<0){
+      a.2<-a.2*(-1)
+    }
+		alphas <-rbind(a.1,a.2)
 		res <- rbind(study.1,study.2)
 		colnames(res) <- c('h2(Gen/Phen)','h2(Shared/Phen)','h2(Unique/Phen)',
 						 paste(' Alpha.',rownames(A0),sep = ''))
-
+		colnames(alphas) <- c(paste0(' Alpha.',rownames(A0)))
 		rownames(res) <- paste0(method,c('.max(Gen/Phen)','.max(Shared/Phen)'))
-		return(res)
+		rownames(alphas) <- paste0(method,c('.max(Gen/Phen)','.max(Shared/Phen)'))
+		return(list(res, alphas))
 	}
 
 	####################################################################
@@ -112,11 +121,6 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 	####################################################################
 
 
-	if(any(colnames(A0)!=colnames(CorPhenTr))){
-		write('Error: The names of traits are not identical for phenotype correlation and genotype covariance matrices: ',stderr())
-		write.table(cbind(c('pheno_corr_matrix:','gene_cov_matrix:'),rbind(colnames(CorPhenTr),colnames(A0))), stderr(), col.names=F, row.names=F, quote=F)
-		quit(save="no")
-	}
 
 	### testing: sort by trait id
 	#CorPhenTr <- CorPhenTr[,order(colnames(CorPhenTr))]
@@ -154,10 +158,11 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 		CorGenTr.re <- W %*% t(W) + diag(1.- W^2)
 		nrmse <- sqrt(sum((CorGenTr - CorGenTr.re) ^ 2 ) / sum(CorGenTr ^ 2)) 
 		Mean.Weigs.2 <- mean(W^2)            # contribution of Shared SNPs to the genetic component
-		est <- list(weights=W,nrmse=nrmse,Loss_fun=test$fun_w ,Mean.Weigs.2=Mean.Weigs.2,res=res)
+		est <- list(weights=W,nrmse=nrmse,Loss_fun=test$fun_w ,Mean.Weigs.2=Mean.Weigs.2,res=res[1],alphas=res[2])
 		return(est)
 }
-x<-shared_heredity(CovGenTr=A0, CorPhenTr=CorPhenTr)
+ # x<-shared_heredity(CovGenTr=A0, CorPhenTr=CorPhenTr)
 
-#write.table(x$Alphas,'output_test/alphas.txt',quote=F)
-#write.table(x$W,'outout_test/w.txt',quote=F)
+#write.table(x$alphas,'../data/output/alphas.txt',quote=F)
+#write.table(x$weights,'../data/output/weights.txt',quote=F)
+  
