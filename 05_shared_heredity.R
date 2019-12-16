@@ -1,6 +1,5 @@
 #CorPhenTr <- as.matrix(read.table('../data/input/pheno_corr_matrix.txt', check.names=F))
 #A0 <- as.matrix(read.table('../data/input/gene_cov_matrix.txt', check.names=F))
-
   shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL){
 	if(is.null(CorPhenTr)){
 		stop('Error: The phenotype correlation matrix is not loaded.')
@@ -106,6 +105,10 @@
     if(a.2[1]<0){
       a.2<-a.2*(-1)
     }
+		#alpha normalization
+		a.1<-a.1/sum(a.1)
+		a.2<-a.2/sum(a.2)
+		
 		alphas <-rbind(a.1,a.2)
 		res <- rbind(study.1,study.2)
 		colnames(res) <- c('h2(Gen/Phen)','h2(Shared/Phen)','h2(Unique/Phen)',
