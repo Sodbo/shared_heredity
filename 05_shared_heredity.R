@@ -106,8 +106,15 @@
       a.2<-a.2*(-1)
     }
 		#alpha normalization
-		a.1<-a.1/sum(a.1)
-		a.2<-a.2/sum(a.2)
+		phen=function(a,phem){
+		  h=sum(phem*(a%o%a))
+		  return(h)
+		}    
+		
+		var_sh1=phen(a=a.1,phem=CorPhenTr)
+		a.1=a.1/sqrt(var_sh1)
+		var_sh2=phen(a=a.2,phem=CorPhenTr)
+		a.2=a.2/sqrt(var_sh2)
 		
 		alphas <-rbind(a.1,a.2)
 		res <- rbind(study.1,study.2)
@@ -166,6 +173,6 @@
 }
  # x<-shared_heredity(CovGenTr=A0, CorPhenTr=CorPhenTr)
 
-#write.table(x$alphas,'../data/output/alphas.txt',quote=F)
-#write.table(x$weights,'../data/output/weights.txt',quote=F)
+#write.table(x$alphas,'../data/anthropometry_results/alphas_for_5_traits.txt',quote=F)
+#write.table(x$weights,'../data/anthropometry_results/weights_for_5_tratis.txt',quote=F)
   
