@@ -1,5 +1,5 @@
-#CorPhenTr <- as.matrix(read.table('../data/input/pheno_corr_matrix.txt', check.names=F))
-#A0 <- as.matrix(read.table('../data/input/gene_cov_matrix.txt', check.names=F))
+CorPhenTr <- as.matrix(read.table('../data/anthropometry_results/four_traits/pheno_corr_matrix.txt', check.names=F))
+A0 <- as.matrix(read.table('../data/anthropometry_results/four_traits/gene_cov_matrix.txt', check.names=F))
   shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL){
 	if(is.null(CorPhenTr)){
 		stop('Error: The phenotype correlation matrix is not loaded.')
@@ -168,11 +168,11 @@
 		CorGenTr.re <- W %*% t(W) + diag(1.- W^2)
 		nrmse <- sqrt(sum((CorGenTr - CorGenTr.re) ^ 2 ) / sum(CorGenTr ^ 2)) 
 		Mean.Weigs.2 <- mean(W^2)            # contribution of Shared SNPs to the genetic component
-		est <- list(weights=W,nrmse=nrmse,Loss_fun=test$fun_w ,Mean.Weigs.2=Mean.Weigs.2,res=res[1],alphas=res[2])
+		est <- list(weights=W,nrmse=nrmse,Loss_fun=test$fun_w ,Mean.Weigs.2=Mean.Weigs.2,res=res[[1]],alphas=res[[2]])
 		return(est)
 }
- # x<-shared_heredity(CovGenTr=A0, CorPhenTr=CorPhenTr)
-
-#write.table(x$alphas,'../data/anthropometry_results/alphas_for_5_traits.txt',quote=F)
-#write.table(x$weights,'../data/anthropometry_results/weights_for_5_tratis.txt',quote=F)
+ x<-shared_heredity(CovGenTr=A0, CorPhenTr=CorPhenTr)
   
+write.table(x$alphas,'../data/anthropometry_results/four_traits/alphas.txt',quote=F)
+write.table(x$weights,'../data/anthropometry_results/four_traits/weights.txt',quote=F)
+x$alphas

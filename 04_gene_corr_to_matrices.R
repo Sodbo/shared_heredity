@@ -1,5 +1,5 @@
 #please input the path to the result directory
-path_to_result_directory<-'../data/anthropometry_results/'
+path_to_result_directory<-'../data/anthropometry_results/four_traits/'
 
 corr_files<-list.files(paste0(path_to_result_directory,'gene_corr'), full.names=T, pattern='*.csv')
 corr_tables<-lapply(corr_files,read.csv)
