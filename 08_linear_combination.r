@@ -20,19 +20,31 @@ betas<-sapply(gwas_reordered, function(x) x$beta)
 se <- sapply(gwas_reordered, function(x) x$se)
 sample_size <- sapply(gwas_reordered, function(x) x$n)
 
-GWAS_linear_combination=function(a,beta_a,se,var_y1=1,covm,N){
+GWAS_linear_combination=function(a,beta_a,se,var_y=rep(1,length(a)),covm,N){
 	snp_row<-1:length(beta_a[,1])
+	
+	i=1
+	for (i in 1:length(var_y)){
+		beta_a[,i]=beta_a[,i]/sqrt(var_y[i])
+		se[,i]=se[,i]/sqrt(var_y[i])
+	}
+	
+	covm=(1/(sqrt(diag(covm))%o%sqrt(diag(covm))))*covm
+	
 	N_min_index=sapply(snp_row, function(x) which.min(N[x,]))
-	se_N_min<-sapply(snp_row, function (x) se[N_min_index[x]])
+	se_N_min<-sapply(snp_row, function (x) se[x,N_min_index[x]])
 	N_min<-sapply(snp_row, function(x) N[x,N_min_index[x]])
 	beta_N_min<-sapply(snp_row, function(x) beta_a[x,N_min_index[x]])
+	
+	#var_y_N_min<-sapply(snp_row, function(x) var_y[N_min_index[x]])
 	
 	var_y_a=sum(covm*(a%o%a))
 	b=(beta_a%*%a)
 	
-	var_y1_to_var_g_N_min_ratio=se_N_min^2+(beta_N_min^2)/N_min
+	var_y_N_min_to_var_g_N_min_ratio=se_N_min^2+(beta_N_min^2)/N_min
 	
-	se2=var_y1_to_var_g_N_min_ratio*(var_y_a/var_y1)
+	#se2=var_y_N_min_to_var_g_N_min_ratio*(var_y_a/var_y_N_min)
+	se2=var_y_N_min_to_var_g_N_min_ratio*(var_y_a/1)
 	
 	se2=se2-b^2/N_min
 	
@@ -48,7 +60,7 @@ GWAS_linear_combination=function(a,beta_a,se,var_y1=1,covm,N){
 }
 
 
-sh_gwas=GWAS_linear_combination(a=aa[2,],beta_a=betas,se,var_y1=1,covm=as.matrix(covm),N=sample_size)
+sh_gwas=GWAS_linear_combination(a=as.numeric(aa[2,]),beta_a=betas,se=se,covm=as.matrix(covm),N=sample_size)
 
 sh_gwas=mutate(x,Z=b/se,p=pchisq(Z^2,1,low=F))
 sh_gwas=mutate(x,SNP=gwas[[1]]$rs_id)
