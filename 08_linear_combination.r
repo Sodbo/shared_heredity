@@ -15,53 +15,52 @@ ind<-lapply(rs_id, function(x) match(snps,x))
 #Is it necessary to remove NA for the case of not whole intersection?
 #ind<-lapply(ind,function(x) )
 
-n<-as.list(c(1:length(ind)))
+gwas_reordered<-lapply(1:length(gwas), function(x) gwas[[x]][ind[[x]],])
+betas<-sapply(gwas_reordered, function(x) x$beta)
+se <- sapply(gwas_reordered, function(x) x$se)
+sample_size <- sapply(gwas_reordered, function(x) x$n)
 
-gwas_reordered<-lapply(n, function(x) gwas[[x]][ind[[x]],])
-
-betas<-lapply(gwas_reordered, function(x) x$beta)
-betas <- do.call(cbind, betas)
-
-se1 <- gwas_reordered[[1]]$se
-
-GWAS_linear_combination=function(a,betaa,se1,vary1=1,covm,N){
-    vary2=sum(covm*(a%o%a))
-    b=(betaa%*%a)
-    
-    vary1_varg_n=se1^2+(betaa[,1]^2)/N
-    
-    se2=vary1_varg_n*(vary2/vary1)
-    
-    se2=se2-b^2/N
-    
-    se=sqrt(se2)
-    
-    b=b/sqrt(vary2)
-    se=se/sqrt(vary2)
-    
-    out=cbind(b=b,se=se)
-    colnames(out)=c("b","se")
-    out=as.data.frame(out)
-    return(out)
+GWAS_linear_combination=function(a,beta_a,se,var_y1=1,covm,N){
+	snp_row<-1:length(beta_a[,1])
+	N_min_index=sapply(snp_row, function(x) which.min(N[x,]))
+	se_N_min<-sapply(snp_row, function (x) se[N_min_index[x]])
+	N_min<-sapply(snp_row, function(x) N[x,N_min_index[x]])
+	beta_N_min<-sapply(snp_row, function(x) beta_a[x,N_min_index[x]])
+	
+	var_y_a=sum(covm*(a%o%a))
+	b=(beta_a%*%a)
+	
+	var_y1_to_var_g_N_min_ratio=se_N_min^2+(beta_N_min^2)/N_min
+	
+	se2=var_y1_to_var_g_N_min_ratio*(var_y_a/var_y1)
+	
+	se2=se2-b^2/N_min
+	
+	se=sqrt(se2)
+	
+	b=b/sqrt(var_y_a)
+	se=se/sqrt(var_y_a)
+	
+	out=cbind(b=b,se=se)
+	colnames(out)=c("b","se")
+	out=as.data.frame(out)
+	return(out)
 }
 
-x<-lapply(n,
 
-for (NPC in 1:4){
-  x=GWAS_linear_combination(a=as.vector(aa[,NPC]),betaa=as.matrix(betas),se1=as.vector(se1),vary1=1,covm=as.matrix(covm),N=336107)
-  x=mutate(x,Z=b/se,p=pchisq(Z^2,1,low=F))
-  x=mutate(x,SNP=back$rs_id)
-  x=mutate(x,A1=back$ea,A2=back$ra,N=336107,chr=back$chr,pos=back$bp,
-             eaf=back$eaf)
-  
-  head(x,n=2)
-  
-  fnme=paste0("/mnt/polyomica/projects/mv_gwas/data/chronic_discovery/GPC/20181011_DISC_GPC",NPC,".txt")
-    
-  data.table::fwrite(
-    x, 
-    row.names=F,
-    file = fnme,
-    sep = '\t')
+sh_gwas=GWAS_linear_combination(a=aa[2,],beta_a=betas,se,var_y1=1,covm=as.matrix(covm),N=sample_size)
+
+sh_gwas=mutate(x,Z=b/se,p=pchisq(Z^2,1,low=F))
+sh_gwas=mutate(x,SNP=gwas[[1]]$rs_id)
+sh_gwas=mutate(x,A1=gwas[[1]]$ea,A2=gwas[[1]]$ra,N=336107,chr=gwas[[1]]$chr,pos=gwas[[1]]$bp,
+			 eaf=gwas[[1]]$eaf)
+
+head(sh_gwas,n=2)
+
+data.table::fwrite(
+	x, 
+	row.names=F,
+	file = '/../data/anthropometry_results/four_traits/linear_combination/SH_GWAS.txt',
+	sep = '\t')
   }
   
