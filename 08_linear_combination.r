@@ -62,17 +62,15 @@ GWAS_linear_combination=function(a,beta_a,se,var_y=rep(1,length(a)),covm,N){
 
 sh_gwas=GWAS_linear_combination(a=as.numeric(aa[2,]),beta_a=betas,se=se,covm=as.matrix(covm),N=sample_size)
 
-sh_gwas=mutate(x,Z=b/se,p=pchisq(Z^2,1,low=F))
-sh_gwas=mutate(x,SNP=gwas[[1]]$rs_id)
-sh_gwas=mutate(x,A1=gwas[[1]]$ea,A2=gwas[[1]]$ra,N=336107,chr=gwas[[1]]$chr,pos=gwas[[1]]$bp,
-			 eaf=gwas[[1]]$eaf)
+sh_gwas=mutate(sh_gwas,Z=b/se,p=pchisq(Z^2,1,low=F))
+sh_gwas=mutate(sh_gwas,SNP=gwas_reordered[[1]]$rs_id)
+sh_gwas=mutate(sh_gwas,A1=gwas_reordered[[1]]$ea,A2=gwas_reordered[[1]]$ra,N=336107,chr=gwas_reordered[[1]]$chr,pos=gwas_reordered[[1]]$bp,
+			 eaf=gwas_reordered[[1]]$eaf)
 
 head(sh_gwas,n=2)
-
+dir.create('../data/anthropometry_results/four_traits/linear_combination/')
 data.table::fwrite(
-	x, 
+	sh_gwas, 
 	row.names=F,
-	file = '/../data/anthropometry_results/four_traits/linear_combination/SH_GWAS.txt',
+	file = '../data/anthropometry_results/four_traits/linear_combination/SH_GWAS.txt',
 	sep = '\t')
-  }
-  
