@@ -6,7 +6,7 @@ path <- "../data/anthropometry_results/four_traits/linear_combination/"
 out <- NULL
 thr <- 5e-8
 
-function_for_shlop_28_12_2017 <- function(locus_table,p_value="p_ma",pos="bp",snp="rs_id", delta=2.5e5,chr="chr",thr=5e-8,trait=NULL){
+function_for_shlop_28_12_2017 <- function(locus_table,p_value="p_ma",pos="bp",snp="rs_id", delta=5e5,chr="chr",thr=5e-8,trait=NULL){
 	locus_table[,p_value] <- as.numeric(locus_table[,p_value])
 	if (!is.null(trait)){
 		traits="traits"
@@ -55,7 +55,7 @@ function_for_shlop_28_12_2017 <- function(locus_table,p_value="p_ma",pos="bp",sn
 	sst <- fread(sst_file, header=T, stringsAsFactors = F, data.table=F)
 	sst_sm <- sst[(pmin(sst$eaf,1-sst$eaf)>=0.01),]
 	trait <- 'SH for anthropometric traits'
-	lt <- function_for_shlop_28_12_2017(sst_sm,p_value="p",pos="pos",snp="SNP", delta=2.5e5,chr="chr", thr=thr)
+	lt <- function_for_shlop_28_12_2017(sst_sm,p_value="p",pos="pos",snp="SNP", delta=5e5,chr="chr", thr=thr)
 	if (nrow(lt)>0 ) {
 			lt=cbind(lt,trait)
 			out=rbind(out,lt)
@@ -63,5 +63,4 @@ function_for_shlop_28_12_2017 <- function(locus_table,p_value="p_ma",pos="bp",sn
 
 dim(out)
 
-library(xlsx)
-write.xlsx(out, paste0(path,'clumping_results.xlsx')) "/home/common/projects/plasma_gwas2/gwas_results/01_loci_table/PG_MA_loci_table_20200110.xlsx")
+write.csv(out, paste0(path,'clumping_results_1000kb.txt'))
