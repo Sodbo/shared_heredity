@@ -1,10 +1,13 @@
-#Clumping for the SH GWAS
+#Clumping for the original traits
 
 library(data.table) 
 
-path <- "../data/anthropometry_results/four_traits/linear_combination/"
+path <- "../data/anthropometry_results/four_traits/GWAS/scaled_filtered/"
+input_file_name<-c('ID_4049.csv','ID_4050.csv','ID_4058.csv','ID_4179.csv')
+result_file_name<-'Clumping_for_all_orignal_traits_and_SH.txt'
 out <- NULL
 thr <- 5e-8
+
 
 function_for_shlop_28_12_2017 <- function(locus_table,p_value="p_ma",pos="bp",snp="rs_id", delta=5e5,chr="chr",thr=5e-8,trait=NULL){
 	locus_table[,p_value] <- as.numeric(locus_table[,p_value])
@@ -51,16 +54,39 @@ function_for_shlop_28_12_2017 <- function(locus_table,p_value="p_ma",pos="bp",sn
 		return(out)
 	}
 
-	sst_file <- paste0(path,'SH_GWAS.txt')
+for (input in input_file_name) {
+	sst_file <- paste0(path,input)
 	sst <- fread(sst_file, header=T, stringsAsFactors = F, data.table=F)
 	sst_sm <- sst[(pmin(sst$eaf,1-sst$eaf)>=0.01),]
-	trait <- 'SH for anthropometric traits'
+	trait<-input
+	lt <- function_for_shlop_28_12_2017(sst_sm,p_value="p",pos="bp",snp="rs_id", delta=5e5,chr="chr", thr=thr)
+	if (nrow(lt)>0 ) {
+		lt=cbind(lt,trait)
+		out=rbind(out,lt)
+	}
+}
+	#Clumping for SH
+	
+	sst_file <-'../data/anthropometry_results/four_traits/linear_combination/SH_GWAS.txt'
+	sst <- fread(sst_file, header=T, stringsAsFactors = F, data.table=F)
+	sst_sm <- sst[(pmin(sst$eaf,1-sst$eaf)>=0.01),]
+	trait <- 'SH'
 	lt <- function_for_shlop_28_12_2017(sst_sm,p_value="p",pos="pos",snp="SNP", delta=5e5,chr="chr", thr=thr)
 	if (nrow(lt)>0 ) {
-			lt=cbind(lt,trait)
-			out=rbind(out,lt)
+		#correct names to merge tables
+		colnames(lt)=c('beta','se','z','p','rs_id','ea','ra','n','chr','bp','eaf')
+		lt=cbind(lt,trait)
+		out<-out[c(colnames(lt))]
+		out=rbind(out,lt)
 		}
-
+	
 dim(out)
 
-write.csv(out, paste0(path,'clumping_results_1000kb.txt'))
+bt <- function_for_shlop_28_12_2017(out,trait="trait",p_value="p",pos="bp",snp="rs_id",delta=5e5,chr="chr")
+bt <- bt[order(bt$chr,bt$bp),]
+colnames(bt)
+str(bt)
+bt$trait <- as.character(bt$trait)
+str(bt)
+write.csv(bt, paste0(path, result_file_name))
+
