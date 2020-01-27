@@ -1,0 +1,18 @@
+{
+    "levels":
+    [
+	{
+        "CHR":"{u_chr}",
+        "SNP":"{u_rs_id}",
+        "A1":"{u_ea}",
+        "A2":"{u_ra}",
+        "OR":"{u_beta}",
+        "INFO":"{u_info}",
+        "BP":"{u_bp}",
+        "SE":"{u_se}",
+        "P":"{u_p}"
+	}
+    ],
+    "service":{
+	}
+}
