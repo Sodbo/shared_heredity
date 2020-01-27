@@ -1,6 +1,9 @@
-CorPhenTr <- as.matrix(read.table('../data/anthropometry_results/four_traits/pheno_corr_matrix.txt', check.names=F))
-A0 <- as.matrix(read.table('../data/anthropometry_results/four_traits/gene_cov_matrix.txt', check.names=F))
-  shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL){
+CorPhenTr <- as.matrix(read.table('../../data/anthropometry_results/four_traits/pheno_corr_matrix.txt', check.names=F))
+A0 <- as.matrix(read.table('../../data/anthropometry_results/four_traits/gene_cov_matrix.txt', check.names=F))
+output_alpha<-'../..data/anthropometry_results/four_traits/alphas.txt'
+output_w<-'../..data/anthropometry_results/four_traits/weights.txt'
+
+shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL){
 	if(is.null(CorPhenTr)){
 		stop('Error: The phenotype correlation matrix is not loaded.')
 	}else{
@@ -172,7 +175,7 @@ A0 <- as.matrix(read.table('../data/anthropometry_results/four_traits/gene_cov_m
 		return(est)
 }
  x<-shared_heredity(CovGenTr=A0, CorPhenTr=CorPhenTr)
-  
-write.table(x$alphas,'../data/anthropometry_results/four_traits/alphas.txt',quote=F)
-write.table(x$weights,'../data/anthropometry_results/four_traits/weights.txt',quote=F)
+print(x)  
+write.table(x$alphas,output_alpha,quote=F)
+write.table(x$weights,output_w,quote=F)
 x$alphas
