@@ -1,7 +1,8 @@
-CorPhenTr <- as.matrix(read.table('../../data/anthropometry_results/four_traits/pheno_corr_matrix.txt', check.names=F))
-A0 <- as.matrix(read.table('../../data/anthropometry_results/four_traits/gene_cov_matrix.txt', check.names=F))
-output_alpha<-'../..data/anthropometry_results/four_traits/alphas.txt'
-output_w<-'../..data/anthropometry_results/four_traits/weights.txt'
+path<-commandArgs(trailingOnly=T)[1]
+CorPhenTr <- as.matrix(read.table(paste0(path,'pheno_corr_matrix.txt'), check.names=F))
+A0 <- as.matrix(read.table(paste0(path,'gene_cov_matrix.txt'), check.names=F))
+output_alpha<-paste0(path,'alphas.txt')
+output_w<-paste0(path,'weights.txt')
 
 shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL){
 	if(is.null(CorPhenTr)){
