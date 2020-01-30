@@ -1,6 +1,7 @@
 output_path=$1
 shift
-function join_by_comma { local IFS=","; echo $*; }
+echo 'Output directory: '$output_path
+echo 'Gwas IDs to analyse:' $*
 run_pheno_corr \
-	--gwas-ids $(join_by_comma $*) \
-	--output-path ${output_path}/phen_corr_res.txt > 01.log
+	--gwas-ids $(echo $* | tr ' ' ',')\
+	--output-path ${output_path}phen_corr_res.txt > ${output_path}01.log

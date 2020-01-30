@@ -1,3 +1,4 @@
+#!/bin/bash
 # Path to output directory should be given as the first command line argument
 # Ids of GWAS should also be given as the command line arguments after path.
 # Necessary R libraries should be installed before the first run.
