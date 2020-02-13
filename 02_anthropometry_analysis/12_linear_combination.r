@@ -122,7 +122,8 @@ tr_sh_gwas=lapply(tr_sh_gwas, function(x) mutate(x, A1=gwas_reordered[[1]]$ea,A2
 #tr1_sh_gwas=mutate(tr1_sh_gwas,A1=gwas_reordered[[1]]$ea,A2=gwas_reordered[[1]]$ra,chr=gwas_reordered[[1]]$chr,pos=gwas_reordered[[1]]$bp, eaf=gwas_reordered[[1]]$eaf)
 lapply(tr_sh_gwas,function(x) head(x,n=2))
 lapply(n_traits, function(x) data.table::fwrite(
-	tr_sh_gwas[[x]], 
-	row.names=F,
-	file = paste0('../../data/anthropometry_results/four_traits/linear_combination/Tr',colnames(gcov)[x],'-SH_GWAS.txt',
-	sep = '\t')))
+		tr_sh_gwas[[x]], 
+		row.names=F,
+		file = paste0('../../data/anthropometry_results/four_traits/linear_combination/Tr',colnames(gcov)[x],'-SH_GWAS.txt'),
+		sep = '\t')
+	)

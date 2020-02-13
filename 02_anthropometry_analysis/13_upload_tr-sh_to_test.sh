@@ -7,19 +7,19 @@ uni_folder='../../data/anthropometry_results/four_traits/linear_combination/02_u
 
 for tr in 4049 4050 4058 4179
 do
-tr=tr${tr}-SH
+tr=Tr${tr}-SH
 echo $tr
 
 mkdir ${uni_folder}/$tr
 
 run_uni_qc_rep \
---gwas-path=../../data/anthropometry_results/four_traits/linear_combination/${tr}_GWAS.txt \
---mapping-path=../../data/anthropometry_results/four_traits/linear_combination/mapping.json \
+--gwas-path=/home/ubuntu/polyomica/projects/shared_heredity/data/anthropometry_results/four_traits/linear_combination/${tr}_GWAS.txt \
+--mapping-path=/home/ubuntu/polyomica/projects/shared_heredity/data/anthropometry_results/four_traits/linear_combination/mapping.json \
 --descriptors-path=${descr_folder}/descriptor_${tr}.json \
 --output-dir=${uni_folder}/${tr}/ \
 --output-file=$tr \
-#--filter-path filter.txt 
 --qc-report
+#--filter-path filter.txt 
 
 run_upload \
 --gwas-path=${uni_folder}/${tr}/${tr}_done.csv
