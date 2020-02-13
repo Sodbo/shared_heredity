@@ -1,10 +1,3 @@
-#Clumping for the SH GWAS
-
-library(data.table) 
-
-path <- "../data/anthropometry_results/four_traits/linear_combination/"
-out <- NULL
-thr <- 5e-8
 
 function_for_shlop_28_12_2017 <- function(locus_table,p_value="p_ma",pos="bp",snp="rs_id", delta=5e5,chr="chr",thr=5e-8,trait=NULL){
 	locus_table[,p_value] <- as.numeric(locus_table[,p_value])
@@ -60,7 +53,3 @@ function_for_shlop_28_12_2017 <- function(locus_table,p_value="p_ma",pos="bp",sn
 			lt=cbind(lt,trait)
 			out=rbind(out,lt)
 		}
-
-dim(out)
-
-write.csv(out, paste0(path,'clumping_results_1000kb.txt'))

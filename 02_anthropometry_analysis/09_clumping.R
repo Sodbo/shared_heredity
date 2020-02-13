@@ -1,5 +1,5 @@
 #Clumping for the SH GWAS
-
+source("../00_core_functions/clumping.R")
 library(data.table) 
 
 path <- "../data/anthropometry_results/four_traits/linear_combination/"

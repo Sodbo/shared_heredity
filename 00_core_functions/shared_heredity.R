@@ -1,8 +1,3 @@
-CorPhenTr <- as.matrix(read.table('../../data/anthropometry_results/four_traits/pheno_corr_matrix.txt', check.names=F))
-A0 <- as.matrix(read.table('../../data/anthropometry_results/four_traits/gene_cov_matrix.txt', check.names=F))
-output_alpha<-'../..data/anthropometry_results/four_traits/alphas.txt'
-output_w<-'../..data/anthropometry_results/four_traits/weights.txt'
-
 shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL){
 	if(is.null(CorPhenTr)){
 		stop('Error: The phenotype correlation matrix is not loaded.')
@@ -174,8 +169,3 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 		est <- list(weights=W,nrmse=nrmse,Loss_fun=test$fun_w ,Mean.Weigs.2=Mean.Weigs.2,res=res[[1]],alphas=res[[2]])
 		return(est)
 }
- x<-shared_heredity(CovGenTr=A0, CorPhenTr=CorPhenTr)
-print(x)  
-write.table(x$alphas,output_alpha,quote=F)
-write.table(x$weights,output_w,quote=F)
-x$alphas
