@@ -1,8 +1,0 @@
-information<0.7
-hwe<1e-6
-min(eaf,1-eaf)<0.01
-beta<=(-2)
-beta>=(2)
-se<=0
-information*min(eaf,1-eaf)<0.01
-min(eaf,1-eaf)*2*n<10 
