@@ -1,0 +1,17 @@
+{
+    "levels":
+    [
+	{
+        "chr":"{u_chr}",
+        "pos":"{u_bp}",
+        "A1":"{u_ea}",
+        "A2":"{u_ra}",
+        "b":"{u_beta}",
+        "eaf":"{u_eaf}",
+        "N":"{u_n}",
+        "se":"{u_se}"
+	}
+    ],
+    "service":{
+	}
+}

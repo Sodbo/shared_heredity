@@ -1,0 +1,21 @@
+{
+    "levels":
+    [
+	{
+        "chr":"{u_chr}",
+        "SNP":"{u_rs_id}",
+        "A1":"{u_ea}",
+        "A2":"{u_ra}",
+        "b":"{u_beta}",
+        "pos":"{u_bp}",
+        "se":"{u_se}",
+        "p":"{u_p}",
+	"N":"{u_n}",
+	"eaf":"{u_eaf}"
+	}
+    ],
+    "service":{
+	"sep":"\t"
+
+	}
+}
