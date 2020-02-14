@@ -43,13 +43,3 @@ function_for_shlop_28_12_2017 <- function(locus_table,p_value="p_ma",pos="bp",sn
 		}
 		return(out)
 	}
-
-	sst_file <- paste0(path,'SH_GWAS.txt')
-	sst <- fread(sst_file, header=T, stringsAsFactors = F, data.table=F)
-	sst_sm <- sst[(pmin(sst$eaf,1-sst$eaf)>=0.01),]
-	trait <- 'SH for anthropometric traits'
-	lt <- function_for_shlop_28_12_2017(sst_sm,p_value="p",pos="pos",snp="SNP", delta=5e5,chr="chr", thr=thr)
-	if (nrow(lt)>0 ) {
-			lt=cbind(lt,trait)
-			out=rbind(out,lt)
-		}
