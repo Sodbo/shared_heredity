@@ -11,8 +11,8 @@
 # w.txt
 
 # Using:
-# Please, edit 14a_start.sh and run under container:
-# source 14a_start.sh
+# Please, copy start.sh under your directory edit a directory path and run under container:
+# source start.sh
 
 mkdir $1
 source 01_pheno_corr.sh $*
