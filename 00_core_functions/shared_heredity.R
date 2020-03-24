@@ -1,4 +1,4 @@
-shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL){
+shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL, UpperW=0.9){
 	if(is.null(CorPhenTr)){
 		stop('Error: The phenotype correlation matrix is not loaded.')
 	}else{
@@ -65,9 +65,9 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 		}
 	}
 
-	OPTIM <- function(initial=initial){
-		eps <- 1.e-7
-		w <- solnp(pars = initial, fun = fun,LB = rep(0+eps,Ntr), UB = rep(1-eps,Ntr))$pars
+	OPTIM <- function(initial=initial,UpperW=UpperW){
+		eps <- 1.e-7;
+		w <- solnp(pars = initial, fun = fun,LB = rep(0+eps,Ntr), UB = rep(UpperW,Ntr))$pars
 		return(list(w = w, fun_w = fun(w)))
 	}
 
@@ -146,6 +146,10 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 	#h2 <- diag(A0)           # vector of heritabilities
 	#CorGenTr <- cov2cor(A0)  # convert Cov to Cor
 	Ntr <- length(h2)
+	
+  #UpperW             ### upper bound of W
+
+	
 	#CorPhenTr; CorGenTr; h2 
 	Test.SharedSNP(CorGenTr,0.1)
 
@@ -154,7 +158,7 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 	### OPTIM decomposition
 	PCA <- rpca(CorGenTr%^%.5, k=1, center = FALSE, scale = FALSE) #  only PC1
 	weig = as.vector(PCA$x)
-	test <- OPTIM(initial = abs(weig))
+	test <- OPTIM(initial = abs(weig),UpperW = UpperW)
 	W <- test$w * sign(weig); names(W) <- names(h2)
 	res <- MAXIM(W,method='OPTIM')
 
