@@ -1,4 +1,4 @@
-shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL, UpperW=0.95){
+shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2=NULL, UpperW=0.995){
 	if(is.null(CorPhenTr)){
 		stop('Error: The phenotype correlation matrix is not loaded.')
 	}else{
@@ -66,8 +66,12 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 	}
 
 	OPTIM <- function(initial=initial,UpperW=UpperW){
-		eps <- 1.e-7;
-		w <- solnp(pars = initial, fun = fun,LB = rep(0+eps,Ntr), UB = rep(UpperW,Ntr))$pars
+		eps <- 1.e-5
+		ctrl <- list(tol=1e-8, trace=0)
+		LB <- rep(eps,Ntr)
+		UB <- rep(UpperW,Ntr)
+		if ((eps <= min(initial)) & (max(initial) <= UpperW)) pars <- initial else pars <- UB*0.5 
+		w <- solnp(pars = pars, fun = fun,LB = LB, UB = UB, ,control=ctrl)$pars
 		return(list(w = w, fun_w = fun(w)))
 	}
 
