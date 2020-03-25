@@ -67,7 +67,7 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 
 	OPTIM <- function(initial=initial,UpperW=UpperW){
 		eps <- 1.e-7;
-		w <- solnp(pars = initial, fun = fun,LB = rep(0+eps,Ntr), UB = rep(UpperW,Ntr))$pars
+		w <- solnp(pars = initial, fun = fun,LB = rep(0+eps,Ntr), UB = rep(UpperW-eps,Ntr))$pars
 		return(list(w = w, fun_w = fun(w)))
 	}
 
