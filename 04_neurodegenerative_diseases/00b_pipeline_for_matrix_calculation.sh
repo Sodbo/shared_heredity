@@ -19,5 +19,5 @@ source 01_pheno_corr.sh $*
 Rscript 02_convert_long_to_wide_form.R $1
 source 03_gene_corr.sh $*
 Rscript 04_gene_corr_to_matrices.R $1
-Rscript 05_shared_heredity.R $1
-Rscript 06_alfa_CI_estimation.R $1
+Rscript 05_alpha_coefficients.R $1
+Rscript 06_alpha_CI_estimation.R $1

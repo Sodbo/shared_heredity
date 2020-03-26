@@ -15,8 +15,6 @@ rs_id<-lapply(gwas, function(x) x$rs_id)
 snps<-Reduce(intersect,rs_id)
 ind<-lapply(rs_id, function(x) match(snps,x))
 
-#Is it necessary to remove NA for the case of not whole intersection?
-#ind<-lapply(ind,function(x) )
 
 gwas_reordered<-lapply(1:length(gwas), function(x) gwas[[x]][ind[[x]],])
 z<-sapply(gwas_reordered, function(x) x$z)
@@ -30,9 +28,9 @@ sh_gwas=mutate(sh_gwas,A1=gwas_reordered[[1]]$ea,A2=gwas_reordered[[1]]$ra,chr=g
 			 eaf=gwas_reordered[[1]]$eaf)
 
 head(sh_gwas,n=2)
-dir.create('../../../data/03_neurodegenerative_diseases/several_traits/linear_combination/')
+dir.create('../../../data/03_neurodegenerative_diseases/several_traits/linear_combination/00_raw_data/')
 data.table::fwrite(
 	sh_gwas, 
 	row.names=F,
-	file = '../../../data/03_neurodegenerative_diseases/several_traits/linear_combination/SH_GWAS.txt',
+	file = '../../../data/03_neurodegenerative_diseases/several_traits/linear_combination/00_raw_data/SH_GWAS.txt',
 	sep = '\t')
