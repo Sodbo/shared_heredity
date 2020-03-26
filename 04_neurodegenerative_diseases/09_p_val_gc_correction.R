@@ -2,7 +2,8 @@ library(data.table)
 
 gwas_files<-c('../../../data/03_neurodegenerative_diseases/BIP/02_unification_results/bip_output_done.csv',
 	      '../../../data/03_neurodegenerative_diseases/MDD/02_unification_results/mdd_output_done.csv',
-	      '../../../data/03_neurodegenerative_diseases/SCZ/02_unification_results/scz_output_done.csv')
+	      '../../../data/03_neurodegenerative_diseases/SCZ/02_unification_results/scz_output_done.csv',
+	      '../../../data/03_neurodegenerative_diseases/several_traits/linear_combination/02_unification_results/sh_output_done.csv')
 
 intercept_data<-read.csv('../../../data/03_neurodegenerative_diseases/several_traits/intrecept_data.csv') 
 gwas<-lapply(gwas_files, fread)
@@ -14,12 +15,12 @@ gwas=lapply(1:length(gwas), function(x) {
 	return (gwas[[x]])
 	})
 
-traits <- c('BIP', 'MDD', 'SCZ')
+traits <- c('bip', 'mdd', 'scz', 'sh')
 
 lapply(1:length(gwas), function(x) data.table::fwrite(
 		gwas[[x]], 
 		row.names=F,
-		file = paste0('../../../data/03_neurodegenerative_diseases/', traits[x], '/03_gc_corrected/',tolower(traits[x]),'_gc_corrected.csv'),
+		file = paste0(strsplit(gwas_files[x], '02')[[1]][1], '/03_gc_corrected/', traits[x], '_gc_corrected.csv'),
 		sep = '\t')
 	)
 
