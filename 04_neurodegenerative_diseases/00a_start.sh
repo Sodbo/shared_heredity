@@ -1,3 +1,6 @@
+# This code is to run automatic pipeline represented in 00b_pipeline_for_matrix_calculation.sh
+# and to set command line variables (path to output directory and GWAS IDs)
+
 #!/bin/bash
 # Path to output directory should be given as the first command line argument
 # Ids of GWAS should also be given as the command line arguments after path.

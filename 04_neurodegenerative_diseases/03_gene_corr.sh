@@ -1,3 +1,7 @@
+# This script is to calculate genetic correlatioins between original traits
+# using tools incorporated into GWAS-Map database
+
+# This script uses command arguments set in 00a_start.sh script
 path=$1
 shift
 for i in $*

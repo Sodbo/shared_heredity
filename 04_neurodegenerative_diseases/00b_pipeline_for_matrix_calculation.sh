@@ -1,3 +1,6 @@
+# This is an automatic pipeline to calculate correlation matrices and estimate 
+# alpha coefficients for each trait in linear combination
+
 # Path to output directory should be given as the first command line argument
 # Ids of GWAS should also be given as the command line arguments after path.
 # Necessary R libraries should be installed before the first run.
@@ -11,8 +14,8 @@
 # w.txt
 
 # Using:
-# Please, edit 14a_start.sh and run under container:
-# source 14a_start.sh
+# Please, edit 00a_start.sh and run under container:
+# source 00a_start.sh
 
 mkdir $1
 source 01_pheno_corr.sh $*
