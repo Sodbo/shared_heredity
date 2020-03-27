@@ -22,9 +22,9 @@ shared_heredity <- function(CovGenTr = NULL, CorPhenTr = NULL, CorGenTr=NULL, h2
 	CorPhenTr; CorGenTr; h2 #plot(hclust(as.dist(CorGenTr)))
 
 	############################## DATA SET 2 #######################################
-	library(rsvd)
-	library(Rsolnp) 
-	library(psych)
+	if (!require('rsvd')) install.packages('rsvd'); library('rsvd')
+	if (!require('Rsolnp')) install.packages('Rsolnp'); library('Rsolnp')
+	if (!require('psych')) install.packages('psych'); library('psych')
 
 	#####################################
 	###              U %^% k          ###
