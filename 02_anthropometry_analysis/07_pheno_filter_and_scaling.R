@@ -1,13 +1,15 @@
-library(dplyr, lib.loc='/mnt/home/tiys/R')
+# Aim of this script is to obtain GWAS summary statistics with variance scaled to 1
+
+library(dplyr)
 library(data.table)
 sd.table <-fread(
-	file = '../data/anthropometry_results/four_traits/sd.txt',
+	file = '../../data/01_anthropometry_results/sd.txt',
 	header = TRUE,
 	data.table=F
 )
 
 gwas.ids=colnames(sd.table)
-dir.create('../data/anthropometry_results/four_traits/GWAS/scaled_filtered/', showWarnings = FALSE)
+dir.create('../../data/01_anthropometry_results/GWAS/scaled_filtered/', showWarnings = FALSE)
 for (col.number in 1:ncol(sd.table)) {
 	sd.trait <- sd.table[, col.number]
 	trait<-gwas.ids[col.number]
@@ -16,7 +18,7 @@ for (col.number in 1:ncol(sd.table)) {
 
 	gwas.name <- paste0('ID_', trait, '.csv')
 	raw.gwas <- fread(
-		input = paste0('../data/anthropometry_results/four_traits/GWAS/',gwas.name),
+		input = paste0('../../data/01_anthropometry_results/GWAS/',gwas.name),
 		data.table=F,
 		  header=T,
 		  stringsAsFactors=F)
@@ -34,7 +36,7 @@ for (col.number in 1:ncol(sd.table)) {
 	
 	# Writing an output file
 	fwrite(gwas.standart, 
-		file = paste0('../data/anthropometry_results/four_traits/GWAS/scaled_filtered/', gwas.name))
+		file = paste0('../../data/01_anthropometry_results/GWAS/scaled_filtered/', gwas.name))
 
 }
 
