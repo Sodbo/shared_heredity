@@ -23,7 +23,7 @@ for (input in input_file_name) {
 }
 	#Clumping for SH
 	
-	sst_file <-'/home/ubuntu/polyomica/projects/shared_heredity/data/02_Lipids/linear_combination/SH_Lipids_GWAS.txt'
+	sst_file <-'/home/ubuntu/polyomica/projects/shared_heredity/data/02_Lipids/linear_combination/SH_Lipids_GWAS_2.txt'
 	sst <- fread(sst_file, header=T, stringsAsFactors = F, data.table=F)
 	sst_sm <- sst[(pmin(sst$eaf,1-sst$eaf)>=0.01),]
 	trait <- 'SH'

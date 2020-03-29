@@ -1,3 +1,5 @@
+# Aim of this script is to obtain GWAS summary statistics with variance scaled to 1
+
 library(dplyr)
 library(data.table)
 sd.table <-fread(
@@ -7,7 +9,7 @@ sd.table <-fread(
 )
 
 gwas.ids=colnames(sd.table)
-#dir.create('../data/anthropometry_results/four_traits/GWAS/scaled_filtered/', showWarnings = FALSE)
+dir.create('../data/02_Lipids/GWAS/scaled_filtered/', showWarnings = FALSE)
 for (col.number in 1:ncol(sd.table)) {
 	sd.trait <- sd.table[, col.number]
 	trait<-gwas.ids[col.number]

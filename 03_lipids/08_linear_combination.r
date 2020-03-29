@@ -1,6 +1,8 @@
+    
+# Aim of this script is to obtain GWAS summary statistics for shared heredity
 library(data.table)
 library(dplyr)
-source("../00_core_functions/linear_combination.R") 
+source("../00_core_functions/linear_combination_v2.R") 
 
 path_to_result_directory<-'/home/ubuntu/polyomica/projects/shared_heredity/data/02_Lipids/GWAS/scaled_filtered/'
 gwas_files<-list.files(path_to_result_directory, full.names=T, pattern="ID_\\d+.csv")
@@ -21,7 +23,7 @@ betas<-sapply(gwas_reordered, function(x) x$beta)
 se <- sapply(gwas_reordered, function(x) x$se)
 sample_size <- sapply(gwas_reordered, function(x) x$n)
 
-sh_gwas=GWAS_linear_combination(a=as.numeric(aa[2,]),beta_a=betas,se=se,covm=as.matrix(covm),N=sample_size)
+sh_gwas=GWAS_linear_combination_v2(a=as.numeric(aa[2,]),beta_a=betas,se=se,covm=as.matrix(covm),N=sample_size)
 
 sh_gwas=mutate(sh_gwas,Z=b/se,p=pchisq(Z^2,1,low=F))
 sh_gwas=mutate(sh_gwas,SNP=gwas_reordered[[1]]$rs_id)
