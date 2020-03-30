@@ -160,10 +160,10 @@ Main.Simulation <- function(path=path0,
 							Upper.bound=Upper.bound,     ### upper bound of W
 							all.equal.W=all.equal.W){    ### all W-weights are equal
 
-	library(rsvd) ###
-	library(Rsolnp) ###
+	library(rsvd) 
+	library(Rsolnp) 
 	library(psych)
-	library(fBasics)###
+	library(fBasics)
 	library(ggplot2)
 	library(gridExtra)
 	library(Matrix)
@@ -175,7 +175,7 @@ sd_cor        <- c(0.001, 0.005, 0.01, 0.05, 0.1, 0.2, 0.5, 0.8)  ### SD for pri
 
 
 path <- paste0(path,'Ntr_',Ntr,'_NNN_',NNN,'_threshold_',threshold.cor,
-	    '_prob.zero_',prob.zero,'_UB_',Upper.bound,'_W_equal_',all.equal.W)
+	    '_prob.zero_',prob.zero,'_UB_',Upper.bound,'_W_equal_',all.equal.W,'/')
 if (!dir.exists(path)) dir.create(path)
 
 Res   <- c()
@@ -229,9 +229,11 @@ for (Sd in sd_cor) {
 }
 
 colnames(Res) <- c('weigt_nominal', 'SD_noise', paste0('mean.',names(W)), paste0('se.',names(W)),'Nsim','Num_sim')
+print(paste0("Results are written in directory: ", path))
+print(Res)
 
-save(Res, file = paste0(path,"simdata_Ntr=",Ntr,".RData"))
-write.table(Res,file = paste0(path,'simdata.Ntr=',Ntr,'.out'),quo=F,row=F,app=T,col=F)
+save(Res, file = paste0(path,'results.RData'))
+write.table(Res,file = paste0(path,'results.out'),quo=F,row=F,app=T,col=F)
 
 Res <- as.data.frame(Res)
 Res$weigt_nominal <- as.factor(Res$weigt_nominal)
