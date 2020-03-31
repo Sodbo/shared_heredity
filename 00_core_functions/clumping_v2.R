@@ -1,5 +1,5 @@
 
-function_for_shlop_28_12_2017 <- function(locus_table,p_value="p_ma",pos="bp",snp="rs_id", delta=5e5,chr="chr",thr=5e-8,trait=NULL){
+function_for_shlop_29_03_2020 <- function(locus_table,p_value="p_ma",pos="bp",snp="rs_id", delta=5e5,chr="chr",thr=5e-8,trait=NULL){
 	locus_table[,p_value] <- as.numeric(locus_table[,p_value])
 	out=locus_table[0,]
 	#keep SNPs with p-value lower than the threshold
