@@ -4,20 +4,17 @@ source("../00_core_functions/linear_combination.R")
 source("../00_core_functions/gcov_for_linear_comb_with_i_trait.R")
 source("../00_core_functions/heritability_of_linear_combination.R")
 
-path_to_result_directory<-'../../data/anthropometry_results/four_traits/GWAS/scaled_filtered/'
+path_to_result_directory<-'../../data/01_anthropometry_results/GWAS/scaled_filtered/'
 gwas_files<-list.files(path_to_result_directory, full.names=T, pattern="ID_\\d+.csv")
 gwas<-lapply(gwas_files, fread)
 
-aa<-read.table('../../data/anthropometry_results/four_traits/alphas.txt', row.names=1)
-phem<-read.table('../../data/anthropometry_results/four_traits/pheno_corr_matrix.txt', row.names=1,  check.names=F)
-gcov<-read.table('../../data/anthropometry_results/four_traits/gene_cov_matrix.txt', row.names=1,  check.names=F)
+aa<-read.table('../../data/01_anthropometry_results/alphas.txt', row.names=1)
+phem<-read.table('../../data/01_anthropometry_results/pheno_corr_matrix.txt', row.names=1,  check.names=F)
+gcov<-read.table('../../data/01_anthropometry_results/gene_cov_matrix.txt', row.names=1,  check.names=F)
 
 rs_id<-lapply(gwas, function(x) x$rs_id)
 snps<-Reduce(intersect,rs_id)
 ind<-lapply(rs_id, function(x) match(snps,x))
-
-#Is it necessary to remove NA for the case of not whole intersection?
-#ind<-lapply(ind,function(x) )
 
 gwas_reordered<-lapply(1:length(gwas), function(x) gwas[[x]][ind[[x]],])
 betas<-sapply(gwas_reordered, function(x) x$beta)
@@ -74,6 +71,6 @@ lapply(tr_sh_gwas,function(x) head(x,n=2))
 lapply(n_traits, function(x) data.table::fwrite(
 		tr_sh_gwas[[x]], 
 		row.names=F,
-		file = paste0('../../data/anthropometry_results/four_traits/linear_combination/Tr',colnames(gcov)[x],'-SH_GWAS.txt'),
+		file = paste0('../../data/01_anthropometry_results/linear_combination/Tr',colnames(gcov)[x],'-SH_GWAS.txt'),
 		sep = '\t')
 	)
