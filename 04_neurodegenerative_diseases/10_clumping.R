@@ -53,7 +53,7 @@ colnames(final)
 path <- '../../../data/03_neurodegenerative_diseases/several_traits/'
 result_file_name <- 'Clumping_for_all_orignal_traits_and_SH.txt'
 
-write.csv(final, paste0(path, result_file_name))
+fwrite(final, paste0(path, result_file_name), row.names = F, sep = '\t', dec = '.')
 
 # Write file with unique clumped SNPs for original traits and shared heredity
 write.table(final$rs_id, file = paste0(path, 'Clumped_SNPs_original_traits_and_SH.txt'), row.names = F, col.names = F, quote = F)
