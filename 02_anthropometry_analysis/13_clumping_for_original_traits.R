@@ -13,7 +13,7 @@ for (input in input_file_name) {
 	sst <- fread(sst_file, header=T, stringsAsFactors = F, data.table=F)
 	sst_sm <- sst[(pmin(sst$eaf,1-sst$eaf)>=0.01),]
 	trait<-input
-	lt <- function_for_shlop_28_12_2017(sst_sm,p_value="p",pos="bp",snp="rs_id", delta=5e5,chr="chr", thr=thr)
+	lt <- function_for_shlop_28_12_2017(sst_sm,p_value="p_gc",pos="bp",snp="rs_id", delta=5e5,chr="chr", thr=thr)
 	if (nrow(lt)>0 ) {
 		lt=cbind(lt,trait)
 		out=rbind(out,lt)
@@ -21,22 +21,22 @@ for (input in input_file_name) {
 }
 	#Clumping for SH
 	
-	sst_file <-'../../data/01_anthropometry_results/linear_combination/SH_GWAS.txt'
+	sst_file <-'../../data/01_anthropometry_results/linear_combination/02_unification_out/SH/SH_done.csv'
 	sst <- fread(sst_file, header=T, stringsAsFactors = F, data.table=F)
 	sst_sm <- sst[(pmin(sst$eaf,1-sst$eaf)>=0.01),]
-	trait <- 'SH'
-	lt <- function_for_shlop_28_12_2017(sst_sm,p_value="p",pos="pos",snp="SNP", delta=5e5,chr="chr", thr=thr)
+	if(is.null(sst_sm$p_gc)){ # if genomic control is not done
+		sst_sm$p_gc<-sst_sm$p # add column to 'p_gc' to correctly declare p_value column in the followng joint clumping process of the SH and original traits
+	}
+	lt <- function_for_shlop_28_12_2017(sst_sm,p_value="p_gc",pos="bp",snp="rs_id", delta=5e5,chr="chr", thr=thr)
 	if (nrow(lt)>0 ) {
-		#correct names to merge tables
-		colnames(lt)=c('beta','se','z','p','rs_id','ea','ra','n','chr','bp','eaf')
-		lt=cbind(lt,trait)
+		lt$trait <- 'SH'
 		out<-out[c(colnames(lt))]
 		out=rbind(out,lt)
-		}
-	
+	}
+
 dim(out)
 
-bt <- function_for_shlop_28_12_2017(out,trait="trait",p_value="p",pos="bp",snp="rs_id",delta=5e5,chr="chr")
+bt <- function_for_shlop_28_12_2017(out,trait="trait",p_value="p_gc",pos="bp",snp="rs_id",delta=5e5,chr="chr")
 bt <- bt[order(bt$chr,bt$bp),]
 colnames(bt)
 str(bt)
