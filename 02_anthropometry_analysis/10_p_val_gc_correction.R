@@ -1,7 +1,7 @@
 library(data.table)
-path_to_result_directory<-'../../data/anthropometry_results/four_traits/GWAS/scaled_filtered/'
+path_to_result_directory<-'../../data/01_anthropometry_results/GWAS/scaled_filtered/'
 gwas_files<-list.files(path_to_result_directory, full.names=T, pattern="ID_\\d+.csv")
-intercept_data<-read.csv('../../data/anthropometry_results/four_traits/intrecept_data.csv') 
+intercept_data<-read.csv('../../data/01_anthropometry_results/intrecept_data.csv') 
 gwas<-lapply(gwas_files, fread)
 chi=lapply(gwas, function(x) qchisq(x$p, df=1, lower.tail=F))
 
@@ -14,7 +14,7 @@ gwas=lapply(1:length(gwas), function(x) {
 lapply(1:length(gwas), function(x) data.table::fwrite(
 		gwas[[x]], 
 		row.names=F,
-		file = paste0('../../data/anthropometry_results/four_traits/GWAS/scaled_filtered/ID_',intercept_data$gwas_id[x],'_gc_corrected.csv'),
+		file = paste0('../../data/01_anthropometry_results/GWAS/scaled_filtered/ID_',intercept_data$gwas_id[x],'_gc_corrected.csv'),
 		sep = '\t')
 	)
 

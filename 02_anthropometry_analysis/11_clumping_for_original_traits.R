@@ -3,7 +3,7 @@
 library(data.table) 
 source('../00_core_functions/clumping.R')
 path <- "../../data/01_anthropometry_results/GWAS/scaled_filtered/"
-input_file_name<-c('ID_4049.csv','ID_4050.csv','ID_4058.csv','ID_4179.csv')
+input_file_name<-c('ID_4049_gc_corrected.csv','ID_4050_gc_corrected.csv','ID_4058_gc_corrected.csv','ID_4179_gc_corrected.csv')
 result_file_name<-'Clumping_for_all_orignal_traits_and_SH.txt'
 out <- NULL
 thr <- 5e-8
@@ -21,7 +21,7 @@ for (input in input_file_name) {
 }
 	#Clumping for SH
 	
-	sst_file <-'../data/anthropometry_results/four_traits/linear_combination/SH_GWAS.txt'
+	sst_file <-'../../data/01_anthropometry_results/linear_combination/SH_GWAS.txt'
 	sst <- fread(sst_file, header=T, stringsAsFactors = F, data.table=F)
 	sst_sm <- sst[(pmin(sst$eaf,1-sst$eaf)>=0.01),]
 	trait <- 'SH'
