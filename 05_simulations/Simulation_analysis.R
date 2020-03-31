@@ -89,7 +89,7 @@ rtnorm <- function(n=1, mean = 0, sd = 0.5, min = 0, max = 1) {
 ###         testing whether there Are  shared SNPs?         ###                   
 ###############################################################
 
-Test.SharedSNP.Old <- function(AAA,threshold=threshold.cor){ # significant threshold for correlation coefficients
+Test.SharedSNP <- function(AAA,threshold=threshold.cor){ # significant threshold for correlation coefficients
 if (min(abs(AAA)) > threshold) {
 	if (qr(sign(AAA))$rank == 1) {
 		return(TRUE)   #		print('there are shared SNPs!!! ');
@@ -105,7 +105,7 @@ if (min(abs(AAA)) > threshold) {
 ###         testing whether there Are  shared SNPs? (New)   ###                   
 ###############################################################
 
-Test.SharedSNP <- function(AAA,threshold = threshold.cor){ # significant threshold for correlation coefficients
+Test.SharedSNP.New <- function(AAA,threshold = threshold.cor){ # significant threshold for correlation coefficients
 	AAA <- ifelse(abs(AAA)<threshold,0,AAA)
 	if (qr(sign(AAA))$rank == 1) return(TRUE) else return(FALSE)
 }
