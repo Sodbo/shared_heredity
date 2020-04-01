@@ -1,6 +1,9 @@
+#This script substract shared genetic component from the original traits
+# to check for small correlation between traits without shared genetic component
+
 library(data.table)
 library(dplyr)
-source("../00_core_functions/linear_combination.R")
+source("../00_core_functions/linear_combination_v2.R")
 source("../00_core_functions/gcov_for_linear_comb_with_i_trait.R")
 source("../00_core_functions/heritability_of_linear_combination.R")
 
@@ -57,7 +60,7 @@ position<-diag(length(alphas))
 
 #cor_gi_a1_a2(a1=alphas,a2=position[x,]-alphas*slope[x],covm=gcov)
 
-tr_sh_gwas=lapply(n_traits, function(x) GWAS_linear_combination(a=position[x,]-alphas*slope[x],beta_a=betas,se=se,covm=as.matrix(phem),N=sample_size))
+tr_sh_gwas=lapply(n_traits, function(x) GWAS_linear_combination_v2(a=position[x,]-alphas*slope[x],beta_a=betas,se=se,covm=as.matrix(phem),N=sample_size))
 
 tr_sh_gwas=lapply(tr_sh_gwas, function(x) mutate(x, Z=b/se,p=pchisq(Z^2,1,low=F)))
 tr_sh_gwas=lapply(tr_sh_gwas, function(x) mutate(x, SNP=gwas_reordered[[1]]$rs_id))
