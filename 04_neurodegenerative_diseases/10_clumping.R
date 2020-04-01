@@ -3,7 +3,7 @@
 library(data.table)
 
 setwd('/mnt/polyomica/projects/shared_heredity/elgaeva_src/shared_heredity/04_neurodegenerative_diseases/')
-source("../00_core_functions/clumping_v2.R", chdir = F)
+source("../00_core_functions/clumping.R", chdir = F)
 
 # Define files with summary statistics of original traits and shared heredity after genomic control
 input_file_name<-c('../../../data/03_neurodegenerative_diseases/BIP/03_gc_corrected/bip_gc_corrected.csv',
