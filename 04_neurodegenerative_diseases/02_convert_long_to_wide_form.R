@@ -2,7 +2,7 @@
 
 library(data.table)
 
-path <- commandArgs(trailingOnly = T)[1] # get command arguments set in 00a_start.sh
+path <- commandArgs(trailingOnly = T)[1] # get command arguments set in 00a_start.sh or 16_start.sh
 x <- read.csv(paste0(path, 'phen_corr_res.txt'))
 
 x_mirrored <- x[, c(1, 3, 2, 4, 5)]
