@@ -1,10 +1,10 @@
 # This script fuse tables obtained by grep of clumped SNP for Shared heredity gwas.
-path='../data/anthropometry_results/four_traits/GWAS/scaled_filtered/'
-trait4049<-read.csv(paste0(path,'ID_4049_clump.txt'),header=F, stringsAsFactors=F)
-trait4050<-read.csv(paste0(path,'ID_4050_clump.txt'),header=F, stringsAsFactors=F)
-trait4058<-read.csv(paste0(path,'ID_4058_clump.txt'),header=F, stringsAsFactors=F)
-trait4179<-read.csv(paste0(path,'ID_4179_clump.txt'),header=F, stringsAsFactors=F)
-sh<-read.delim(paste0(path,'SH_clump.txt'),header=F, stringsAsFactors=F)
+path='../../data/01_anthropometry_results/GWAS/scaled_filtered/'
+trait4049<-read.csv(paste0(path,'ID_4049_clumped_with_SH.txt'),header=F, stringsAsFactors=F)
+trait4050<-read.csv(paste0(path,'ID_4050_clumped_with_SH.txt'),header=F, stringsAsFactors=F)
+trait4058<-read.csv(paste0(path,'ID_4058_clumped_with_SH.txt'),header=F, stringsAsFactors=F)
+trait4179<-read.csv(paste0(path,'ID_4179_clumped_with_SH.txt'),header=F, stringsAsFactors=F)
+sh<-read.delim(paste0(path,'SH_clumped_with_triats.txt'),header=F, stringsAsFactors=F)
 clump<-read.csv(paste0(path,'Clumping_for_all_orignal_traits_and_SH.csv'))
 
 #remove empty rs_id
