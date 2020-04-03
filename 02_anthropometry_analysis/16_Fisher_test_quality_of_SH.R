@@ -1,7 +1,7 @@
-clump<-read.csv('../../data/anthropometry_results/four_traits/GWAS/scaled_filtered/summary_for_SH_clumping.csv', stringsAsFactors=F) 
+clump<-read.csv('../../data/01_anthropometry_results/GWAS/scaled_filtered/summary_for_SH_clumping.csv', stringsAsFactors=F) 
 #Add new zero columns
 clump$all_significant_and_SH=0
-clump$not_significant_and_SH=0 
+clump$not_significant_and_SH=0
 clump$all_significant_not_SH=0
 clump$not_significant_not_SH=0 
 
@@ -19,9 +19,8 @@ n22=sum(clump$not_significant_not_SH)
 contigency_table=matrix(c(n11,n12,n21,n22),nrow=2,ncol=2,byrow=T)
 colnames(contigency_table)<-c('all_significant','not all significant')
 rownames(contigency_table)<-c('SH is significant','SH is not significant')
-write.table(contigency_table, '../../data/anthropometry_results/four_traits/GWAS/scaled_filtered/contigency_table.csv')
+write.table(contigency_table, '../../data/01_anthropometry_results/GWAS/scaled_filtered/contigency_table.csv')
 
 result<-fisher.test(contigency_table)
 
-write.table(result$p.value,'../../data/anthropometry_results/four_traits/GWAS/scaled_filtered/SH_enrichment_analysis.txt') 
-')
+write.table(result$p.value,'../../data/01_anthropometry_results/GWAS/scaled_filtered/SH_enrichment_analysis.txt')
