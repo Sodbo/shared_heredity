@@ -25,34 +25,6 @@ se <- sapply(gwas_reordered, function(x) x$se)
 sample_size <- sapply(gwas_reordered, function(x) x$n)
 
 
-# genetic correlation of linear combination with a coeeficient a1 and a coeeficient a2
-cor_gi_a1_a2=function(a1,a2,covm=covm){
-  cov_gi_sum_g_a1_a2=sum(covm*(a1%o%a2))
-  var_g_a1=sum(covm*(a1%o%a1))
-  var_g_a2=sum(covm*(a2%o%a2))
-  
-  cor_g_a=cov_gi_sum_g_a1_a2/sqrt(var_g_a1*var_g_a2)
-  return(cor_g_a)
-}
-# genetic correlation of linear combination with a coeeficient with i trait
-cor_gi_alfa=function(a,i,covm=covm){
-  cov_gi_sum_giai=sum(covm[i,]*a)
-  var_gi=covm[i,i]
-  var_sum_giai=sum(covm*(a%o%a)) #gen(a)
-  
-  cor_g_a=cov_gi_sum_giai/sqrt(var_gi*var_sum_giai)
-  return(cor_g_a)
-}
-# genetic covaiance of linear combination with a coeeficient a1 and a coeeficient a2
-cov_gi_a1_a2=function(a1,a2,covm=covm){
-  cov_gi_sum_g_a1_a2=sum(covm*(a1%o%a2))
-  var_g_a1=sum(covm*(a1%o%a1))
-  var_g_a2=sum(covm*(a2%o%a2))
-  
-  cor_g_a=cov_gi_sum_g_a1_a2
-  return(cor_g_a)
-}
-
 alphas=as.numeric(aa[2,])
 n_traits=c(1:length(alphas))
 slope=sapply(n_traits,function(x) cov_gi_alpha(a=alphas,i=x,covm=as.matrix(gcov))/H2(alphas,covm=gcov,phem=phem))
