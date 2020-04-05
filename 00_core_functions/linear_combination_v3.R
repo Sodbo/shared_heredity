@@ -6,7 +6,7 @@ GWAS_linear_combination_v3=function(a,Z,covm,N){
 	se_a<-t(sapply(snp_row, function(x){
 								n=N[x,];
 								z=Z[x,];
-								se_x=sqrt(1/(z^2+n^2));
+								se_x=sqrt(1/(z^2+n));
 								se_x
 								} ))
 	beta_a<-t(sapply(snp_row, function(x){
