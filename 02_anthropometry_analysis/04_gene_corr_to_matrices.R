@@ -1,3 +1,5 @@
+# Aim of this script to build genetic correlation matrix for traits
+
 path_to_result_directory<-commandArgs(trailingOnly=T)[1]
 
 corr_files<-list.files(paste0(path_to_result_directory,'gene_corr'), full.names=T, pattern='*.csv')

@@ -1,3 +1,5 @@
+# Aim of this script to build genetic correlation matrix for traits
+
 path_to_result_directory<-'~/polyomica/projects/shared_heredity/data/02_Lipids/gene_corr/'
 path_to_result_directory1<-'~/polyomica/projects/shared_heredity/data/02_Lipids/'
 
