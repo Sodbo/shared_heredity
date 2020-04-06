@@ -1,4 +1,4 @@
-GWAS_linear_combination_v3=function(a,Z,covm,N){
+GWAS_linear_combination_v3=function(a,Z,covm,N,eaf){
 	snp_row<-1:length(Z[,1])
 	
 	var_y=rep(1,length(a))
@@ -18,5 +18,10 @@ GWAS_linear_combination_v3=function(a,Z,covm,N){
 								} ))		
 	
 	out=GWAS_linear_combination_v2(a=a,beta_a=beta_a,se=se_a,var_y=NULL,covm=covm,N=N)
+	
+	varg=2*(1-eaf)*eaf
+	out[,"b"]=out[,"b"]/sqrt(varg)
+	out[,"se"]=out[,"se"]/sqrt(varg)
+	
 	return(out)
 } 
