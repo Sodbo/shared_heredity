@@ -3,7 +3,6 @@
 library(data.table)
 library(dplyr)
 
-source("../00_core_functions/linear_combination_v2.R")
 source("../00_core_functions/linear_combination_v3.R")
 
 gwas_files <- c('../../../data/03_neurodegenerative_diseases/BIP/02_unification_results/bip_output_done.csv',
@@ -21,9 +20,10 @@ ind <- lapply(rs_id, function(x) match(snps, x))
 
 gwas_reordered <- lapply(1:length(gwas), function(x) gwas[[x]][ind[[x]], ])
 z <- sapply(gwas_reordered, function(x) x$z)
+eaf <- gwas_reordered[[1]]$eaf
 sample_size <- sapply(gwas_reordered, function(x) x$n)
 
-sh_gwas <- GWAS_linear_combination_v3(a = as.numeric(aa[2, ]), Z = z, covm = as.matrix(covm), N = sample_size)
+sh_gwas <- GWAS_linear_combination_Z_based(a = as.numeric(aa[2, ]), Z = z, covm = as.matrix(covm), N = sample_size, eaf = eaf)
 
 sh_gwas <- mutate(sh_gwas, Z = b/se, p = pchisq(Z^2, 1, low = F))
 sh_gwas <- mutate(sh_gwas, SNP = gwas_reordered[[1]]$rs_id)
