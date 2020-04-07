@@ -6,7 +6,6 @@ library(dplyr)
 
 setwd('/mnt/polyomica/projects/shared_heredity/elgaeva_src/shared_heredity/04_neurodegenerative_diseases')
 
-source("../00_core_functions/linear_combination_v2.R")
 source("../00_core_functions/linear_combination_v3.R")
 source("../00_core_functions/gcov_for_linear_comb_with_i_trait.R")
 source("../00_core_functions/heritability_of_linear_combination.R")
@@ -27,6 +26,7 @@ ind <- lapply(rs_id, function(x) match(snps, x))
 
 gwas_reordered <- lapply(1:length(gwas), function(x) gwas[[x]][ind[[x]], ])
 z <- sapply(gwas_reordered, function(x) x$z)
+eaf <- gwas_reordered[[1]]$eaf
 sample_size <- sapply(gwas_reordered, function(x) x$n)
 
 
@@ -36,7 +36,7 @@ slope <- sapply(n_traits, function(x) cov_gi_alpha(a = alphas, i = x, covm = as.
 position <- diag(length(alphas))
 
 
-tr_sh_gwas <- lapply(n_traits, function(x) GWAS_linear_combination_v3(a = position[x, ] - alphas*slope[x], Z = z, covm = as.matrix(phem), N = sample_size))
+tr_sh_gwas <- lapply(n_traits, function(x) GWAS_linear_combination_Z_based(a = position[x, ] - alphas*slope[x], Z = z, covm = as.matrix(phem), N = sample_size, eaf = eaf))
 tr_sh_gwas <- lapply(tr_sh_gwas, function(x) mutate(x, Z = b/se, p = pchisq(Z^2, 1, low = F)))
 tr_sh_gwas <- lapply(tr_sh_gwas, function(x) mutate(x, SNP = gwas_reordered[[1]]$rs_id))
 tr_sh_gwas <- lapply(tr_sh_gwas, function(x) mutate(x, A1 = gwas_reordered[[1]]$ea, A2 = gwas_reordered[[1]]$ra, chr = gwas_reordered[[1]]$chr, pos = gwas_reordered[[1]]$bp, eaf = gwas_reordered[[1]]$eaf))
