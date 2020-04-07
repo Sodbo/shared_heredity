@@ -2,7 +2,7 @@
 
 library(data.table)
 library(dplyr)
-source("../00_core_functions/linear_combination.R")
+source("../00_core_functions/linear_combination_v3.R")
 
 path_to_result_directory<-'../../data/01_anthropometry_results/GWAS/scaled_filtered/'
 gwas_files<-list.files(path_to_result_directory, full.names=T, pattern="ID_\\d+.csv")
@@ -19,11 +19,12 @@ ind<-lapply(rs_id, function(x) match(snps,x))
 #ind<-lapply(ind,function(x) )
 
 gwas_reordered<-lapply(1:length(gwas), function(x) gwas[[x]][ind[[x]],])
-betas<-sapply(gwas_reordered, function(x) x$beta)
-se <- sapply(gwas_reordered, function(x) x$se)
+z <- sapply(gwas_reordered, function(x) x$z)
 sample_size <- sapply(gwas_reordered, function(x) x$n)
 
-sh_gwas=GWAS_linear_combination(a=as.numeric(aa[2,]),beta_a=betas,se=se,covm=as.matrix(covm),N=sample_size)
+#eaf is better to use for gwas with max sample size, in this case sample sizes 
+
+sh_gwas=GWAS_linear_combination_Z_based(a=as.numeric(aa[2,]),Z = z,covm=as.matrix(covm),N=sample_size, eaf=gwas_reordered[[1]]$eaf)
 
 sh_gwas=mutate(sh_gwas,Z=b/se,p=pchisq(Z^2,1,low=F))
 sh_gwas=mutate(sh_gwas,SNP=gwas_reordered[[1]]$rs_id)
