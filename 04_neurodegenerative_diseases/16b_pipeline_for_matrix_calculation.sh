@@ -1,6 +1,5 @@
-# Aim of this script is to run automatic pipeline calculating correlation matrices for traits minus shared heredity
+# This is an automatic pipeline to calculate correlation matrices
 
-#!/bin/bash
 # Path to output directory should be given as the first command line argument
 # Ids of GWAS should also be given as the command line arguments after path.
 # Necessary R libraries should be installed before the first run.
@@ -13,8 +12,13 @@
 # alphas.txt
 # w.txt
 
-## Example
-## source 14b_pipeline_for_matrix_calculation.sh ../../data/anthropometry_results/four_traits/Traits_minus_SH_test/ 153 154 155 156
+# Using:
+# Please, edit 00a_start.sh and run under container:
+# source 00a_start.sh
 
-source 00b_pipeline_for_matrix_calculation.sh ../../../data/03_neurodegenerative_diseases/traits_minus_SH/ 598 602 601
+mkdir $1
+source 01_pheno_corr.sh $*
+Rscript 02_convert_long_to_wide_form.R $1
+source 03_gene_corr.sh $*
+Rscript 04_gene_corr_to_matrices.R $1
 
