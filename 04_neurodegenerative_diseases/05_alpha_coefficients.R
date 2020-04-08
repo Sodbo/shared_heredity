@@ -3,7 +3,7 @@
 
 source("../00_core_functions/shared_heredity.R")
 
-path <- commandArgs(trailingOnly = T)[1] # get command line argument from 00a_start.sh or 16_start.sh
+path <- commandArgs(trailingOnly = T)[1] # get command line argument from 00a_start.sh
 
 CorPhenTr <- as.matrix(read.table(paste0(path, 'pheno_corr_matrix.txt'), check.names = F)) # load matrix of phenotypic correlations
 A0 <- as.matrix(read.table(paste0(path, 'gene_cov_matrix.txt'), check.names = F)) # load matrix of genetic covariance

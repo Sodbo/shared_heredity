@@ -1,7 +1,7 @@
 # Aim of this script is to calculate phenotypic correlation matrix for traits
 # using tools implemented in GWAS-Map database
 
-# This script uses command variables set in 00a_start.sh or 16_start.sh script
+# This script uses command variables set in 00a_start.sh or 16a_start.sh script
 output_path=$1
 shift
 echo 'Output directory: '$output_path
