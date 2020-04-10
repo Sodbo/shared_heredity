@@ -3,7 +3,7 @@
 
 library(data.table)
 library(dplyr)
-source("../00_core_functions/linear_combination_v2.R")
+source("../00_core_functions/linear_combination_v3.R")
 source("../00_core_functions/gcov_for_linear_comb_with_i_trait.R")
 source("../00_core_functions/heritability_of_linear_combination.R")
 
@@ -20,8 +20,7 @@ snps<-Reduce(intersect,rs_id)
 ind<-lapply(rs_id, function(x) match(snps,x))
 
 gwas_reordered<-lapply(1:length(gwas), function(x) gwas[[x]][ind[[x]],])
-betas<-sapply(gwas_reordered, function(x) x$beta)
-se <- sapply(gwas_reordered, function(x) x$se)
+z <- sapply(gwas_reordered, function(x) x$z)
 sample_size <- sapply(gwas_reordered, function(x) x$n)
 
 
@@ -32,7 +31,7 @@ position<-diag(length(alphas))
 
 #cor_gi_a1_a2(a1=alphas,a2=position[x,]-alphas*slope[x],covm=gcov)
 
-tr_sh_gwas=lapply(n_traits, function(x) GWAS_linear_combination_v2(a=position[x,]-alphas*slope[x],beta_a=betas,se=se,covm=as.matrix(phem),N=sample_size))
+tr_sh_gwas=lapply(n_traits, function(x) GWAS_linear_combination_Z_based(a=position[x,]-alphas*slope[x],Z = z,covm=as.matrix(phem),N=sample_size, eaf=gwas_reordered[[1]]$eaf))
 
 tr_sh_gwas=lapply(tr_sh_gwas, function(x) mutate(x, Z=b/se,p=pchisq(Z^2,1,low=F)))
 tr_sh_gwas=lapply(tr_sh_gwas, function(x) mutate(x, SNP=gwas_reordered[[1]]$rs_id))
