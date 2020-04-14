@@ -75,3 +75,5 @@ This script creates a heatmap plot of genetic correlations of original traits, s
 ## p_correction_for_gc.sh
 This script obtains parameters for genomic control correction for traits set as command line variables. The script is written for GWAS-Map database.
 
+## 17_joint_clumping_and_enrichment.R
+This script runs clumping and find shared hits using new algorithm. This script also generates ROC-curve and calculates AUC-value. 
