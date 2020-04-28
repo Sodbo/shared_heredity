@@ -38,7 +38,7 @@ clumping_part_III=function(pval_orig,pval_sh,chr,pos,thr_sh_hits,thr_sh_sig,delt
 		}
 	}
 		
-	bt <- function_for_shlop_29_03_2020(out,trait="trait",p_value="p",pos="pos",snp="SNP",delta=delta,chr="chr")
+	bt <- function_for_shlop_29_03_2020(out,trait="trait",p_value="p",pos="pos",snp="SNP",delta=delta,chr="chr",thr=thr_sh_hits)
 	ind=match(bt$SNP,SNPs)
 	pval_orig_croped=pval_orig[ind,]
 	p_val_SH=pval_sh[ind]
@@ -105,7 +105,7 @@ clumping_part_I=function(pval_orig,pval_sh,chr,pos,thr_sh_hits,delta,SNPs,
 		}
 	}
 	
-	bt <- function_for_shlop_29_03_2020(out,trait="trait",p_value="p",pos="pos",snp="SNP",delta=delta,chr="chr")
+	bt <- function_for_shlop_29_03_2020(out,trait="trait",p_value="p",pos="pos",snp="SNP",delta=delta,chr="chr",thr=thr_sh_hits)
 	#bt$Ntraits is class of sahred hit (from 1 to n_traits);
 	cat("Total number of hits:",nrow(bt),"\n")
 	cat("Number of shared hits by classes:",table(bt$Ntraits),"\n")
