@@ -1,17 +1,17 @@
 #this script to reupload the original gwases into test db to
 #apply ldscore for calculation of genetic correlations
+current_path='../../data/01_anthropometry_results/five_traits/reupload_gwas/'
+descr_folder=$current_path'01_descriptors'
+uni_folder=$current_path'02_unification_out'
 
-descr_folder='../../data/01_anthropometry_results/GWAS/scaled_filtered/reupload_gwases/01_descriptors'
-uni_folder='../../data/01_anthropometry_results/GWAS/scaled_filtered/reupload_gwases/02_unification_out'
-
-for tr in 4049 4050 4058 4179
+for tr in 4054
 do
 echo Unification of gwas_id=$tr is starting...
 mkdir -p ${uni_folder}/ID_$tr
 
 run_uni_qc_rep \
---gwas-path=../../data/01_anthropometry_results/GWAS/scaled_filtered/ID_${tr}.csv \
---mapping-path=../../data/01_anthropometry_results/GWAS/scaled_filtered/reupload_gwases/mapping.json \
+--gwas-path=${current_path}ID_${tr}.csv \
+--mapping-path=${current_path}mapping.json \
 --descriptors-path=${descr_folder}/descriptor_${tr}.json \
 --output-dir=${uni_folder}/ID_${tr}/ \
 --output-file=ID_$tr \
