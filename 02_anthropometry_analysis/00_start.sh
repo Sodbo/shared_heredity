@@ -15,6 +15,6 @@
 
 ## Example
 ## source pipeline_for_matrix_calculation.sh ../../data/01_anthropometry_results/Traits_minus_SH_test/ 153 154 155 156
-export PROD=T #Option is necessary for GWASes uploaded to GWAS-Map
-source pipeline_for_calculation_of_matrices.sh ../../data/01_anthropometry_results/ 4049 4050 4058 4179
+#export PROD=T #Option is necessary for GWASes uploaded to GWAS-Map
+source pipeline_for_calculation_of_matrices.sh ../../data/01_anthropometry_results/five_traits/ 191 192 193 194 199
 
