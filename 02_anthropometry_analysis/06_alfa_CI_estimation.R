@@ -6,14 +6,14 @@
 #lll - shrinkage factor [0;1]
 #N_permut - N of permutations
 
-path<-'../../data/01_anthropometry_results/'
+path<-'../../data/01_anthropometry_results/five_traits/'
 CorPhenTr <- as.matrix(read.table(paste0(path,'pheno_corr_matrix.txt'), check.names=F))
 A0 <- as.matrix(read.table(paste0(path,'gene_cov_matrix.txt'), check.names=F))
 
 source('../00_core_functions/shared_heredity.R', chdir = F)
-se <-as.matrix(read.table('../../data/01_anthropometry_results/gene_cov_se_matrix.txt', check.names=F))
+se <-as.matrix(read.table(paste0(path,'gene_cov_se_matrix.txt'), check.names=F))
 
 source('../00_core_functions/function_for_estimation_of_alfa_CI.R', chdir = F)
   (res<-function_for_estimation_of_alfa_CI(A0,CorPhenTr,se,N_permut = 100))
-write.table(res,'../../data/01_anthropometry_results/CIs_for_5_traits.txt',quote=F)
+write.table(res,paste0(path,'CIs_for_5_traits.txt'),quote=F)
 
