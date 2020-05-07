@@ -14,5 +14,5 @@
 ## Example
 ## source 14b_pipeline_for_matrix_calculation.sh ../../data/anthropometry_results/four_traits/Traits_minus_SH_test/ 153 154 155 156
 
-source pipeline_for_calculation_of_matrices.sh ../../data/01_anthropometry_results/Traits_vs_Traits_minus_SH/ 191 192 193 194 185 195 196 197 198 
+source pipeline_for_calculation_of_matrices.sh ../../data/01_anthropometry_results/five_traits/Traits_vs_Traits_minus_SH/ 191 192 193 194 199 201 202 203 204 205 206 
 
