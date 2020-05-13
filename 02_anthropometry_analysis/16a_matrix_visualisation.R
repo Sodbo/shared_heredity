@@ -1,12 +1,15 @@
 # Aim of this script is to visualize matrix of genetic correlations
 # for original traits, sh and traits minus sh
+
+# Specify p-value threshold throught the total number of trait correlations (anthropometric [11*10/2] , lipid [7*6/2] and PGC [9*8/2], 112 in total)
+thr <- 0.05/112
+
 trait_ids=c('191', '192', '193', '194', '199', '201', '202', '203', '204', '205', '206')
 traits <- c('BMI', 'Weight', 'Hip', 'Waist', 'Fat', 'SH', 'BMI-SH', 'Weight-SH', 'Hip-SH', 'Waist-SH', 'Fat-SH')
 if (!require('corrplot')) install.packages('corrplot'); library('corrplot')
 if (!require('data.table')) install.packages('data.table'); library('data.table')
 
-# Specify p-value threshold throught the total number of trait correlations (anthropometric [9*8/2] , lipid [7*6/2] and PGC [7*6/2], 78 in total)
-thr <- 0.05/78
+
 
 # Path to directory with genetic correlation matrix
 path<-'../../data/01_anthropometry_results/five_traits/Traits_vs_Traits_minus_SH/'
