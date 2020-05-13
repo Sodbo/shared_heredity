@@ -4,10 +4,10 @@
 library(corrplot)
 library(data.table)
 
-setwd('/mnt/polyomica/projects/shared_heredity/data/03_neurodegenerative_diseases/traits_minus_SH')
+setwd('/mnt/polyomica/projects/shared_heredity/data/03_neurodegenerative_diseases/traits_minus_SH/four_traits')
 
 # Specify p-value threshold
-thr <- 0.05/78
+thr <- 0.05/112
 
 # Load genetic correlations matrix
 gcor <- read.table('./gene_corr_matrix.txt')
@@ -36,26 +36,16 @@ colnames(p_matrix) <- rownames(p_matrix) <- rownames(gcor)
 
 fwrite(p_matrix, 'gene_cor_p_val_matrix.txt', row.names = T, col.names = T, quote = F, sep = "\t", dec = ".")
 
-
-# Reorder rows and columns
-gcor <- gcor[c('551', '554', '555', '603', '606', '609', '608'), ]
-gcor <- gcor[, c('551', '554', '555', '603', '606', '609', '608')]
-
-
 p_matrix <- as.data.frame(p_matrix)
-colnames(p_matrix) <- rownames(p_matrix) <- rownames(gcor)
-p_matrix <- p_matrix[c('551', '554', '555', '603', '606', '609', '608'), ]
-p_matrix <- p_matrix[, c('551', '554', '555', '603', '606', '609', '608')]
 
 # Rename 
-traits <- c('BIP', 'MDD', 'SCZ', 'SH', 'BIP-SH', 'MDD-SH', 'SCZ-SH')
+traits <- c('BIP', 'MDD', 'SCZ', 'Happiness', 'SH', 'BIP-SH', 'MDD-SH', 'SCZ-SH', 'Happiness-SH')
 colnames(gcor) <- rownames(gcor) <- traits
 colnames(p_matrix) <- rownames(p_matrix) <- traits
 
 # Heatmap plot
 gcor <- as.matrix(gcor)
 h2 <- cor[[1]]$h2_obs_2 # obtain heritabilities
-h2 <- h2[c(1, 2, 3, 4, 5, 7, 6)] # reorder
 diag(gcor) <- h2
 p_matrix <- as.matrix(p_matrix)
 
