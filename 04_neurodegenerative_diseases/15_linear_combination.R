@@ -12,13 +12,14 @@ source("../00_core_functions/heritability_of_linear_combination.R")
 
 gwas_files <- c('../../../data/03_neurodegenerative_diseases/BIP/02_unification_results/bip_output_done.csv',
 		'../../../data/03_neurodegenerative_diseases/MDD/02_unification_results/mdd_output_done.csv',
-		'../../../data/03_neurodegenerative_diseases/SCZ/02_unification_results/scz_output_done.csv')
+		'../../../data/03_neurodegenerative_diseases/SCZ/02_unification_results/scz_output_done.csv',
+		'../../../data/03_neurodegenerative_diseases/happiness/02_unification_results/happiness_output_done.csv')
 
 gwas <- lapply(gwas_files, fread)
 
-aa <- read.table('../../../data/03_neurodegenerative_diseases/several_traits/alphas.txt', row.names = 1)
-phem <- read.table('../../../data/03_neurodegenerative_diseases/several_traits/pheno_corr_matrix.txt', row.names = 1,  check.names = F)
-gcov <- read.table('../../../data/03_neurodegenerative_diseases/several_traits/gene_cov_matrix.txt', row.names = 1,  check.names = F)
+aa <- read.table('../../../data/03_neurodegenerative_diseases/several_traits/four_traits/alphas.txt', row.names = 1)
+phem <- read.table('../../../data/03_neurodegenerative_diseases/several_traits/four_traits/pheno_corr_matrix.txt', row.names = 1,  check.names = F)
+gcov <- read.table('../../../data/03_neurodegenerative_diseases/several_traits/four_traits/gene_cov_matrix.txt', row.names = 1,  check.names = F)
 
 rs_id <- lapply(gwas, function(x) x$rs_id)
 snps <- Reduce(intersect, rs_id)
@@ -44,7 +45,7 @@ tr_sh_gwas <- lapply(tr_sh_gwas, function(x) mutate(x, A1 = gwas_reordered[[1]]$
 lapply(tr_sh_gwas, function(x) head(x, n = 2))
 
 # Define trait names
-traits <- c('bip', 'mdd', 'scz')
+traits <- c('bip', 'mdd', 'scz', 'happiness')
 
 lapply(n_traits, function(x) data.table::fwrite(
 		tr_sh_gwas[[x]], 

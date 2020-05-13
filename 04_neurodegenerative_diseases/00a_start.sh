@@ -17,6 +17,6 @@
 ## Example
 ## source 14b_pipeline_for_matrix_calculation.sh ../../data/anthropometry_results/four_traits/Traits_minus_SH_test/ 153 154 155 156
 
-source 00b_pipeline_for_matrix_calculation.sh ../../../data/03_neurodegenerative_diseases/several_traits/ 551 554 555 
+source 00b_pipeline_for_matrix_calculation.sh ../../../data/03_neurodegenerative_diseases/several_traits/four_traits/ 551 554 555 617
 
 

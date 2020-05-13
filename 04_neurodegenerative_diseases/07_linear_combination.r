@@ -7,12 +7,13 @@ source("../00_core_functions/linear_combination_v3.R")
 
 gwas_files <- c('../../../data/03_neurodegenerative_diseases/BIP/02_unification_results/bip_output_done.csv',
 	      '../../../data/03_neurodegenerative_diseases/MDD/02_unification_results/mdd_output_done.csv',
-	      '../../../data/03_neurodegenerative_diseases/SCZ/02_unification_results/scz_output_done.csv')
+	      '../../../data/03_neurodegenerative_diseases/SCZ/02_unification_results/scz_output_done.csv',
+	      '../../../data/03_neurodegenerative_diseases/happiness/02_unification_results/happiness_output_done.csv')
 
 gwas <- lapply(gwas_files, fread)
 
-aa <- read.table('../../../data/03_neurodegenerative_diseases/several_traits/alphas.txt', row.names = 1)
-covm <- read.table('../../../data/03_neurodegenerative_diseases/several_traits/pheno_corr_matrix.txt', row.names = 1,  check.names = F)
+aa <- read.table('../../../data/03_neurodegenerative_diseases/several_traits/four_traits/alphas.txt', row.names = 1)
+covm <- read.table('../../../data/03_neurodegenerative_diseases/several_traits/four_traits/pheno_corr_matrix.txt', row.names = 1,  check.names = F)
 
 rs_id <- lapply(gwas, function(x) x$rs_id)
 snps <- Reduce(intersect, rs_id)
@@ -31,9 +32,9 @@ sh_gwas <- mutate(sh_gwas, A1 = gwas_reordered[[1]]$ea, A2 = gwas_reordered[[1]]
 			 eaf = gwas_reordered[[1]]$eaf)
 
 head(sh_gwas, n = 2)
-dir.create('../../../data/03_neurodegenerative_diseases/several_traits/linear_combination/00_raw_data/')
+dir.create('../../../data/03_neurodegenerative_diseases/several_traits/four_traits/linear_combination/00_raw_data/')
 data.table::fwrite(
 	sh_gwas, 
 	row.names = F,
-	file = '../../../data/03_neurodegenerative_diseases/several_traits/linear_combination/00_raw_data/SH_GWAS.txt',
+	file = '../../../data/03_neurodegenerative_diseases/several_traits/four_traits/linear_combination/00_raw_data/SH_GWAS.txt',
 	sep = '\t')

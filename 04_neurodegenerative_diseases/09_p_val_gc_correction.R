@@ -5,9 +5,10 @@ library(data.table)
 gwas_files <- c('../../../data/03_neurodegenerative_diseases/BIP/02_unification_results/bip_output_done.csv',
 	      '../../../data/03_neurodegenerative_diseases/MDD/02_unification_results/mdd_output_done.csv',
 	      '../../../data/03_neurodegenerative_diseases/SCZ/02_unification_results/scz_output_done.csv',
-	      '../../../data/03_neurodegenerative_diseases/several_traits/linear_combination/02_unification_results/sh_output_done.csv')
+	      '../../../data/03_neurodegenerative_diseases/happiness/02_unification_results/happiness_output_done.csv',
+	      '../../../data/03_neurodegenerative_diseases/several_traits/four_traits/linear_combination/02_unification_results/sh_output_done.csv')
 
-intercept_data <- read.csv('../../../data/03_neurodegenerative_diseases/several_traits/intrecept_data.csv') # load table with parameters for GC 
+intercept_data <- read.csv('../../../data/03_neurodegenerative_diseases/several_traits/four_traits/intrecept_data.csv') # load table with parameters for GC 
 gwas <- lapply(gwas_files, fread)
 
 # Make GC correction for intercept
@@ -19,7 +20,7 @@ gwas <- lapply(1:length(gwas), function(x) {
 	})
 
 # Define trait names
-traits <- c('bip', 'mdd', 'scz', 'sh')
+traits <- c('bip', 'mdd', 'scz', 'happiness', 'sh')
 
 # Write corrected GWAS summary statistics
 lapply(1:length(gwas), function(x) data.table::fwrite(

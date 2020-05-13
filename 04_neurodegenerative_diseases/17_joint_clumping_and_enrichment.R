@@ -6,16 +6,17 @@ library('pROC')
 
 setwd("/mnt/polyomica/projects/shared_heredity/elgaeva_src/shared_heredity/04_neurodegenerative_diseases")
 
-path_for_output_results <- "../../../data/03_neurodegenerative_diseases/several_traits/"
+path_for_output_results <- "../../../data/03_neurodegenerative_diseases/several_traits/four_traits/"
 
 #GC corrected original GWASes
 input_file_name <- c('../../../data/03_neurodegenerative_diseases/BIP/03_gc_corrected/bip_gc_corrected.csv',
 		     '../../../data/03_neurodegenerative_diseases/MDD/03_gc_corrected/mdd_gc_corrected.csv',
-		     '../../../data/03_neurodegenerative_diseases/SCZ/03_gc_corrected/scz_gc_corrected.csv')
+		     '../../../data/03_neurodegenerative_diseases/SCZ/03_gc_corrected/scz_gc_corrected.csv',
+		     '../../../data/03_neurodegenerative_diseases/happiness/03_gc_corrected/happiness_gc_corrected.csv')
 gwas <- lapply(input_file_name, fread)
 
 #GWAS for shared heredity corrected for GC
-gwas_sh <- fread("../../../data/03_neurodegenerative_diseases/several_traits/linear_combination/03_gc_corrected/sh_gc_corrected.csv", data.table = F)
+gwas_sh <- fread("../../../data/03_neurodegenerative_diseases/several_traits/four_traits/linear_combination/03_gc_corrected/sh_gc_corrected.csv", data.table = F)
 
 #reordering of all original GWASs and SH
 rs_id <- lapply(gwas, function(x) x$rs_id)
