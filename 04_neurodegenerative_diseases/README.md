@@ -33,6 +33,9 @@ This script provides analytical estimation of heritability of shared heredity an
 ## 07b_validity_check.sh
 This script estimates heredity of shared heritability and its genetic correlations with original traits using LD Score regression implemented in GWAS-Map database.
 
+## 07c_compare_sh_for_3_and_4_traits.R
+This script creates plots to compare shared heredity for 3 traits with shared heredity for four traits/
+
 ## 08_start_gc_correction.sh
 This script sources p_correction_for_gc.sh script and sets command line variables (original traits and shared heredity are mentioned).
 
