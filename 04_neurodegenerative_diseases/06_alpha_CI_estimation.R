@@ -8,13 +8,14 @@
 
 path <- '/mnt/polyomica/projects/shared_heredity/data/03_neurodegenerative_diseases/several_traits/four_traits/'
 
-source("05_alpha_coefficients.R", chdir = F) # variables A0 and CorPhenTr are obtained from this script
+CorPhenTr <- as.matrix(read.table(paste0(path, 'pheno_corr_matrix.txt'), check.names = F)) # load matrix of phenotypic correlations
+A0 <- as.matrix(read.table(paste0(path, 'gene_cov_matrix.txt'), check.names = F)) # load matrix of genetic covariance
 
-se <-as.matrix(read.table('/mnt/polyomica/projects/shared_heredity/data/03_neurodegenerative_diseases/several_traits/four_traits/gene_cov_se_matrix.txt', check.names = F))
+se <- as.matrix(read.table(paste0(path,'gene_cov_se_matrix.txt', check.names = F))
 
 source("../00_core_functions/function_for_estimation_of_alfa_CI.R")
 
 res <- function_for_estimation_of_alfa_CI(gcovm = A0, phem = CorPhenTr, se = se, N_permut = 100)
 names(res) <- colnames(A0)
-write.table(res, '/mnt/polyomica/projects/shared_heredity/data/03_neurodegenerative_diseases/several_traits/four_traits/CIs_for_3_traits.txt', quote = F)
+write.table(res, '/mnt/polyomica/projects/shared_heredity/data/03_neurodegenerative_diseases/several_traits/four_traits/CIs_for_4_traits.txt', quote = F)
 
