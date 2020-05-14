@@ -18,7 +18,7 @@ gwas <- lapply(input_file_name, fread)
 #GWAS for GIP1 corrected for GC
 gwas_gip1 <- fread("../../../data/03_neurodegenerative_diseases/several_traits/four_traits/GIP/03_gc_corrected/gip1_gc_corrected.csv", data.table = F)
 
-#reordering of all original GWASs and SH
+#reordering of all original GWASs and GIP1
 rs_id <- lapply(gwas, function(x) x$rs_id)
 snps <- Reduce(intersect, rs_id)
 snps <- intersect(snps, gwas_gip1$rs_id)

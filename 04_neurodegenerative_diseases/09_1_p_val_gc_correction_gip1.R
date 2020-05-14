@@ -1,4 +1,4 @@
-# Aim of this script is to make correction for Genomic control (GC) for original traits and shared heredity
+# Aim of this script is to make correction for Genomic control (GC) for GIP1
 
 library(data.table)
 
