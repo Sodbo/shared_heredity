@@ -1,4 +1,4 @@
-path='../../data/01_anthropometry_results/five_traits/linear_combination/validity_check_maxH'
+path='../../data/01_anthropometry_results/five_traits/linear_combination/validity_check_maxH/'
 gip_id=208
 gwas_ids='191,192,193,194,199'
 

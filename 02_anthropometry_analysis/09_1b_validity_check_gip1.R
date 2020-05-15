@@ -1,5 +1,5 @@
 # Aim of this script is to estimate correlations between
-# shared heredity and the original traits
+# the first genetically independent phenotype and the original traits
 
 library(data.table)
 
@@ -13,7 +13,7 @@ gcov <- read.table('../../data/01_anthropometry_results/five_traits/gene_cov_mat
 alphas <- as.numeric(aa[,1])
 
 
-# Estimate pairwise genetic correlations for SH and anthropometric traits
+# Estimate pairwise genetic correlations for GIP1 and anthropometric traits
 cor_gi_alfa(a = alphas, i = 1, covm = gcov) # sh and BMI
 
 cor_gi_alfa(a = alphas, i = 2, covm = gcov) # sh and Weight
