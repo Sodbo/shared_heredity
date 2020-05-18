@@ -14,14 +14,14 @@ alphas <- as.numeric(aa[2, ])
 
 # Estimate heritability
 H2(alphas, covm = gcov, phem = phem)
-## 
+## 0.2602587 
 
 # Estimate pairwise genetic correlations for SH and Lipids traits
-cor_gi_alfa(a = alphas, i = 1, covm = gcov) # sh and cholesterol
-## 
-cor_gi_alfa(a = alphas, i = 2, covm = gcov) # sh and LDL
-## 
-cor_gi_alfa(a = alphas, i = 3, covm = gcov) # sh and triglycerides
-## 
+cor_gi_alfa(a = alphas, i = 1, covm = gcov) # sh and LDL
+## 0.9535373
+cor_gi_alfa(a = alphas, i = 2, covm = gcov) # sh and triglycerides
+## 0.6518833
+cor_gi_alfa(a = alphas, i = 3, covm = gcov) # sh and cholesterol
+## 0.9535626
 
 

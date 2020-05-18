@@ -13,7 +13,7 @@ gwas_files <- c('/mnt/polyomica/projects/shared_heredity/data/02_Lipids/original
 gwas <- lapply(gwas_files, fread)
 
 aa <- read.table('/mnt/polyomica/projects/shared_heredity/data/02_Lipids/three_traits/alphas.txt', row.names = 1)
-covm<-read.table('/mnt/polyomica/projects/shared_heredity/data/02_Lipids/three_traits/pheno_corr_matrix.txt', row.names = 1, check.names = F)
+covm <- read.table('/mnt/polyomica/projects/shared_heredity/data/02_Lipids/three_traits/pheno_corr_matrix.txt', row.names = 1, check.names = F)
 
 rs_id <- lapply(gwas, function(x) x$rs_id)
 snps <- Reduce(intersect, rs_id)
