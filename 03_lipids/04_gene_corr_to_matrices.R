@@ -1,4 +1,4 @@
-# Aim of this script to build genetic correlation matrix for traits
+# Aim of this script to build genetic correlation, genetic covariation matrices and genetic covariation se matrix for the traits defined in start.sh
 
 library(data.table)
 
