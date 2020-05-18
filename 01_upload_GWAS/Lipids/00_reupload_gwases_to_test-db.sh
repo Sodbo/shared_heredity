@@ -1,6 +1,6 @@
 #this script to reupload the original gwases into test db to
 #apply ldscore for calculation of genetic correlations
-current_path='../../data/02_Lipids/old_results/GWAS/'
+current_path='../../data/02_Lipids/original_traits/'
 descr_folder=$current_path'01_descriptors'
 uni_folder=$current_path'02_unification_out'
 
