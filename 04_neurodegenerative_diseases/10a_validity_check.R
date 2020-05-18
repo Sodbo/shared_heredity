@@ -9,7 +9,7 @@ source("../00_core_functions/heritability_of_linear_combination.R")
 source("../00_core_functions/gcor_a1_a2.R")
 source("../00_core_functions/gcov_for_linear_comb_with_i_trait.R")
 
-aa <- read.table('../../../data/03_neurodegenerative_diseases/several_traits/four_traits/alphas.txt', riw.names = 1)
+aa <- read.table('../../../data/03_neurodegenerative_diseases/several_traits/four_traits/alphas.txt', row.names = 1)
 
 alphas <- as.numeric(aa[2, ])
 
