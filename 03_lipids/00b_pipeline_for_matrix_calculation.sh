@@ -16,11 +16,12 @@
 # Using:
 # Please, edit 00a_start.sh and run under container:
 # source 00a_start.sh
-
-mkdir $1
+{
+mkdir -p $1
 source 01_pheno_corr.sh $*
 Rscript 02_convert_long_to_wide_form.R $1
 source 03_gene_corr.sh $*
 Rscript 04_gene_corr_to_matrices.R $1
 Rscript 05_alpha_coefficients.R $1
 Rscript 06_alpha_CI_estimation.R $1
+} 2>&1 | tee $1/logs_01-06.txt
