@@ -1,4 +1,3 @@
-
 # This code is to run automatic pipeline represented in 00b_pipeline_for_matrix_calculation.sh
 # and to set command line variables (path to output directory and GWAS IDs)
 
@@ -18,6 +17,6 @@
 ## Example
 ## source 14b_pipeline_for_matrix_calculation.sh ../../data/anthropometry_results/four_traits/Traits_minus_SH_test/ 153 154 155 156
 
-source 00b_pipeline_for_matrix_calculation.sh ../../data/02_Lipids/ 1287001 1287003 1287004 
+source 00b_pipeline_for_matrix_calculation.sh ../../data/02_Lipids/ 3 4 5
 
 
