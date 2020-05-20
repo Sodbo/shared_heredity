@@ -13,8 +13,8 @@
 # w.txt
 
 # Using:
-# Please, edit 00a_start.sh and run under container:
-# source 00a_start.sh
+# Please, edit 09a_start.sh and run under container:
+# source 09a_start.sh
 {
 mkdir -p $1
 source 01_pheno_corr.sh $*
