@@ -8,10 +8,10 @@ run_ldscore --h2 --gwas-id=9
 
 # Estimate pairwise genetic correlations for SH and Lipids traits
 run_ldscore --rg --gwas-id=6,9 # sh and LDL
-## 0.9605
+## 0.9605 se=0.02
 run_ldscore --rg --gwas-id=7,9 # sh and triglycerides
-## 0.7404
+## 0.7404 se=0.129
 run_ldscore --rg --gwas-id=8,9 # sh and choleserol
-## 1.0177
+## 1.0177 se=0.018
 
 # compare with the results of 07a script
