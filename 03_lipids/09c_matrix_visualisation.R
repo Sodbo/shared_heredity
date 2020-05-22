@@ -12,9 +12,9 @@ thr <- 0.05/112
 # Load genetic correlations matrix
 gcor <- read.table(paste0(path,'gene_corr_matrix.txt'))
 colnames(gcor) <- rownames(gcor)
-
+h2_table <- read.csv(paste0(path,'gene_corr/h2.csv'))
 # Form a p-value matrix
-cor_files <- list.files(paste0(path,'gene_corr'), full.names = T, pattern = '\\.csv')
+cor_files <- list.files(paste0(path,'gene_corr'), full.names = T, pattern = 'gene_corr_.+csv')
 cor <- lapply(cor_files, fread)
 dim(cor[[1]])
 colnames(cor[[1]])
@@ -39,14 +39,18 @@ fwrite(p_matrix, paste0(path,'gene_cor_p_val_matrix.txt'), row.names = T, col.na
 
 p_matrix <- as.data.frame(p_matrix)
 
+#Heretability vector reordering
+ind_h2=match(rownames(gcor),h2_table$gwas_id)
+h2 <- h2_table$h2[ind_h2] # obtain heritabilities
+
 # Rename 
 colnames(gcor) <- rownames(gcor) <- traits
 colnames(p_matrix) <- rownames(p_matrix) <- traits
 
 # Heatmap plot
 gcor <- as.matrix(gcor)
-h2 <- cor[[1]]$h2_obs_2 # obtain heritabilities
-diag(gcor) <- h2
+
+diag(gcor) <- h2_table$h2[ind_h2]
 p_matrix <- as.matrix(p_matrix)
 
 # By some reason the rg calculation can give values bigger than 1 and less than -1, so it is necessary to correct them to apply corrplot function
