@@ -3,28 +3,29 @@
 
 library(corrplot)
 library(data.table)
-
-setwd('/mnt/polyomica/projects/shared_heredity/data/03_neurodegenerative_diseases/traits_minus_SH/four_traits')
+traits <- c('LDL', 'Triglycerides', 'Cholesterol', 'SH', 'LDL-SH', 'Triglycerides-SH', 'Cholesterol-SH')
+path<-'../../data/02_Lipids/traits_minus_SH/three_traits/'
 
 # Specify p-value threshold
 thr <- 0.05/112
 
 # Load genetic correlations matrix
-gcor <- read.table('./gene_corr_matrix.txt')
+gcor <- read.table(paste0(path,'gene_corr_matrix.txt'))
 colnames(gcor) <- rownames(gcor)
 
 # Form a p-value matrix
-cor_files <- list.files('./gene_corr', full.names = T, pattern = '\\.csv')
+cor_files <- list.files(paste0(path,'gene_corr'), full.names = T, pattern = '\\.csv')
 cor <- lapply(cor_files, fread)
 dim(cor[[1]])
 colnames(cor[[1]])
+names(cor)<-regmatches(cor_files, regexpr('(?<=gene_corr_)(\\d+)(?=\\.txt\\.csv)', cor_files, perl=T))
 
 p_matrix <- as.data.table(matrix(NA, nrow = length(cor_files), ncol = length(cor_files)))
 colnames(p_matrix) <- rownames(p_matrix) <- rownames(gcor)
 
 for(i in 1:length(cor_files)){
 
-	p_matrix[, i] <- cor[[i]]$pval
+	p_matrix[, names(cor)[i]] <- cor[[i]]$pval
 
 }
 p_matrix <- as.matrix(p_matrix)
@@ -34,12 +35,11 @@ p_matrix <- as.matrix(p_matrix)
 p_matrix <- as.data.table(p_matrix)
 colnames(p_matrix) <- rownames(p_matrix) <- rownames(gcor)
 
-fwrite(p_matrix, 'gene_cor_p_val_matrix.txt', row.names = T, col.names = T, quote = F, sep = "\t", dec = ".")
+fwrite(p_matrix, paste0(path,'gene_cor_p_val_matrix.txt'), row.names = T, col.names = T, quote = F, sep = "\t", dec = ".")
 
 p_matrix <- as.data.frame(p_matrix)
 
 # Rename 
-traits <- c('BIP', 'MDD', 'SCZ', 'Happiness', 'SH', 'BIP-SH', 'MDD-SH', 'SCZ-SH', 'Happiness-SH')
 colnames(gcor) <- rownames(gcor) <- traits
 colnames(p_matrix) <- rownames(p_matrix) <- traits
 
@@ -49,7 +49,11 @@ h2 <- cor[[1]]$h2_obs_2 # obtain heritabilities
 diag(gcor) <- h2
 p_matrix <- as.matrix(p_matrix)
 
-out <- './heatmap_full.png'
+# By some reason the rg calculation can give values bigger than 1 and less than -1, so it is necessary to correct them to apply corrplot function
+gcor[gcor > 1]=1
+gcor[gcor < -1]=-1
+
+out <- paste0(path,'heatmap_full.png')
 png(out, height = 720, width = 720)
 corrplot(gcor, method = "square", tl.col = "black", p.mat = p_matrix, sig.level = thr, addCoef.col = "black")
 dev.off()
