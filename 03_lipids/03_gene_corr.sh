@@ -13,4 +13,4 @@ output_dir=$path'gene_corr'
 	#run_ldscore_report --rg --gwas-id-1=$i --gwas-id-2=$(echo $* |tr ' ' ',') --output-dir $output_dir --output-file gene_corr_$i.txt
 #done
 
-run_ldscore_report --h2 --gwas-id=$(echo $* |tr ' ' ',') --output-dir $output_dir --output-file h2.txt
+run_ldscore_report --h2 --gwas-id=$(echo $* |tr ' ' ',') --output-dir $output_dir --output-file h2
