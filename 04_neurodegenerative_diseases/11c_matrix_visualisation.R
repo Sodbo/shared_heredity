@@ -13,8 +13,10 @@ thr <- 0.05/112
 gcor <- read.table('./gene_corr_matrix.txt')
 colnames(gcor) <- rownames(gcor)
 
+h2_table <- read.csv('./gene_corr/h2.csv')
+
 # Form a p-value matrix
-cor_files <- list.files('./gene_corr', full.names = T, pattern = '\\.csv')
+cor_files <- list.files('./gene_corr', full.names = T, pattern = 'gene_corr_.+csv')
 cor <- lapply(cor_files, fread)
 dim(cor[[1]])
 colnames(cor[[1]])
@@ -38,6 +40,10 @@ fwrite(p_matrix, 'gene_cor_p_val_matrix.txt', row.names = T, col.names = T, quot
 
 p_matrix <- as.data.frame(p_matrix)
 
+# Heretability vector reordering
+ind_h2 <- match(rownames(gcor), h2_table$gwas_id)
+h2 <- h2_table$h2[ind_h2] # obtain heritabilities
+
 # Rename 
 traits <- c('BIP', 'MDD', 'SCZ', 'Happiness', 'SH', 'BIP-SH', 'MDD-SH', 'SCZ-SH', 'Happiness-SH')
 colnames(gcor) <- rownames(gcor) <- traits
@@ -45,7 +51,6 @@ colnames(p_matrix) <- rownames(p_matrix) <- traits
 
 # Heatmap plot
 gcor <- as.matrix(gcor)
-h2 <- cor[[1]]$h2_obs_2 # obtain heritabilities
 diag(gcor) <- h2
 p_matrix <- as.matrix(p_matrix)
 
