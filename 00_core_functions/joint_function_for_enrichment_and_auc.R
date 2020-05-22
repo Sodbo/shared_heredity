@@ -13,8 +13,47 @@ joint_function=function(pval_orig,pval_sh,chr,pos,thr_sh_hits=1e-5,thr_sh_sig=5e
 	cat("Part III: clumping of all traits based on given threshold and AUC","\n")
 	l1=clumping_part_III(pval_orig=pval_orig,pval_sh=pval_sh,chr=chr,pos=pos,thr_sh_hits=thr_sh_hits,thr_sh_sig=thr_sh_sig,
 	orig_traits_names=orig_traits_names,path_output=path_output,delta=delta,SNPs=SNPs)
+
+	cat("Part IV: joint clumping of all traits on 5e-8 threshold","\n")
+	clumping_part_IV(pval_orig=pval_orig,pval_sh=pval_sh,chr=chr,pos=pos,
+	orig_traits_names=orig_traits_names,path_output=path_output,delta=delta,SNPs=SNPs)
 	
 }	
+
+
+clumping_part_IV=function(pval_orig,pval_sh,chr,pos,delta,SNPs,
+	orig_traits_names,path_output){
+	
+	library(dplyr)
+	n_traits=ncol(pval_orig)
+	
+	toClump=cbind(p=pval_sh,chr=chr,pos=pos)
+	toClump=mutate(as.data.frame(toClump),SNP=SNPs)
+	lt <- function_for_shlop_29_03_2020(toClump,p_value="p",pos="pos",snp="SNP", delta=delta,chr="chr", thr=5e-8)
+	out=cbind(lt,trait="SH")
+	
+	for (i in 1:n_traits){
+		toClump=cbind(p=pval_orig[,i],chr=chr,pos=pos)
+		toClump=mutate(as.data.frame(toClump),SNP=SNPs)
+		
+		lt <- function_for_shlop_29_03_2020(toClump,p_value="p",pos="pos",snp="SNP", delta=delta,chr="chr", thr=5e-8)
+		if (nrow(lt)>0 ) {
+			lt=cbind(lt,trait=orig_traits_names[i])
+			out=rbind(out,lt)
+		}
+	}
+		
+	bt <- function_for_shlop_29_03_2020(out,trait="trait",p_value="p",pos="pos",snp="SNP",delta=delta,chr="chr",thr=5e-8)
+	ind=match(bt$SNP,SNPs)
+	pval_orig_croped=pval_orig[ind,]
+	p_val_SH=pval_sh[ind]
+	colnames(pval_orig_croped)=orig_traits_names
+		
+	bt=cbind(bt,p_val_SH,pval_orig_croped)
+		
+	fwrite(x=bt,file=paste0(path_output,'clumping_of_SH_and_orig_traits_partIV_5e-8.txt'),sep="\t",quote=F,col.names=T,row.names=F)
+}	
+
 	
 clumping_part_III=function(pval_orig,pval_sh,chr,pos,thr_sh_hits,thr_sh_sig,delta,SNPs,
 	orig_traits_names,path_output){
@@ -152,3 +191,4 @@ function_for_shlop_29_03_2020 <- function(locus_table,p_value="p_ma",pos="bp",sn
 	}
 	return(out)
 }
+
