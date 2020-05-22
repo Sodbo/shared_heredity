@@ -8,3 +8,5 @@ run_uni_qc_rep \
 	--qc-report \
 	--output-file=sh_output
 
+run_upload \
+--gwas-path=../../../data/02_Lipids/three_traits/SH/02_unification_results/sh_output_done.csv
