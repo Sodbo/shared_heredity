@@ -4,7 +4,6 @@
 # Specify p-value threshold throught the total number of trait correlations (anthropometric [11*10/2] , lipid [7*6/2] and PGC [9*8/2], 112 in total)
 thr <- 0.05/112
 
-trait_ids=c('191', '192', '193', '194', '199', '201', '202', '203', '204', '205', '206')
 traits <- c('BMI', 'Weight', 'Hip', 'Waist', 'Fat', 'SH', 'BMI-SH', 'Weight-SH', 'Hip-SH', 'Waist-SH', 'Fat-SH')
 if (!require('corrplot')) install.packages('corrplot'); library('corrplot')
 if (!require('data.table')) install.packages('data.table'); library('data.table')
@@ -15,18 +14,25 @@ if (!require('data.table')) install.packages('data.table'); library('data.table'
 path<-'../../data/01_anthropometry_results/five_traits/Traits_vs_Traits_minus_SH/'
 
 # Load genetic correlations matrix
-gcor <- read.table(paste0(path,'gene_corr_matrix.txt'), check.names=F)
-
+gcor <- read.table(paste0(path,'gene_corr_matrix.txt'))
+colnames(gcor) <- rownames(gcor)
+h2_table <- read.csv(paste0(path,'gene_corr/h2.csv'))
 # Form a p-value matrix
-cor_files <- list.files(paste0(path, 'gene_corr'), full.names = T, pattern = '\\.csv')
+cor_files <- list.files(paste0(path,'gene_corr'), full.names = T, pattern = 'gene_corr_.+csv')
 cor <- lapply(cor_files, fread)
 dim(cor[[1]])
 colnames(cor[[1]])
+names(cor)<-regmatches(cor_files, regexpr('(?<=gene_corr_)(\\d+)(?=\\.txt\\.csv)', cor_files, perl=T))
 
 p_matrix <- as.data.table(matrix(NA, nrow = length(cor_files), ncol = length(cor_files)))
 colnames(p_matrix) <- rownames(p_matrix) <- rownames(gcor)
 
-p_matrix <- sapply(cor, function(x) x$pval)
+for(i in 1:length(cor_files)){
+
+	p_matrix[, names(cor)[i]] <- cor[[i]]$pval
+
+}
+p_matrix <- as.matrix(p_matrix)
 p_matrix[upper.tri(p_matrix, diag = F)] <- NA
 p_matrix <- Matrix::forceSymmetric(p_matrix, uplo = "L")
 p_matrix <- as.matrix(p_matrix)
@@ -35,16 +41,11 @@ colnames(p_matrix) <- rownames(p_matrix) <- rownames(gcor)
 
 fwrite(p_matrix, paste0(path,'gene_cor_p_val_matrix.txt'), row.names = T, col.names = T, quote = F, sep = "\t", dec = ".")
 
-
-# Reorder rows and columns
-gcor <- gcor[trait_ids, ]
-gcor <- gcor[, trait_ids]
-
-
 p_matrix <- as.data.frame(p_matrix)
-rownames(p_matrix) <- colnames(p_matrix)
-p_matrix <- p_matrix[trait_ids, ]
-p_matrix <- p_matrix[, trait_ids]
+
+#Heretability vector reordering
+ind_h2=match(rownames(gcor),h2_table$gwas_id)
+h2 <- h2_table$h2[ind_h2] # obtain heritabilities
 
 # Rename 
 colnames(gcor) <- rownames(gcor) <- traits
@@ -52,15 +53,16 @@ colnames(p_matrix) <- rownames(p_matrix) <- traits
 
 # Heatmap plot
 gcor <- as.matrix(gcor)
-h2 <- cor[[1]]$h2_obs_2 # obtain heritabilities
 
-diag(gcor) <- h2
+diag(gcor) <- h2_table$h2[ind_h2]
 p_matrix <- as.matrix(p_matrix)
 
-out <- paste0(path, 'heatmap_full.png')
+# By some reason the rg calculation can give values bigger than 1 and less than -1, so it is necessary to correct them to apply corrplot function
+gcor[gcor > 1]=1
+gcor[gcor < -1]=-1
+
+out <- paste0(path,'heatmap_full.png')
 png(out, height = 720, width = 720)
 corrplot(gcor, method = "square", tl.col = "black", p.mat = p_matrix, sig.level = thr, addCoef.col = "black")
 dev.off()
-
-
 
