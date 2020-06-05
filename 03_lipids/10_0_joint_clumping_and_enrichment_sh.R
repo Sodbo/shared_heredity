@@ -11,11 +11,11 @@ input_file_name <- c('/mnt/polyomica/projects/shared_heredity/data/02_Lipids/ori
 		     '/mnt/polyomica/projects/shared_heredity/data/02_Lipids/original_traits/02_unification_out/ID_1287003/ID_1287003_done.csv',
 		     '/mnt/polyomica/projects/shared_heredity/data/02_Lipids/original_traits/02_unification_out/ID_1287004/ID_1287004_done.csv')
 gwas <- lapply(input_file_name, fread)
-gwas <- lapply(gwas, function(x) x[x$p != 0, ])
+gwas <- lapply(gwas, function(x) x[(x$p != 0) & (x$eaf >= 0.01) & (x$eaf <= 0.99), ])
 
 # GWAS for shared heredity
 gwas_sh <- fread("/mnt/polyomica/projects/shared_heredity/data/02_Lipids/three_traits/SH/02_unification_results/sh_output_done.csv", data.table = F)
-gwas_sh <- gwas_sh[gwas_sh$p != 0, ]
+gwas_sh <- gwas_sh[(gwas_sh$p != 0) & (gwas_sh$eaf >= 0.01) & (gwas_sh$eaf <= 0.99), ]
 
 # Reordering of all original GWASs and SH
 rs_id <- lapply(gwas, function(x) x$rs_id)
