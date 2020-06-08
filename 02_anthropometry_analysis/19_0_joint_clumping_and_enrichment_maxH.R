@@ -22,12 +22,12 @@ gwas_maxH=fread(path_to_maxH)
 
 
 #eaf filtering for 
-ind=which(gwas_maxH$eaf>=0.01 & (1-gwas_maxH$eaf)<=0.99)
+ind=which(gwas_maxH$eaf>=0.01 & gwas_maxH$eaf<=0.99)
 gwas_maxH=gwas_maxH[ind,]
 
 gwas<-lapply(gwas, function(x){
 					tmp=x;
-					ind=which(tmp$eaf>=0.01 & (1-tmp$eaf)<=0.99);
+					ind=which(tmp$eaf>=0.01 & tmp$eaf<=0.99);
 					tmp[ind,];
 					} )
 

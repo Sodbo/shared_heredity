@@ -19,12 +19,12 @@ gwas=gwas[-length(gwas)]
 
 
 #eaf filtering for 
-ind=which(gwas_sh$eaf>=0.01 & (1-gwas_sh$eaf)<=0.99)
+ind=which(gwas_sh$eaf>=0.01 & gwas_sh$eaf<=0.99)
 gwas_sh=gwas_sh[ind,]
 
 gwas<-lapply(gwas, function(x){
 					tmp=x;
-					ind=which(tmp$eaf>=0.01 & (1-tmp$eaf)<=0.99);
+					ind=which(tmp$eaf>=0.01 & tmp$eaf<=0.99);
 					tmp[ind,];
 					} )
 
