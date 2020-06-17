@@ -61,8 +61,8 @@ p_matrix <- as.matrix(p_matrix)
 gcor[gcor > 1]=1
 gcor[gcor < -1]=-1
 
-out <- paste0(path,'heatmap_full.png')
+out <- paste0(path,'heatmap_full_1.png')
 png(out, height = 720, width = 720)
-corrplot(gcor, method = "square", tl.col = "black", p.mat = p_matrix, sig.level = thr, addCoef.col = "black")
+corrplot(gcor, method = "square", tl.col = "black", p.mat = p_matrix, sig.level = thr, addCoef.col = "black", cl.cex=1)
 dev.off()
 

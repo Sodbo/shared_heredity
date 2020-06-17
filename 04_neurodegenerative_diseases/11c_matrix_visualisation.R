@@ -54,9 +54,9 @@ gcor <- as.matrix(gcor)
 diag(gcor) <- h2
 p_matrix <- as.matrix(p_matrix)
 
-out <- './heatmap_full.png'
+out <- 'Figure4.png'
 png(out, height = 720, width = 720)
-corrplot(gcor, method = "square", tl.col = "black", p.mat = p_matrix, sig.level = thr, addCoef.col = "black")
+corrplot(gcor, method = "square", tl.col = "black", p.mat = p_matrix, sig.level = thr, addCoef.col = "black", cl.cex=1)
 dev.off()
 
 
