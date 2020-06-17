@@ -35,8 +35,9 @@ pval_sh <- gwas_sh$p_gc
 chr <- gwas_sh$chr
 pos <- gwas_sh$bp
 
+orig_trait_names<-regmatches(input_file_name, regexpr('(?<=/)(\\w+)(?=_gc_corrected\\.csv)', input_file_name, perl=T))
 
 source("../00_core_functions/joint_function_for_enrichment_and_auc.R")
 	
 out <- joint_function(pval_orig = pval_orig, pval_sh = pval_sh, chr = chr, pos = pos, thr_sh_hits = 1e-3, thr_sh_sig = 5e-8,
-	orig_traits_names = input_file_name, path_output = path_for_output_results, delta = 5e5, SNPs = snps)
+	orig_traits_names = orig_trait_names, path_output = path_for_output_results, delta = 5e5, SNPs = snps)

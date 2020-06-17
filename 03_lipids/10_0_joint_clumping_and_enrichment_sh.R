@@ -14,7 +14,7 @@ gwas <- lapply(input_file_name, fread)
 gwas <- lapply(gwas, function(x) x[(x$p != 0) & (x$eaf >= 0.01) & (x$eaf <= 0.99), ])
 
 # GWAS for shared heredity
-gwas_sh <- fread("/mnt/polyomica/projects/shared_heredity/data/02_Lipids/three_traits/SH/02_unification_results/sh_output_done.csv", data.table = F)
+gwas_sh <- fread("/mnt/polyomica/projects/shared_heredity/data/02_Lipids/three_traits/SH/02_unification_results/sh_output_done.csv.gz", data.table = F)
 gwas_sh <- gwas_sh[(gwas_sh$p != 0) & (gwas_sh$eaf >= 0.01) & (gwas_sh$eaf <= 0.99), ]
 
 # Reordering of all original GWASs and SH
@@ -34,8 +34,9 @@ pval_sh <- gwas_sh$p
 chr <- gwas_sh$chr
 pos <- gwas_sh$bp
 
+orig_gwas_ids<-regmatches(input_file_name, regexpr('(?<=ID_)(\\d+)(?=_done\\.csv)', input_file_name, perl=T))
 
 source("../00_core_functions/joint_function_for_enrichment_and_auc.R")
 	
 out <- joint_function(pval_orig = pval_orig, pval_sh = pval_sh, chr = chr, pos = pos, thr_sh_hits = 1e-5, thr_sh_sig = 5e-8,
-	orig_traits_names = input_file_name, path_output = path_for_output_results, delta = 5e5, SNPs = snps)
+	orig_traits_names = orig_gwas_ids, path_output = path_for_output_results, delta = 5e5, SNPs = snps)
