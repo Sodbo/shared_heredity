@@ -90,4 +90,9 @@ This script runs clumping for original traits and GIP1 and find shared hits. Thi
 
 ## 10_2_joint_clumping_and_enrichment_maxh.R
 This script runs clumping for original traits and MaxH and find shared hits. This script also generates ROC-curve and calculates AUC-value.
- 
+
+## 12_start_gc_correction.sh
+This script sources p_correction_for_gc.sh script and sets command line variables (original traits and shared heredity are mentioned).
+
+## p_correction_for_gc.sh
+This script obtains parameters for genomic control correction for traits set as command line variables. The script is written for GWAS-Map database. 
