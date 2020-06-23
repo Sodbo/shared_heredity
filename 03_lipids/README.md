@@ -91,6 +91,12 @@ This script runs clumping for original traits and GIP1 and find shared hits. Thi
 ## 10_2_joint_clumping_and_enrichment_maxh.R
 This script runs clumping for original traits and MaxH and find shared hits. This script also generates ROC-curve and calculates AUC-value.
 
+## 11a_count_significant_loci_sh.R
+This script counts loci genome-wide significant for each original trait or shared heredity.
+
+## 11b_significant_loci_sh.R
+This script counts loci genome-wide significant both for particular original trait and shared heredity.
+
 ## 12_start_gc_correction.sh
 This script sources p_correction_for_gc.sh script and sets command line variables (original traits and shared heredity are mentioned).
 

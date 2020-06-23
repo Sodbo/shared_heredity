@@ -111,5 +111,11 @@ This script runs clumping for original traits and GIP1 and find shared hits. Thi
 ## 12_2_joint_clumping_and_enrichment_maxh.R
 This script runs clumping for original traits and MaxH and find shared hits. This script also generates ROC-curve and calculates AUC-value.
 
+## 13_count_significant_loci.R
+This script counts genome-wide significant loci for each original trait or shared heredity.
+
+## 14_significant_loci_sh.R
+This script counts loci genome-wide significant both for particular original trait and for shared heredity. 
+
 ## DEPICT
 This folder contains config files and script for DEPICT analysis for all traits. 
