@@ -4,7 +4,7 @@ library(data.table)
 
 path_to_result_directory <- commandArgs(trailingOnly = T)[1] # get argument set in 00a_start.sh or 16a_start.sh
 
-corr_files <- list.files(paste0(path_to_result_directory, 'gene_corr'), full.names = T, pattern = '*.csv')
+corr_files <- list.files(paste0(path_to_result_directory, 'gene_corr'), full.names = T, pattern = '*txt.csv')
 corr_tables <- lapply(corr_files, read.csv)
 
 united_corr_table <- rbindlist(corr_tables)
