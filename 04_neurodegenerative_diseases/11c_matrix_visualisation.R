@@ -45,7 +45,7 @@ ind_h2 <- match(rownames(gcor), h2_table$gwas_id)
 h2 <- h2_table$h2[ind_h2] # obtain heritabilities
 
 # Rename 
-traits <- c('BIP', 'MDD', 'SCZ', 'Happiness', 'SH', 'BIP-SH', 'MDD-SH', 'SCZ-SH', 'Happiness-SH')
+traits <- c('BIP', 'MDD', 'SCZ', 'Happiness', 'SGCT', 'BIP UGCT', 'MDD UGCT', 'SCZ UGCT', 'Happiness UGCT')
 colnames(gcor) <- rownames(gcor) <- traits
 colnames(p_matrix) <- rownames(p_matrix) <- traits
 
@@ -54,8 +54,8 @@ gcor <- as.matrix(gcor)
 diag(gcor) <- h2
 p_matrix <- as.matrix(p_matrix)
 
-out <- 'Figure4.png'
-png(out, height = 720, width = 720)
+out <- 'heatmap_4.pdf'
+pdf(out, height = 7, width = 7)
 corrplot(gcor, method = "square", tl.col = "black", p.mat = p_matrix, sig.level = thr, addCoef.col = "black", cl.cex=1)
 dev.off()
 

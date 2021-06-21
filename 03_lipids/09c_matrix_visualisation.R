@@ -3,7 +3,7 @@
 
 library(corrplot)
 library(data.table)
-traits <- c('LDL', 'Triglycerides', 'Cholesterol', 'SH', 'LDL-SH', 'Triglycerides-SH', 'Cholesterol-SH')
+traits <- c('LDL', 'Triglycerides', 'Cholesterol', 'SGCT', 'LDL UGCT', 'Triglycerides UGCT', 'Cholesterol UGCT')
 path<-'../../data/02_Lipids/traits_minus_SH/three_traits/'
 
 # Specify p-value threshold
@@ -57,8 +57,8 @@ p_matrix <- as.matrix(p_matrix)
 gcor[gcor > 1]=1
 gcor[gcor < -1]=-1
 
-out <- paste0(path,'Figure5.png')
-png(out, height = 720, width = 720)
+out <- paste0(path,'heatmap.pdf')
+pdf(out, height = 7, width = 7)
 corrplot(gcor, method = "square", tl.col = "black", p.mat = p_matrix, sig.level = thr, addCoef.col = "black", cl.cex=1)
 dev.off()
 

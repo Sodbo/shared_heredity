@@ -4,7 +4,7 @@
 # Specify p-value threshold throught the total number of trait correlations (anthropometric [11*10/2] , lipid [7*6/2] and PGC [9*8/2], 112 in total)
 thr <- 0.05/112
 
-traits <- c('BMI', 'Weight', 'Hip', 'Waist', 'Fat', 'SH', 'BMI-SH', 'Weight-SH', 'Hip-SH', 'Waist-SH', 'Fat-SH')
+traits <- c('BMI', 'Weight', 'Hip', 'Waist', 'Fat', 'SGCT', 'BMI UGCT', 'Weight UGCT', 'Hip UGCT', 'Waist UGCT', 'Fat UGCT')
 if (!require('corrplot')) install.packages('corrplot'); library('corrplot')
 if (!require('data.table')) install.packages('data.table'); library('data.table')
 
@@ -61,8 +61,8 @@ p_matrix <- as.matrix(p_matrix)
 gcor[gcor > 1]=1
 gcor[gcor < -1]=-1
 
-out <- paste0(path,'heatmap_full_1.png')
-png(out, height = 720, width = 720)
+out <- paste0(path,'heatmap_full_1.pdf')
+pdf(out, height = 7, width = 7)
 corrplot(gcor, method = "square", tl.col = "black", p.mat = p_matrix, sig.level = thr, addCoef.col = "black", cl.cex=1)
 dev.off()
 
