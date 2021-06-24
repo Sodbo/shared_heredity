@@ -5,115 +5,13 @@ joint_function <- function(pval_orig,pval_sh,chr,pos,thr_sh_hits=1e-5,thr_sh_sig
 	cat("Part I: clumping of original traits based on given threshold and comparison with SGCT","\n")
 	l1 <- clumping_part_I(pval_orig=pval_orig,pval_sh=pval_sh,chr=chr,pos=pos,thr_sh_hits=thr_sh_hits,
 	orig_traits_names=orig_traits_names,path_output=path_output,delta=delta,SNPs=SNPs)
-	
-	cat("Part II: clumping of SGCT based on given threshold and analysis of shared hits","\n")
-	l1 <- clumping_part_II(pval_orig=pval_orig,pval_sh=pval_sh,chr=chr,pos=pos,thr_sh_hits=thr_sh_hits,thr_sh_sig=thr_sh_sig,
+
+	cat("Part II: joint clumping of all traits on 5e-8 threshold","\n")
+	clumping_part_II(pval_orig=pval_orig,pval_sh=pval_sh,chr=chr,pos=pos,
 	orig_traits_names=orig_traits_names,path_output=path_output,delta=delta,SNPs=SNPs)
 	
-	cat("Part III: clumping of all traits based on given threshold and AUC","\n")
-	l1 <- clumping_part_III(pval_orig=pval_orig,pval_sh=pval_sh,chr=chr,pos=pos,thr_sh_hits=thr_sh_hits,thr_sh_sig=thr_sh_sig,
-	orig_traits_names=orig_traits_names,path_output=path_output,delta=delta,SNPs=SNPs)
+}
 
-	cat("Part IV: joint clumping of all traits on 5e-8 threshold","\n")
-	clumping_part_IV(pval_orig=pval_orig,pval_sh=pval_sh,chr=chr,pos=pos,
-	orig_traits_names=orig_traits_names,path_output=path_output,delta=delta,SNPs=SNPs)
-	
-}	
-
-
-clumping_part_IV <- function(pval_orig,pval_sh,chr,pos,delta,SNPs,
-	orig_traits_names,path_output){
-	
-	library(dplyr)
-	n_traits <- ncol(pval_orig)
-	
-	toClump <- cbind(p=pval_sh,chr=chr,pos=pos)
-	toClump <- mutate(as.data.frame(toClump),SNP=SNPs)
-	lt <- function_for_shlop_29_03_2020(toClump,p_value="p",pos="pos",snp="SNP", delta=delta,chr="chr", thr=5e-8)
-	out=cbind(lt,trait="SH")
-	
-	for (i in 1:n_traits){
-		toClump <- cbind(p=pval_orig[,i],chr=chr,pos=pos)
-		toClump <- mutate(as.data.frame(toClump),SNP=SNPs)
-		
-		lt <- function_for_shlop_29_03_2020(toClump,p_value="p",pos="pos",snp="SNP", delta=delta,chr="chr", thr=5e-8)
-		if (nrow(lt)>0 ) {
-			lt <- cbind(lt,trait=orig_traits_names[i])
-			out <- rbind(out,lt)
-		}
-	}
-		
-	bt <- function_for_shlop_29_03_2020(out,trait="trait",p_value="p",pos="pos",snp="SNP",delta=delta,chr="chr",thr=5e-8)
-	ind <- match(bt$SNP,SNPs)
-	pval_orig_croped <- pval_orig[ind,]
-	p_val_SH <- pval_sh[ind]
-	colnames(pval_orig_croped) <- orig_traits_names
-		
-	bt <- cbind(bt,p_val_SH,pval_orig_croped)
-		
-	fwrite(x=bt,file=paste0(path_output,'clumping_of_SGCT_and_orig_traits_partIV_5e-8.txt'),sep="\t",quote=F,col.names=T,row.names=F)
-}	
-
-	
-clumping_part_III <- function(pval_orig,pval_sh,chr,pos,thr_sh_hits,thr_sh_sig,delta,SNPs,
-	orig_traits_names,path_output){
-	
-	library(dplyr)
-	n_traits <- ncol(pval_orig)
-	
-	toClump <- cbind(p=pval_sh,chr=chr,pos=pos)
-	toClump <- mutate(as.data.frame(toClump),SNP=SNPs)
-	lt <- function_for_shlop_29_03_2020(toClump,p_value="p",pos="pos",snp="SNP", delta=delta,chr="chr", thr=thr_sh_hits)
-	out <- cbind(lt,trait="SH")
-	
-	for (i in 1:n_traits){
-		toClump <- cbind(p=pval_orig[,i],chr=chr,pos=pos)
-		toClump <- mutate(as.data.frame(toClump),SNP=SNPs)
-		
-		lt <- function_for_shlop_29_03_2020(toClump,p_value="p",pos="pos",snp="SNP", delta=delta,chr="chr", thr=thr_sh_hits)
-		if (nrow(lt)>0 ) {
-			lt <- cbind(lt,trait=orig_traits_names[i])
-			out <- rbind(out,lt)
-		}
-	}
-		
-	bt <- function_for_shlop_29_03_2020(out,trait="trait",p_value="p",pos="pos",snp="SNP",delta=delta,chr="chr",thr=thr_sh_hits)
-	ind=match(bt$SNP,SNPs)
-	pval_orig_croped <- pval_orig[ind,]
-	p_val_SH <- pval_sh[ind]
-	Ntraits <- apply(pval_orig_croped,MAR=1,FUN=function(x) sum(x<=thr_sh_hits))
-	
-	bt <- cbind(bt,sh_class=Ntraits,p_val_SH,is_sh_hit=as.numeric(Ntraits==n_traits))
-	
-	fwrite(x=bt,file=paste0(path_output,'clumping_of_SGCT_and_orig_traits_partIII.txt'),sep="\t",quote=F,col.names=T,row.names=F)
-}	
-	
-	
-clumping_part_II <- function(pval_orig,pval_sh,chr,pos,thr_sh_hits,thr_sh_sig,delta,SNPs,
-	orig_traits_names,path_output){
-	
-	library(dplyr)
-	n_traits <- ncol(pval_orig)
-	
-	toClump <- cbind(p=pval_sh,chr=chr,pos=pos)
-	toClump <- mutate(as.data.frame(toClump),SNP=SNPs)
-	lt <- function_for_shlop_29_03_2020(toClump,p_value="p",pos="pos",snp="SNP", delta=delta,chr="chr", thr=thr_sh_sig)
-	
-	ind <- match(lt$SNP,SNPs)
-	pval_orig_croped <- pval_orig[ind,]
-	
-	Ntraits <- apply(pval_orig_croped,MAR=1,FUN=function(x) sum(x<=thr_sh_hits))
-	
-	cat("Total number of significant hits on SGCT:",nrow(lt),"\n")
-	cat("Number of shared hits by N_at:",table(Ntraits),"\n")
-	cat("Number of shared hits with the highest N_at value:",table(Ntraits)[n_traits],"\n")
-		
-	clump <- cbind(p_val_SH=lt$p,Ntraits=Ntraits)
-	
-	lt <- cbind(lt,class_of_sh=Ntraits)
-	fwrite(x=lt,file=paste0(path_output,'clumping_SGCT_partII.txt'),sep="\t",quote=F,col.names=T,row.names=F)
-}	
-	
 clumping_part_I <- function(pval_orig,pval_sh,chr,pos,thr_sh_hits,delta,SNPs,
 	orig_traits_names,path_output){
 	
@@ -138,10 +36,10 @@ clumping_part_I <- function(pval_orig,pval_sh,chr,pos,thr_sh_hits,delta,SNPs,
 	cat("Number of shared hits with the biggest N_at value:",table(bt$Ntraits)[n_traits],"\n")
 	
 	ind <- match(bt$SNP,SNPs)
-	p_val_SH <- pval_sh[ind]
-	clump <- cbind(p_val_SH,Ntraits=bt$Ntraits)
+	p_val_SGCT <- pval_sh[ind]
+	clump <- cbind(p_val_SGCT,Ntraits=bt$Ntraits)
 	pdf(paste0(path_output,'Significance_of_shared_hits_on_SGCT.pdf'),width=7,height=7)
-	boundaries <- boxplot(-log10(p_val_SH) ~ Ntraits, data = clump, ylim=c(0,40) , xlab = 'N_at', ylab = '-log10(p-value) for SGCT', cex.axis=1.5, cex.lab=1.5, col="grey")
+	boundaries <- boxplot(-log10(p_val_SGCT) ~ Ntraits, data = clump, ylim=c(0,40) , xlab = 'N_at', ylab = '-log10(p-value) for SGCT', cex.axis=1.5, cex.lab=1.5, col="grey")
 	nbGroup <- nlevels(as.factor(bt$Ntraits))
 	text( 
 	       x=c(1:nbGroup), 
@@ -153,6 +51,39 @@ clumping_part_I <- function(pval_orig,pval_sh,chr,pos,thr_sh_hits,delta,SNPs,
 	dev.off()
 	
 	fwrite(x=bt,file=paste0(path_output,'clumping_orig_traits_partI.txt'),sep="\t",quote=F,col.names=T,row.names=F)
+}
+
+clumping_part_II <- function(pval_orig,pval_sh,chr,pos,delta,SNPs,
+	orig_traits_names,path_output){
+	
+	library(dplyr)
+	n_traits <- ncol(pval_orig)
+	
+	toClump <- cbind(p=pval_sh,chr=chr,pos=pos)
+	toClump <- mutate(as.data.frame(toClump),SNP=SNPs)
+	lt <- function_for_shlop_29_03_2020(toClump,p_value="p",pos="pos",snp="SNP", delta=delta,chr="chr", thr=5e-8)
+	out=cbind(lt,trait="SGCT")
+	
+	for (i in 1:n_traits){
+		toClump <- cbind(p=pval_orig[,i],chr=chr,pos=pos)
+		toClump <- mutate(as.data.frame(toClump),SNP=SNPs)
+		
+		lt <- function_for_shlop_29_03_2020(toClump,p_value="p",pos="pos",snp="SNP", delta=delta,chr="chr", thr=5e-8)
+		if (nrow(lt)>0 ) {
+			lt <- cbind(lt,trait=orig_traits_names[i])
+			out <- rbind(out,lt)
+		}
+	}
+		
+	bt <- function_for_shlop_29_03_2020(out,trait="trait",p_value="p",pos="pos",snp="SNP",delta=delta,chr="chr",thr=5e-8)
+	ind <- match(bt$SNP,SNPs)
+	pval_orig_croped <- pval_orig[ind,]
+	p_val_SGCT <- pval_sh[ind]
+	colnames(pval_orig_croped) <- orig_traits_names
+		
+	bt <- cbind(bt,p_val_SGCT,pval_orig_croped)
+		
+	fwrite(x=bt,file=paste0(path_output,'clumping_of_SGCT_and_orig_traits_partII_5e-8.txt'),sep="\t",quote=F,col.names=T,row.names=F)
 }
 
 
