@@ -14,12 +14,12 @@ alphas <- as.numeric(aa[,1])
 
 
 # Estimate pairwise genetic correlations for GIP1 and anthropometric traits
-cor_gi_alfa(a = alphas, i = 1, covm = gcov) # sh and BMI
+cor_gi_alfa(a = alphas, i = 1, covm = gcov) # gip1 and BMI
 
-cor_gi_alfa(a = alphas, i = 2, covm = gcov) # sh and Weight
+cor_gi_alfa(a = alphas, i = 2, covm = gcov) # gip1 and Weight
 
-cor_gi_alfa(a = alphas, i = 3, covm = gcov) # sh and Hip
+cor_gi_alfa(a = alphas, i = 3, covm = gcov) # gip1 and Hip
 
-cor_gi_alfa(a = alphas, i = 4, covm = gcov) # sh and Waist 
+cor_gi_alfa(a = alphas, i = 4, covm = gcov) # gip1 and Waist 
 
-cor_gi_alfa(a = alphas, i = 5, covm = gcov) # sh and Fat 
+cor_gi_alfa(a = alphas, i = 5, covm = gcov) # gip1 and Fat 
