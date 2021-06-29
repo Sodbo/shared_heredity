@@ -49,7 +49,7 @@ This script estimates genetic correlation between GIP1 and SGCT using core funct
 This script estimates genetic correlation between GIP1 and SGCT using LD Score regression implemented in GWAS-MAP database.
 
 ## 07_2_linear_combination_maxh.R
-This script calculates summary statistics for MaxH.
+This script calculates summary statistics for MaxH (doi: 10.1159/000381641).
 
 ## 07_2a_validity_check_maxh.R
 This script provides analytical estimation of heritability of MaxH and its genetic correlations with original traits using core functions.
@@ -106,10 +106,10 @@ This script obtains parameters for genomic control correction for traits set as 
 This script runs clumping for original traits and SGCT and finds shared hits.
 
 ## 12_1_joint_clumping_and_enrichment_gip1.R
-This script runs clumping for original traits and GIP1 and find shared hits.
+This script runs clumping for original traits and GIP1 and finds shared hits.
 
 ## 12_2_joint_clumping_and_enrichment_maxh.R
-This script runs clumping for original traits and MaxH and find shared hits.
+This script runs clumping for original traits and MaxH and finds shared hits.
 
 ## 13_count_significant_loci.R
 This script counts genome-wide significant loci for each original trait or SGCT.
@@ -118,4 +118,4 @@ This script counts genome-wide significant loci for each original trait or SGCT.
 This script counts loci genome-wide significant both for particular original trait and for SGCT. 
 
 ## DEPICT
-This folder contains config files and script for DEPICT analysis for all traits.
+This folder contains config files and script for DEPICT analysis for all psychometric traits.
