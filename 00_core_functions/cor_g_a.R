@@ -1,4 +1,4 @@
-# genetic correlation of linear combination with a coeeficient with i trait
+# genetic correlation of linear combination with a coefficient "a" with trait "i"
 cor_gi_alfa=function(a,i,covm=covm){
   cov_gi_sum_giai=sum(covm[i,]*a)
   var_gi=covm[i,i]
