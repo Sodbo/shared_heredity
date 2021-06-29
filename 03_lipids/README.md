@@ -1,5 +1,5 @@
 This folder contains all code for analysis of shared genetic background of lipid traits.
-Difference from anthropometric and psychometric traits analysis is in the absence of genomic control p-value correction due to the intercept values <1.
+Difference from anthropometric and psychometric traits analysis is in the absence of genomic control p-value correction due to the intercept values <1. Note: SH is an abbreviation of "shared heredity". Used in the code as the synonim of SGCT.
 
 ## 00a_start.sh
 This script sources 00b_pipeline_for_matrix_calculation.sh script and sets the command line variables for further calculations (only original traits are mentioned). 
