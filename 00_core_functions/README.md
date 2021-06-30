@@ -20,12 +20,13 @@ This function counts analytical heretability of linear combination.
 
 ## joint_function_for_enrichment_and_auc.R
 This script contains three clumping functions solving different issues:
-### function_for_shlop_29_03_2020
+#### function_for_shlop_29_03_2020
 The main function for clumping. Generates a table with clumping results for a set of traits. If several traits from the set contain SNPs, that are located close to each other on a chromosome, only one of this traits with the smallest p-value of association will be presented in the resulting table in the "trait" column. The whole list of such traits will be presented in the "traits" column and the number of these traits will be shown in the "Ntraits" column.
-### clumping_part_I
+#### clumping_part_I
 Part I: clumping of original traits based on given threshold and comparison with SGCT. Calculates number of shared hits by N_at level, and construct box-plot with shared hits distribution.
-### clumping_part_II
+#### clumping_part_II
 Part II: joint clumping of all traits under p-value < 5e-08 threshold.
+
 
 ## linear_combination_v3.R 
 This is a function calculating GWAS summary statistics for SGCT of the original traits based on their summary statistics. The function uses Z-scores of the original traits.
