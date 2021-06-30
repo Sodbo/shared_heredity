@@ -1,4 +1,4 @@
-This folder contains all code for analysis of shared genetic background of psychometric traits. Note: SH is an abbreviation of "shared heredity". Used in the code as the synonim of SGCT.
+This folder contains all code for analysis of shared genetic background of psychometric traits. Note: SH is an abbreviation of "shared heredity". Used in the code as the synonym of SGCT.
 
 ## 00a_start.sh
 This script sources 00b_pipeline_for_matrix_calculation.sh script and sets the command line variables for further calculations (only original traits are mentioned). 

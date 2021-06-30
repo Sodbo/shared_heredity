@@ -1,7 +1,7 @@
 This folder contains scripts for anthropometry analysis aimed to find shared genetic background of five anthropometric traits: Body mass index (gwas_id=4049), Weight (gwas_id=4050), Hip circumference (gwas_id=4058), Waist circumference (gwas_id=4179) and Whole body fat mass (gwas_id=4054). All traits uploaded to prod version of GWAS-MAP database.
 
 ## Note
-SH is an abbreviation of "shared heredity". Used in the code as the synonim of SGCT.
+SH is an abbreviation of "shared heredity". Used in the code as the synonym of SGCT.
 
 ## Usage
 The numeric prefix of scripts defines the order of using. Scripts without prefix number are used by other scripts and shouldn't be launched. Some of the scripts are used scripts from 00_core_function directory. Some scripts use GWAS-MAP dtabase functions and should be run from gwas-master (or other appropriate environment).

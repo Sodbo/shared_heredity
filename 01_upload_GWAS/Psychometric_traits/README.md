@@ -1,1 +1,1 @@
-This folder contains scripts for unification and upload of psychometric traits to GWAS-Map database.
+This folder contains scripts and auxiliary files for unification and upload of psychometric traits to GWAS-MAP database. Names of the nested folders reflects corresponding traits to be uploaded into the database. There are some extra traits which were not considered in the manuscript. Note: SH is an abbreviation of "shared heredity", used as the synonym of SGCT; GIP is a GIP1 of psychometric traits.
