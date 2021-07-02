@@ -2,6 +2,7 @@
 
 ## 00_core_functions
 This folder contains code for all core (basic) functions implementing steps of MaSH analysis framework. 
+
 **Two main fucntions for MaxSH and SLCT approaches are located here.**
 
 ## 01_upload_GWAS
