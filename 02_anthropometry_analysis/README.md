@@ -121,6 +121,9 @@ This script creates a heatmap plot of genetic correlations of original traits, S
 ## 17_0_joint_clumping_and_enrichment.R
 This script runs clumping for original traits and SGCT and finds shared hits.
 
+## 17a_0_joint_clumping_and_enrichment.R
+This script runs clumping for original traits, SGCT and UGCTs and finds shared hits.
+
 ## 18_0_joint_clumping_and_enrichment_gip1.R
 This script runs clumping for original traits and GIP1 and finds shared hits.
 

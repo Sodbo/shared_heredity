@@ -85,6 +85,9 @@ This script creates a heatmap plot of genetic correlations of original traits, S
 ## 10_0_joint_clumping_and_enrichment_sh.R
 This script runs clumping for original traits and SGCT and finds shared hits.
 
+## 10a_0_joint_clumping_and_enrichment_sh.R
+This script runs clumping for original traits, SGCT and UGCTs and finds shared hits.
+
 ## 10_1_joint_clumping_and_enrichment_gip1.R
 This script runs clumping for original traits and GIP1 and finds shared hits.
 
@@ -99,6 +102,9 @@ This script counts loci genome-wide significant both for particular original tra
 
 ## 12_start_gc_correction.sh
 This script sources p_correction_for_gc.sh script and sets command line variables (original traits and SGCT are mentioned).
+
+## 13_p_val_gc_correction.R
+This script makes correction for genomic control in SGCT data.
 
 ## p_correction_for_gc.sh
 This script obtains parameters for genomic control correction for traits set as command line variables. The script is written for GWAS-MAP database. 

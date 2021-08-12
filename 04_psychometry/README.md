@@ -73,7 +73,7 @@ This script sources p_correction_for_gc.sh script and sets command line variable
 This script sources p_correction_for_gc.sh script and sets command line variables (MaxH is mentioned).
 
 ## 09_0_p_val_gc_correction.R
-This script makes correction for genomic control for original traits and shared heredity.
+This script makes correction for genomic control for original traits, SGCT and UGCTs.
 
 ## 09_1_p_val_gc_correction_gip1.R
 This script makes correction for genomic control for GIP1.
@@ -104,6 +104,9 @@ This script obtains parameters for genomic control correction for traits set as 
 
 ## 12_0_joint_clumping_and_enrichment_sh.R
 This script runs clumping for original traits and SGCT and finds shared hits.
+
+## 12a_0_joint_clumping_and_enrichment_sh.R
+This script runs clumping for original traits, SGCT and UGCTs and finds shared hits.
 
 ## 12_1_joint_clumping_and_enrichment_gip1.R
 This script runs clumping for original traits and GIP1 and finds shared hits.
