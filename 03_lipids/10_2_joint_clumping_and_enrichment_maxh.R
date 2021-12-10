@@ -1,4 +1,4 @@
-# Aim of this script is to obtain all figures and tables for MaxH enrichment of shared hits
+# Aim of this script is to obtain all figures and tables for MaxH enrichment analysis
 
 library('data.table')
 library('dplyr')

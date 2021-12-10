@@ -1,4 +1,4 @@
-# Aim of this script is to make correction for Genomic control (GC) for shared heredity
+# Aim of this script is to make correction for Genomic control (GC) for SGIT
 
 library(data.table)
 

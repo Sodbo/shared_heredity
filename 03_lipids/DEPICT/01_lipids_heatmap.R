@@ -87,7 +87,7 @@ sgct=y[y[,"False discovery rate"]%in%thr,"Original gene set ID"]
 #HEATMAP
 
 Y2=list(LDL,triglycerides,cholesterol,sgct,LDL_ugct,triglycerides_ugct,cholesterol_ugct)
-names(Y2)=c("LDL","Triglycerides","Cholesterol","SGCT","LDL UGCT","Triglycerides UGCT","Cholesterol UGCT")
+names(Y2)=c("LDL","Triglycerides","Cholesterol","SGIT","LDL UGIT","Triglycerides UGIT","Cholesterol UGIT")
 
 x_b=overlap_matrix(Y2)
 x2_b=scale_matrix(x_b)

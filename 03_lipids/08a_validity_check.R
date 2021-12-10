@@ -1,5 +1,5 @@
-# Aim of this script is to estimate heritability of traits after
-# shared heredity subtraction and their genetic correlations with shared heredity
+# Aim of this script is to estimate heritability of UGITs
+# and their genetic correlations with SGIT
 
 library(data.table)
 
@@ -30,12 +30,12 @@ tmp <- lapply(n_traits, function(x) H2(position[x, ] - alphas*slope[x], covm = g
 #[[3]]
 #[1] 0.1698012 for cholesterol-sh
 
-# Estimate pairwise genetic correlations for traits-SH and SH
+# Estimate pairwise genetic correlations for UGITs and SGIT
 tmp2 <- lapply(n_traits, function(x) cor_gi_a1_a2(a1 = alphas, a2 = position[x, ] - alphas*slope[x], covm = gcov))
 # [[1]]
-# [1] 1.741672e-14 rg for sh and LDL-sh
+# [1] 1.741672e-14 rg for SGIT and LDL UGIT
 # [[2]]
-# [1] -2.819108e-15 rg for sh and triglycerides-sh
+# [1] -2.819108e-15 rg for SGIT and triglycerides UGIT
 # [[3]]
-# [1] -1.349233e-14 rg for sh and cholesterol-sh
+# [1] -1.349233e-14 rg for SGIT and cholesterol UGIT
 

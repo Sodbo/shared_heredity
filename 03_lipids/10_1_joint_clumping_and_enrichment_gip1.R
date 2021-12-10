@@ -1,4 +1,4 @@
-# Aim of this script is to obtain all figures and tables for GIP1 enrichment of shared hits
+# Aim of this script is to obtain all figures and tables for GIP1 enrichment analysis
 
 library('data.table')
 library('dplyr')

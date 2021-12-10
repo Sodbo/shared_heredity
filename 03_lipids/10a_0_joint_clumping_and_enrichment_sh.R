@@ -1,4 +1,4 @@
-# Aim of this script is to perform joint clumping for original traits, SGCT and UGCTs
+# Aim of this script is to perform joint clumping for original traits, SGIT and UGITs
 
 library('data.table')
 library('dplyr')
@@ -6,7 +6,7 @@ library('pROC')
 
 path_for_output_results <- "/mnt/polyomica/projects/shared_heredity/data/02_Lipids/three_traits/joint_clumping_full_set/"
 
-# Original traits and UGCTs
+# Original traits and UGITs
 input_file_name <- c('/mnt/polyomica/projects/shared_heredity/data/02_Lipids/original_traits/02_unification_out/ID_1287001/ID_1287001_done.csv',
 		     '/mnt/polyomica/projects/shared_heredity/data/02_Lipids/original_traits/02_unification_out/ID_1287003/ID_1287003_done.csv',
 		     '/mnt/polyomica/projects/shared_heredity/data/02_Lipids/original_traits/02_unification_out/ID_1287004/ID_1287004_done.csv',
@@ -16,11 +16,11 @@ input_file_name <- c('/mnt/polyomica/projects/shared_heredity/data/02_Lipids/ori
 gwas <- lapply(input_file_name, fread)
 gwas <- lapply(gwas, function(x) x[(x$p != 0) & (x$eaf >= 0.01) & (x$eaf <= 0.99), ])
 
-# GWAS for SGCT
+# GWAS for SGIT
 gwas_sh <- fread("/mnt/polyomica/projects/shared_heredity/data/02_Lipids/three_traits/SH/03_gc_corrected/sh_gc_corrected.csv", data.table = F)
 gwas_sh <- gwas_sh[(gwas_sh$p != 0) & (gwas_sh$eaf >= 0.01) & (gwas_sh$eaf <= 0.99), ]
 
-# Reordering of all original GWASs and SH
+# Reordering of all original GWASs and SGIT
 rs_id <- lapply(gwas, function(x) x$rs_id)
 snps <- Reduce(intersect, rs_id)
 snps <- intersect(snps, gwas_sh$rs_id)
@@ -37,7 +37,7 @@ pval_sh <- gwas_sh$p_gc
 chr <- gwas_sh$chr
 pos <- gwas_sh$bp
 
-gwas_names <- c('LDL', 'Triglycerides', 'Cholesterol', 'LDL UGCT', 'Triglycerides UGCT', 'Cholesterol UGCT')
+gwas_names <- c('LDL', 'Triglycerides', 'Cholesterol', 'LDL UGIT', 'Triglycerides UGIT', 'Cholesterol UGIT')
 
 source("../00_core_functions/joint_function_for_enrichment_and_auc.R")
 	

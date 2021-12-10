@@ -1,5 +1,5 @@
 # Aim of this script is to estimate heritability of
-# shared heredity and its genetic correlations with other traits
+# SGIT and its genetic correlations with other traits
 
 library(data.table)
 
@@ -16,12 +16,12 @@ alphas <- as.numeric(aa[2, ])
 H2(alphas, covm = gcov, phem = phem)
 ## 0.2602587 
 
-# Estimate pairwise genetic correlations for SH and Lipids traits
-cor_gi_alfa(a = alphas, i = 1, covm = gcov) # sh and LDL
+# Estimate pairwise genetic correlations for SGIT and Lipids traits
+cor_gi_alfa(a = alphas, i = 1, covm = gcov) # SGIT and LDL
 ## 0.9535373
-cor_gi_alfa(a = alphas, i = 2, covm = gcov) # sh and triglycerides
+cor_gi_alfa(a = alphas, i = 2, covm = gcov) # SGIT and triglycerides
 ## 0.6518833
-cor_gi_alfa(a = alphas, i = 3, covm = gcov) # sh and cholesterol
+cor_gi_alfa(a = alphas, i = 3, covm = gcov) # SGIT and cholesterol
 ## 0.9535626
 
 

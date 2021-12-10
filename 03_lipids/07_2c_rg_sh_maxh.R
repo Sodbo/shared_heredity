@@ -1,5 +1,5 @@
 # Aim of this script is to estimate genetic correlation between
-# shared heredity and MaxH
+# SGIT and MaxH
 
 library(data.table)
 

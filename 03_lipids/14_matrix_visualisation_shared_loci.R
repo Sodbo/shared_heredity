@@ -3,7 +3,7 @@ library(corrplot)
 
 clump_res<-fread('../../data/02_Lipids/three_traits/joint_clumping_full_set/clumping_of_SGCT_and_orig_traits_partII_5e-8.txt')
 
-trait_names<-c('LDL', 'Triglycerides', 'Cholesterol', 'SGCT', 'LDL UGCT', 'Triglycerides UGCT', 'Cholesterol UGCT')
+trait_names<-c('LDL', 'Triglycerides', 'Cholesterol', 'SGIT', 'LDL UGIT', 'Triglycerides UGIT', 'Cholesterol UGIT')
 
 shared_loci<-matrix(0, nrow=length(trait_names), ncol=length(trait_names))
 for(locus in clump_res$traits){
