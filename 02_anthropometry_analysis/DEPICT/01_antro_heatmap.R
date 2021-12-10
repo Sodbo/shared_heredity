@@ -96,7 +96,7 @@ weight_ugct=y[y[,"False discovery rate"]%in%thr,"Original gene set ID"]
 #Y=list(bmi,hip,waist,fat,weight,sgct)
 
 Y2=list(bmi,weight,hip,waist,fat,sgct,bmi_ugct,weight_ugct,hip_ugct,waist_ugct,fat_ugct)
-names(Y2)=c("BMI","Weight","Hip","Waist","Fat","SGCT","BMI UGCT","Weight UGCT","Hip UGCT","Waist UGCT","Fat UGCT")
+names(Y2)=c("BMI","Weight","Hip","Waist","Fat","SGIT","BMI UGIT","Weight UGIT","Hip UGIT","Waist UGIT","Fat UGIT")
 
 #x=overlap_matrix(Y)
 
