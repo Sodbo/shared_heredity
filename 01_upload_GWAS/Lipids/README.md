@@ -1,1 +1,1 @@
-This folder contains scripts and auxiliary files for unification and upload of lipid traits to GWAS-MAP database.
+This folder contains scripts and auxiliary files for unification and upload of lipid traits to GWAS-MAP database. Note: SH is an abbreviation of "shared heredity", used as the synonym of SGIT; GIP is a GIP1 of lipid traits.
