@@ -1,5 +1,5 @@
 # Aim of this script is to estimate correlations between
-# shared heredity and the original traits
+# SGIT and the original traits
 
 library(data.table)
 
@@ -13,13 +13,13 @@ gcov <- read.table('../../data/01_anthropometry_results/five_traits/gene_cov_mat
 alphas <- as.numeric(aa[2, ])
 
 
-# Estimate pairwise genetic correlations for SH and anthropometric traits
-cor_gi_alfa(a = alphas, i = 1, covm = gcov) # sh and BMI
+# Estimate pairwise genetic correlations for SGIT and anthropometric traits
+cor_gi_alfa(a = alphas, i = 1, covm = gcov) # SGIT and BMI
 
-cor_gi_alfa(a = alphas, i = 2, covm = gcov) # sh and Weight
+cor_gi_alfa(a = alphas, i = 2, covm = gcov) # SGIT and Weight
 
-cor_gi_alfa(a = alphas, i = 3, covm = gcov) # sh and Hip
+cor_gi_alfa(a = alphas, i = 3, covm = gcov) # SGIT and Hip
 
-cor_gi_alfa(a = alphas, i = 4, covm = gcov) # sh and Waist 
+cor_gi_alfa(a = alphas, i = 4, covm = gcov) # SGIT and Waist 
 
-cor_gi_alfa(a = alphas, i = 4, covm = gcov) # sh and Fat 
+cor_gi_alfa(a = alphas, i = 4, covm = gcov) # SGIT and Fat 

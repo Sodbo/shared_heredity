@@ -3,7 +3,7 @@ library(corrplot)
 
 clump_res<-fread('../../data/01_anthropometry_results/five_traits/joint_clumping_and_enrichment_full_set/clumping_of_SGCT_and_orig_traits_partII_5e-8.txt')
 
-trait_names<-c('BMI', 'Weight', 'Hip', 'Waist', 'Fat', 'SGCT', 'BMI UGCT', 'Weight UGCT', 'Hip UGCT', 'Waist UGCT', 'Fat UGCT')
+trait_names<-c('BMI', 'Weight', 'Hip', 'Waist', 'Fat', 'SGIT', 'BMI UGIT', 'Weight UGIT', 'Hip UGIT', 'Waist UGIT', 'Fat UGIT')
 
 shared_loci<-matrix(0, nrow=length(trait_names), ncol=length(trait_names))
 for(locus in clump_res$traits){

@@ -1,4 +1,4 @@
-# Aim of this script is to obtain all figures and tables for SH enrichment
+# Aim of this script is to obtain all figures and tables for SGIT enrichment
 
 if (!require('data.table')) install.packages('data.table'); library('data.table')
 if (!require('dplyr')) install.packages('dplyr'); library('dplyr')
@@ -11,7 +11,7 @@ gwas_files<-list.files('../../data/01_anthropometry_results/five_traits/GWAS/', 
 gwas<-lapply(gwas_files, fread)
 names(gwas)<-regmatches(gwas_files, regexpr('(?<=ID_)(\\d+)(?=_gc_corrected\\.csv)', gwas_files, perl=T))
 
-#GWAS for shared heredity
+#GWAS for SGIT
 gwas_sh=gwas[[length(gwas)]]
 
 #original traits
@@ -29,7 +29,7 @@ gwas<-lapply(gwas, function(x){
 					} )
 
 
-#reordering of all original GWASs and SH
+#reordering of all original GWASs and SGIT
 rs_id<-lapply(gwas, function(x) x$rs_id)
 snps<-Reduce(intersect,rs_id)
 snps<-intersect(snps,gwas_sh$SNP)
