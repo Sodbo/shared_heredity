@@ -32,8 +32,8 @@ clumping_part_I <- function(pval_orig,pval_sh,chr,pos,thr_sh_hits,delta,SNPs,
 	bt <- function_for_shlop_29_03_2020(out,trait="trait",p_value="p",pos="pos",snp="SNP",delta=delta,chr="chr",thr=thr_sh_hits)
 	#bt$Ntraits is the number of original traits significantly associated with loci (from 1 to n_traits);
 	cat("Total number of hits:",nrow(bt),"\n")
-	cat("Number of locus significantly associated with certain number of the original traits:",table(bt$Ntraits),"\n")
-	cat("Number of locus significantly associated with the biggest number of the original traits:",table(bt$Ntraits)[n_traits],"\n")
+	cat("Number of loci significantly associated with certain number of the original traits:",table(bt$Ntraits),"\n")
+	cat("Number of loci significantly associated with the biggest number of the original traits:",table(bt$Ntraits)[n_traits],"\n")
 	
 	ind <- match(bt$SNP,SNPs)
 	p_val_SGIT <- pval_sh[ind]
