@@ -1,4 +1,4 @@
-This folder contains scripts for simulation analysis using MaSH framework.
+This folder contains scripts for simulation analysis using SHAHER framework.
 
 # pusk.sh
 This script runs zapusk.R script using srun.
