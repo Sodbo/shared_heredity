@@ -1,5 +1,5 @@
-# Aim of this script is to estimate heritability of traits after
-# shared heredity subtraction and their genetic correlations with shared heredity
+# Aim of this script is to estimate heritability of UGITs
+# and their genetic correlations with SGIT
 
 library(data.table)
 
@@ -26,23 +26,23 @@ position <- diag(length(alphas))
 # Estimate heritability
 tmp <- lapply(n_traits, function(x) H2(position[x, ] - alphas*slope[x], covm = gcov, phem = phem))
 #[[1]]
-#[1] 0.1078178 for bip-sh
+#[1] 0.1078178 for bip UGIT
 #[[2]]
-#[1] 0.05786701 for mdd-sh
+#[1] 0.05786701 for mdd UGIT
 #[[3]]
-#[1] 0.0987432 for scz-sh
+#[1] 0.0987432 for scz UGIT
 #[[4]]
-#[1] 0.05639504 for happiness-sh
+#[1] 0.05639504 for happiness UGIT
 
 
-# Estimate pairwise genetic correlations for traits-SH and SH
+# Estimate pairwise genetic correlations for UGITs and SGIT
 tmp2 <- lapply(n_traits, function(x) cor_gi_a1_a2(a1 = alphas, a2 = position[x, ] - alphas*slope[x], covm = gcov))
 # [[1]]
-# [1] 5.312335e-15 rg for sh and bip-sh
+# [1] 5.312335e-15 rg for SGIT and bip UGIT
 # [[2]]
-# [1] -8.813521e-16 rg for sh and mdd-sh
+# [1] -8.813521e-16 rg for SGIT and mdd UGIT
 # [[3]]
-# [1] -4.858323e-15 rg for sh and scz-sh
+# [1] -4.858323e-15 rg for SGIT and scz UGIT
 # [[4]]
-# [1] 2.81601e-16 rg for sh and happiness-sh
+# [1] 2.81601e-16 rg for SGIT and happiness UGIT
 

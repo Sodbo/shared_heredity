@@ -1,5 +1,5 @@
 # Aim of this script is to run automatic pipeline calculating correlation matrices for 
-# original traits, shared heredity and traits minus shared heredity
+# original traits, SGIT and UGITs
 
 #!/bin/bash
 # Path to output directory should be given as the first command line argument

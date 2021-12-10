@@ -1,4 +1,4 @@
-# Aim of this script is to obtain all figures and tables for SH enrichment of shared hits
+# Aim of this script is to obtain all figures and tables for SGIT enrichment analysis
 
 library('data.table')
 library('dplyr')
@@ -18,7 +18,7 @@ gwas <- lapply(input_file_name, fread)
 #GWAS for shared heredity corrected for GC
 gwas_sh <- fread("../../../data/03_neurodegenerative_diseases/several_traits/four_traits/linear_combination/03_gc_corrected/sh_gc_corrected.csv", data.table = F)
 
-#reordering of all original GWASs and SH
+#reordering of all original GWASs and SGIT
 rs_id <- lapply(gwas, function(x) x$rs_id)
 snps <- Reduce(intersect, rs_id)
 snps <- intersect(snps, gwas_sh$rs_id)

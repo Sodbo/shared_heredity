@@ -1,5 +1,5 @@
 # Aim of this script is to estimate heritability of
-# shared heredity and its genetic correlations with other traits
+# SGIT and its genetic correlations with other traits
 
 library(data.table)
 
@@ -18,13 +18,13 @@ alphas <- as.numeric(aa[2, ])
 H2(alphas, covm = gcov, phem = phem)
 ## 0.4167322 (4 traits sh)
 
-# Estimate pairwise genetic correlations for SH and PGC traits
-cor_gi_alfa(a = alphas, i = 1, covm = gcov) # sh and bip
+# Estimate pairwise genetic correlations for SGIT and PGC traits
+cor_gi_alfa(a = alphas, i = 1, covm = gcov) # SGIT and bip
 ## 0.9414797 (4 traits sh)
-cor_gi_alfa(a = alphas, i = 2, covm = gcov) # sh and mdd
+cor_gi_alfa(a = alphas, i = 2, covm = gcov) # SGIT and mdd
 ## 0.495251 (4 traits sh)
-cor_gi_alfa(a = alphas, i = 3, covm = gcov) # sh and scz
+cor_gi_alfa(a = alphas, i = 3, covm = gcov) # SGIT and scz
 ## 0.8956868 (4 traits sh)
-cor_gi_alfa(a = alphas, i = 4, covm = gcov) # sh and hap
+cor_gi_alfa(a = alphas, i = 4, covm = gcov) # SGIT and hap
 ## 0.3573614
 

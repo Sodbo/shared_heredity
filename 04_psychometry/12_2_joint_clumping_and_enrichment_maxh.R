@@ -1,4 +1,4 @@
-# Aim of this script is to obtain all figures and tables for MaxH enrichment of shared hits
+# Aim of this script is to obtain all figures and tables for MaxH enrichment analysis
 
 library('data.table')
 library('dplyr')
@@ -18,7 +18,7 @@ gwas <- lapply(input_file_name, fread)
 #GWAS for MaxH corrected for GC
 gwas_maxh <- fread("../../../data/03_neurodegenerative_diseases/several_traits/four_traits/MaxH/03_gc_corrected/maxh_gc_corrected.csv", data.table = F)
 
-#reordering of all original GWASs and MaxH
+#reordering of all original GWASes and MaxH
 rs_id <- lapply(gwas, function(x) x$rs_id)
 snps <- Reduce(intersect, rs_id)
 snps <- intersect(snps, gwas_maxh$rs_id)

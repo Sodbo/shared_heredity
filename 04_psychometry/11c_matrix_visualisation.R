@@ -1,5 +1,5 @@
 # Aim of this script is to visualize matrix of genetic correlations
-# for original traits, sh and traits minus sh
+# for original traits, SGIT and UGITs
 
 library(corrplot)
 library(data.table)
@@ -45,7 +45,7 @@ ind_h2 <- match(rownames(gcor), h2_table$gwas_id)
 h2 <- h2_table$h2[ind_h2] # obtain heritabilities
 
 # Rename 
-traits <- c('BIP', 'MDD', 'SCZ', 'Happiness', 'SGCT', 'BIP UGCT', 'MDD UGCT', 'SCZ UGCT', 'Happiness UGCT')
+traits <- c('BIP', 'MDD', 'SCZ', 'Happiness', 'SGIT', 'BIP UGIT', 'MDD UGIT', 'SCZ UGIT', 'Happiness UGIT')
 colnames(gcor) <- rownames(gcor) <- traits
 colnames(p_matrix) <- rownames(p_matrix) <- traits
 

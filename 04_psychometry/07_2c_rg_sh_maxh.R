@@ -1,5 +1,5 @@
 # Aim of this script is to estimate genetic correlation between
-# shared heredity and MaxH
+# SGIT and MaxH
 
 library(data.table)
 
@@ -13,7 +13,7 @@ gcov <- read.table('../../../data/03_neurodegenerative_diseases/several_traits/f
 maxh_coef <- as.numeric(aa[1, ])
 alphas <- as.numeric(aa[2, ])
 
-# Estimate pairwise genetic correlation for MaxH and SH
+# Estimate pairwise genetic correlation for MaxH and SGIT
 cor_gi_a1_a2(a1 = maxh_coef, a2 = alphas, covm = gcov)
 ## 0.9980714
 
