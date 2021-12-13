@@ -119,7 +119,7 @@ This script provides analytical estimation of heritability of traits adjusted fo
 This script creates a heatmap plot of genetic correlations of original traits, SGCT and UGCTs.
 
 ## 17_0_joint_clumping_and_enrichment.R
-This script runs clumping for original traits and SGCT and finds shared hits.
+This script runs clumping for original traits and SGCT and finds shared hits and makes Figure 2b including number of shared loci of different sharedness level.
 
 ## 17a_0_joint_clumping_and_enrichment.R
 This script runs clumping for original traits, SGCT and UGCTs and finds shared hits.
