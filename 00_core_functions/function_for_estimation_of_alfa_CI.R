@@ -48,7 +48,7 @@ out=na.omit(out)
   CIs=rep(0,nrow(gcovm))
   for (j in 1:nrow(gcovm)){
     qq=quantile(x=out[,j],probs = c(0.025,0.975))
-    CIs[j]=abs(qq[1]-qq[2])/2
+    CIs[j]=paste0('(',round(qq[1],3),'; ',round(qq[2],3),')')
     names(CIs)<-colnames(gcovm)
   } 
   
@@ -108,7 +108,7 @@ out=na.omit(out)
   CIs=rep(0,nrow(gcovm))
   for (j in 1:nrow(gcovm)){
      qq=quantile(x=out[,j],probs = c(0.025,0.975))
-     CIs[j]=abs(qq[1]-qq[2])/2
+     CIs[j]=paste0('(',round(qq[1],3),'; ',round(qq[2],3),')')
      names(CIs)<-colnames(gcovm)
     }
 
@@ -166,7 +166,7 @@ out=na.omit(out)
   CIs=rep(0,nrow(gcovm))
   for (j in 1:nrow(gcovm)){
      qq=quantile(x=out[,j],probs = c(0.025,0.975))
-     CIs[j]=abs(qq[1]-qq[2])/2
+     CIs[j]=paste0('(',round(qq[1],3),'; ',round(qq[2],3),')')
      names(CIs)<-colnames(gcovm)
     }
 
