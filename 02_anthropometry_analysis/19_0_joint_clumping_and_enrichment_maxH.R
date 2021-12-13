@@ -1,4 +1,4 @@
-# Aim of this script is to obtain all figures and tables for SH enrichment
+# Aim of this script is to obtain all figures and tables for MaxH enrichment
 
 if (!require('data.table')) install.packages('data.table'); library('data.table')
 if (!require('dplyr')) install.packages('dplyr'); library('dplyr')

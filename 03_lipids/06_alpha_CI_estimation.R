@@ -16,7 +16,7 @@ se <- as.matrix(read.table(paste0(path,'gene_cov_se_matrix.txt'), check.names = 
 source("../00_core_functions/function_for_estimation_of_alfa_CI.R")
 source("../00_core_functions/shared_heredity.R")
 
-# for alpha coeffitients of SH
+# for alpha coeffitients of SGIT
 res <- function_for_estimation_of_alfa_CI(gcovm = A0, phem = CorPhenTr, se = se, N_permut = 100)
 names(res) <- colnames(A0)
 write.table(res, paste0(path,'CIs_for_',length(A0[1,]),'_traits.txt'), quote = F)

@@ -1,5 +1,5 @@
-#This script substract shared genetic component from the original traits
-# to check for small correlation between traits without shared genetic component
+# This script adjusts original traits fo SGIT
+# and checks for small correlation between UGITs
 
 library(data.table)
 library(dplyr)

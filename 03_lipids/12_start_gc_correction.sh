@@ -1,4 +1,4 @@
-# Aim of this script is to estimate parameters of Genomic Control for original traits and shared heredity
+# Aim of this script is to estimate parameters of Genomic Control for original traits and SGIT
 
 # This code uses core function written for GWAS-Map database
 # there are two variables set here: output directory and GWAS IDs

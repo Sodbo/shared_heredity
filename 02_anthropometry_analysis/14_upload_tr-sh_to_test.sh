@@ -1,6 +1,6 @@
 #this script upload the gwases "traitX-sh" into test db to
 #apply ldscore for calculation of genetic correlations between
-#gwases without shared heredity component
+# UGIT gwases 
 path='../../data/01_anthropometry_results/five_traits/linear_combination/'
 descr_folder=$path'01_descriptors'
 uni_folder=$path'02_unification_out'

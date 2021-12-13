@@ -1,4 +1,4 @@
-# Aim of this script is to perform joint clumping for original traits, SGCT and UGCTs
+# Aim of this script is to perform joint clumping for original traits, SGIT and UGITs
 
 library('data.table')
 library('dplyr')
@@ -8,7 +8,7 @@ setwd("/mnt/polyomica/projects/shared_heredity/elgaeva_src/shared_heredity/04_ps
 path_for_output_results <- "../../../data/03_neurodegenerative_diseases/several_traits/four_traits/joint_clumping_full_set/"
 dir.create(path_for_output_results)
 
-#GC corrected GWASes on original traits (except MDD - it is not corrected) and UGCTs
+#GC corrected GWASes on original traits (except MDD - it is not corrected) and UGITs
 input_file_name <- c('../../../data/03_neurodegenerative_diseases/BIP/03_gc_corrected/bip_gc_corrected.csv',
 		     '../../../data/03_neurodegenerative_diseases/MDD/02_unification_results/mdd_output_done.csv.gz',
 		     '../../../data/03_neurodegenerative_diseases/SCZ/03_gc_corrected/scz_gc_corrected.csv',
@@ -22,7 +22,7 @@ gwas <- lapply(input_file_name, fread)
 #GWAS for shared heredity corrected for GC
 gwas_sh <- fread("../../../data/03_neurodegenerative_diseases/several_traits/four_traits/linear_combination/03_gc_corrected/sh_gc_corrected.csv", data.table = F)
 
-#reordering of all original GWASs and SH
+#reordering of all original GWASs and SGIT
 rs_id <- lapply(gwas, function(x) x$rs_id)
 snps <- Reduce(intersect, rs_id)
 snps <- intersect(snps, gwas_sh$rs_id)
@@ -42,7 +42,7 @@ pval_sh <- gwas_sh$p_gc
 chr <- gwas_sh$chr
 pos <- gwas_sh$bp
 
-trait_names<-c('BIP', 'MDD', 'SCZ', 'Happiness', 'BIP UGCT', 'MDD UGCT', 'SCZ UGCT', 'Happiness UGCT')
+trait_names<-c('BIP', 'MDD', 'SCZ', 'Happiness', 'BIP UGIT', 'MDD UGIT', 'SCZ UGIT', 'Happiness UGIT')
 
 source("../00_core_functions/joint_function_for_enrichment_and_auc.R")
 	

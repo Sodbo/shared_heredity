@@ -3,7 +3,7 @@ library(corrplot)
 
 clump_res<-fread('../../data/03_neurodegenerative_diseases/several_traits/four_traits/joint_clumping_full_set/clumping_of_SGCT_and_orig_traits_partII_5e-8.txt')
 
-trait_names<-c('BIP', 'MDD', 'SCZ', 'Happiness', 'SGCT', 'BIP UGCT', 'MDD UGCT', 'SCZ UGCT', 'Happiness UGCT')
+trait_names<-c('BIP', 'MDD', 'SCZ', 'Happiness', 'SGIT', 'BIP UGIT', 'MDD UGIT', 'SCZ UGIT', 'Happiness UGIT')
 
 shared_loci<-matrix(0, nrow=length(trait_names), ncol=length(trait_names))
 for(locus in clump_res$traits){

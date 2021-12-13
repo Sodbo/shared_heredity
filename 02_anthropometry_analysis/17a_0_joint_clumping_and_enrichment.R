@@ -1,4 +1,4 @@
-# Aim of this script is to perform joint clumping on original traits, SGCT and UGCTs
+# Aim of this script is to perform joint clumping on original traits, SGIT and UGITs
 
 if (!require('data.table')) install.packages('data.table'); library('data.table')
 if (!require('dplyr')) install.packages('dplyr'); library('dplyr')
@@ -7,19 +7,19 @@ if (!require('pROC')) install.packages('pROC'); library('pROC')
 setwd('/mnt/polyomica/projects/shared_heredity/')
 path_for_output_results="./data/01_anthropometry_results/five_traits/joint_clumping_and_enrichment_full_set/"
 dir.create(path_for_output_results, showWarnings = FALSE)
-# GC corrected GWASes on original traits and SGCT
+# GC corrected GWASes on original traits and SGIT
 gwas_files<-list.files('./data/01_anthropometry_results/five_traits/GWAS/', full.names=T, pattern='ID_\\d+_gc_corrected.csv')
-# add non-corrected GWASes on UGCTs
-ugct_path<-'/mnt/polyomica/projects/shared_heredity/data/01_anthropometry_results/five_traits/linear_combination/02_unification_out/'
-ugct_files<-sapply(c(191:194,199), function(x) paste0(ugct_path, 'Tr',x,'-SH/Tr',x,'-SH_done.csv'))
-gwas_files<-c(gwas_files,ugct_files)
+# add non-corrected GWASes on UGITs
+ugit_path<-'/mnt/polyomica/projects/shared_heredity/data/01_anthropometry_results/five_traits/linear_combination/02_unification_out/'
+ugit_files<-sapply(c(191:194,199), function(x) paste0(ugit_path, 'Tr',x,'-SH/Tr',x,'-SH_done.csv'))
+gwas_files<-c(gwas_files,ugit_files)
 gwas<-lapply(gwas_files, fread)
-names(gwas)<-c('BMI', 'Weight', 'Hip', 'Waist', 'Fat', 'SGCT', 'BMI UGCT', 'Weight UGCT', 'Hip UGCT', 'Waist UGCT', 'Fat UGCT')
+names(gwas)<-c('BMI', 'Weight', 'Hip', 'Waist', 'Fat', 'SGCT', 'BMI UGIT', 'Weight UGIT', 'Hip UGIT', 'Waist UGIT', 'Fat UGIT')
 
-#GWAS for SGCT
-gwas_sh=gwas$SGCT
+#GWAS for SGIT
+gwas_sh=gwas$SGIT
 
-#original traits and UGCTs
+#original traits and UGITs
 gwas=gwas[-6]
 
 
@@ -34,7 +34,7 @@ gwas<-lapply(gwas, function(x){
 					} )
 
 
-#reordering of all original GWASs and SH
+#reordering of all original GWASs and SGIT
 rs_id<-lapply(gwas, function(x) x$rs_id)
 snps<-Reduce(intersect,rs_id)
 snps<-intersect(snps,gwas_sh$SNP)
@@ -47,7 +47,7 @@ gwas_sh=gwas_sh[ind,]
 
 # Forming the input tables 
 pval_orig <- sapply(gwas_reordered[1:5], function(x) x$p_gc)
-pval_ugct <- sapply(gwas_reordered[6:10], function(x) x$p)
+pval_ugit <- sapply(gwas_reordered[6:10], function(x) x$p)
 pval_orig <- cbind(pval_orig, pval_ugct)
 pval_sh=gwas_sh$p_gc
 chr=gwas_sh$chr

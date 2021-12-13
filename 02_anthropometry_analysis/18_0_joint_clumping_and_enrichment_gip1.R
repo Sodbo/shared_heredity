@@ -1,4 +1,4 @@
-# Aim of this script is to obtain all figures and tables for SH enrichment
+# Aim of this script is to obtain all figures and tables for GIP1 enrichment
 
 if (!require('data.table')) install.packages('data.table'); library('data.table')
 if (!require('dplyr')) install.packages('dplyr'); library('dplyr')
@@ -32,7 +32,7 @@ gwas<-lapply(gwas, function(x){
 					} )
 
 
-#reordering of all original GWASs and SH
+#reordering of all original GWASs and GIP1
 rs_id<-lapply(gwas, function(x) x$rs_id)
 snps<-Reduce(intersect,rs_id)
 snps<-intersect(snps,gwas_gip1$SNP)

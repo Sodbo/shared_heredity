@@ -1,9 +1,9 @@
 # Aim of this script is to visualize matrix of genetic correlations
-# for original traits, sh and traits minus sh
+# for original traits, SGIT and UGITs
 
 library(corrplot)
 library(data.table)
-traits <- c('LDL', 'Triglycerides', 'Cholesterol', 'SGCT', 'LDL UGCT', 'Triglycerides UGCT', 'Cholesterol UGCT')
+traits <- c('LDL', 'Triglycerides', 'Cholesterol', 'SGIT', 'LDL UGIT', 'Triglycerides UGIT', 'Cholesterol UGIT')
 path<-'../../data/02_Lipids/traits_minus_SH/three_traits/'
 
 # Specify p-value threshold

@@ -1,4 +1,4 @@
-# Aim of this script is to obtain GWAS summary statistics for shared heredity
+# Aim of this script is to obtain GWAS summary statistics for GIP1
 
 library('data.table')
 library(dplyr)

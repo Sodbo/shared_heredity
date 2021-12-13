@@ -2,7 +2,7 @@
 joint_function <- function(pval_orig,pval_sh,chr,pos,thr_sh_hits=1e-5,thr_sh_sig=5e-8,delta=5e5,SNPs,
 	orig_traits_names,path_output){
 	
-	cat("Part I: clumping of original traits based on given threshold and comparison with SGCT","\n")
+	cat("Part I: clumping of original traits based on given threshold and comparison with SGIT","\n")
 	l1 <- clumping_part_I(pval_orig=pval_orig,pval_sh=pval_sh,chr=chr,pos=pos,thr_sh_hits=thr_sh_hits,
 	orig_traits_names=orig_traits_names,path_output=path_output,delta=delta,SNPs=SNPs)
 
@@ -30,16 +30,16 @@ clumping_part_I <- function(pval_orig,pval_sh,chr,pos,thr_sh_hits,delta,SNPs,
 	}
 	
 	bt <- function_for_shlop_29_03_2020(out,trait="trait",p_value="p",pos="pos",snp="SNP",delta=delta,chr="chr",thr=thr_sh_hits)
-	#bt$Ntraits is class of shared hit (from 1 to n_traits);
+	#bt$Ntraits is the number of original traits significantly associated with loci (from 1 to n_traits);
 	cat("Total number of hits:",nrow(bt),"\n")
-	cat("Number of shared hits by N_at:",table(bt$Ntraits),"\n")
-	cat("Number of shared hits with the biggest N_at value:",table(bt$Ntraits)[n_traits],"\n")
+	cat("Number of loci significantly associated with certain number of the original traits:",table(bt$Ntraits),"\n")
+	cat("Number of loci significantly associated with the biggest number of the original traits:",table(bt$Ntraits)[n_traits],"\n")
 	
 	ind <- match(bt$SNP,SNPs)
-	p_val_SGCT <- pval_sh[ind]
-	clump <- cbind(p_val_SGCT,Ntraits=bt$Ntraits)
-	pdf(paste0(path_output,'Significance_of_shared_hits_on_SGCT.pdf'),width=7,height=7)
-	boundaries <- boxplot(-log10(p_val_SGCT) ~ Ntraits, data = clump, ylim=c(0,40) , xlab = 'N_at', ylab = '-log10(p-value) for SGCT', cex.axis=1.5, cex.lab=1.5, col="grey")
+	p_val_SGIT <- pval_sh[ind]
+	clump <- cbind(p_val_SGIT,Ntraits=bt$Ntraits)
+	pdf(paste0(path_output,'Significance_of_locus_on_SGIT.pdf'),width=7,height=7)
+	boundaries <- boxplot(-log10(p_val_SGIT) ~ Ntraits, data = clump, ylim=c(0,40) , xlab = 'Number of the original traits significantly associated with the locus', ylab = '-log10(p-value) for SGIT', cex.axis=1.5, cex.lab=1.5, col="grey")
 	nbGroup <- nlevels(as.factor(bt$Ntraits))
 	text( 
 	       x=c(1:nbGroup), 
@@ -78,12 +78,12 @@ clumping_part_II <- function(pval_orig,pval_sh,chr,pos,delta,SNPs,
 	bt <- function_for_shlop_29_03_2020(out,trait="trait",p_value="p",pos="pos",snp="SNP",delta=delta,chr="chr",thr=5e-8)
 	ind <- match(bt$SNP,SNPs)
 	pval_orig_croped <- pval_orig[ind,]
-	p_val_SGCT <- pval_sh[ind]
+	p_val_SGIT <- pval_sh[ind]
 	colnames(pval_orig_croped) <- orig_traits_names
 		
-	bt <- cbind(bt,p_val_SGCT,pval_orig_croped)
+	bt <- cbind(bt,p_val_SGIT,pval_orig_croped)
 		
-	fwrite(x=bt,file=paste0(path_output,'clumping_of_SGCT_and_orig_traits_partII_5e-8.txt'),sep="\t",quote=F,col.names=T,row.names=F)
+	fwrite(x=bt,file=paste0(path_output,'clumping_of_SGIT_and_orig_traits_partII_5e-8.txt'),sep="\t",quote=F,col.names=T,row.names=F)
 }
 
 

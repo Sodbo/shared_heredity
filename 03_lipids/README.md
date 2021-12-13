@@ -1,5 +1,5 @@
 This folder contains all code for analysis of shared genetic background of lipid traits.
-Difference from anthropometric and psychometric traits analysis is in the absence of genomic control p-value correction due to the intercept values <1. Note: SH is an abbreviation of "shared heredity". Used in the code as the synonym of SGCT.
+Difference from anthropometric and psychometric traits analysis is in the absence of genomic control p-value correction due to the intercept values <1. Note: SH is an abbreviation of "shared heredity". Used in the code as the synonym of SGIT.
 
 ## 00a_start.sh
 This script sources 00b_pipeline_for_matrix_calculation.sh script and sets the command line variables for further calculations (only original traits are mentioned). 
@@ -26,13 +26,13 @@ This script calculates alpha coeffitients and weights for each trait in linear c
 This script estimates confident intervals for alpha coeffitients. The script uses command line variables.
 
 ## 07_0_linear_combination_sh.R
-This script calculates summary statistics for SGCT.
+This script calculates summary statistics for SGIT.
 
 ## 07_0a_validity_check_sh.R
-This script provides analytical estimation of heritability of SGCT and its genetic correlations with original traits using core functions.
+This script provides analytical estimation of heritability of SGIT and its genetic correlations with original traits using core functions.
 
 ## 07_0b_validity_check_sh.sh
-This script estimates heritability of SGCT and its genetic correlations with original traits using LD Score regression implemented in GWAS-MAP database.
+This script estimates heritability of SGIT and its genetic correlations with original traits using LD Score regression implemented in GWAS-MAP database.
 
 ## 07_1_linear_combination_gip1.R
 This script calculates summary statistics for GIP1 (the GIP approach is described here doi: 10.1038/s42003-020-1051-9).
@@ -44,10 +44,10 @@ This script provides analytical estimation of heritability of GIP1 and its genet
 This script estimates heritability of GIP1 and its genetic correlations with original traits using LD Score regression implemented in GWAS-MAP database.
 
 ## 07_1c_rg_sh_gip1.R
-This script estimates genetic correlation between GIP1 and SGCT using core function.
+This script estimates genetic correlation between GIP1 and SGIT using core function.
 
 ## 07_1d_rg_sh_gip1.sh
-This script estimates genetic correlation between GIP1 and SGCT using LD Score regression implemented in GWAS-MAP database.
+This script estimates genetic correlation between GIP1 and SGIT using LD Score regression implemented in GWAS-MAP database.
 
 ## 07_2_linear_combination_maxh.R
 This script calculates summary statistics for MaxH (doi: 10.1159/000381641).
@@ -59,52 +59,55 @@ This script provides analytical estimation of heritability of MaxH and its genet
 This script estimates heritability of MaxH and its genetic correlations with original traits using LD Score regression implemented in GWAS-MAP database.
 
 ## 07_2c_rg_sh_maxh.R
-This script estimates genetic correlation between MaxH and SGCT using core function.
+This script estimates genetic correlation between MaxH and SGIT using core function.
 
 ## 07_2d_rg_sh_maxh.sh
-This script estimates genetic correlation between MaxH and SGCT using LD Score regression implemented in GWAS-MAP database.
+This script estimates genetic correlation between MaxH and SGIT using LD Score regression implemented in GWAS-MAP database.
 
 ## 08_linear_combination.R
-This script adjusts original traits for SGCT.
+This script adjusts original traits for SGIT.
 
 ## 08a_validity_check.R
-This script provides analytical estimation of heritability of UGCTs and their genetic correlations with SGCT using core functions.
+This script provides analytical estimation of heritability of UGITs and their genetic correlations with SGIT using core functions.
 
 ## 08b_validity_check.sh
-This script estimates heritability of UGCTs and their genetic correlations with SGCT using LD Score regression implemented in GWAS-MAP.
+This script estimates heritability of UGITs and their genetic correlations with SGIT using LD Score regression implemented in GWAS-MAP.
 
 ## 09a_start.sh
-This script sources 09b_pipeline_for_matrix_calculation.sh script and sets the command line variables for further calculations (original traits, SGCT and UGCTs are mentioned).
+This script sources 09b_pipeline_for_matrix_calculation.sh script and sets the command line variables for further calculations (original traits, SGIT and UGITs are mentioned).
 
 ## 09b_pipeline_for_matrix_calculation.sh
-This script incorporates a pipeline for calculation of correlation and covariance matrices for original traits, SGCT and UGCTs (see steps 01 - 04). The script uses command line variables.
+This script incorporates a pipeline for calculation of correlation and covariance matrices for original traits, SGIT and UGITs (see steps 01 - 04). The script uses command line variables.
 
 ## 09c_matrix_visualisation.R
-This script creates a heatmap plot of genetic correlations of original traits, SGCT and UGCTs.
+This script creates a heatmap plot of genetic correlations of original traits, SGIT and UGITs.
 
 ## 10_0_joint_clumping_and_enrichment_sh.R
-This script runs clumping for original traits and SGCT and finds shared hits.
+This script runs clumping for original traits and SGIT and finds loci significantly associated with different number of traits.
 
 ## 10a_0_joint_clumping_and_enrichment_sh.R
-This script runs clumping for original traits, SGCT and UGCTs and finds shared hits.
+This script runs clumping for original traits, SGIT and UGITs and finds loci significantly associated with different number of traits.
 
 ## 10_1_joint_clumping_and_enrichment_gip1.R
-This script runs clumping for original traits and GIP1 and finds shared hits.
+This script runs clumping for original traits and GIP1 and finds loci significantly associated with different number of traits.
 
 ## 10_2_joint_clumping_and_enrichment_maxh.R
-This script runs clumping for original traits and MaxH and finds shared hits.
+This script runs clumping for original traits and MaxH and finds loci significantly associated with different number of traits.
 
 ## 11a_count_significant_loci_sh.R
-This script counts loci genome-wide significant for each original trait or SGCT.
+This script counts loci genome-wide significant for each original trait or SGIT.
 
 ## 11b_significant_loci_sh.R
-This script counts loci genome-wide significant both for particular original trait and SGCT.
+This script counts loci genome-wide significant both for particular original trait and SGIT.
 
 ## 12_start_gc_correction.sh
-This script sources p_correction_for_gc.sh script and sets command line variables (original traits and SGCT are mentioned).
+This script sources p_correction_for_gc.sh script and sets command line variables (original traits and SGIT are mentioned).
 
 ## 13_p_val_gc_correction.R
-This script makes correction for genomic control in SGCT data.
+This script makes correction for genomic control in SGIT data.
+
+## 14_matrix_visualisation_shared_loci.R
+This script creates a heatmap for overlapping loci visualization.
 
 ## p_correction_for_gc.sh
 This script obtains parameters for genomic control correction for traits set as command line variables. The script is written for GWAS-MAP database. 

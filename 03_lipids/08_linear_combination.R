@@ -1,4 +1,4 @@
-# This script is to substract shared genetic component from the original traits
+# This script is to obtain GWAS results for UGITs
 
 library(data.table)
 library(dplyr)

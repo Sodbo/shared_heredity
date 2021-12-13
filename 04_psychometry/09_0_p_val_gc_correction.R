@@ -1,4 +1,4 @@
-# Aim of this script is to make correction for Genomic control (GC) for original traits, SGCT and UGCTs
+# Aim of this script is to make correction for Genomic control (GC) for original traits, SGIT and UGITs
 
 library(data.table)
 

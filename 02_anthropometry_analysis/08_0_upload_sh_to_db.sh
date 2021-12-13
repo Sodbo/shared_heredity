@@ -1,4 +1,4 @@
-#this script upload SH gwas into test db in order to apply gc_correction
+#this script upload SGIT gwas into test db in order to apply gc_correction
 path='../../data/01_anthropometry_results/five_traits/linear_combination/'
 descr_folder=$path'01_descriptors'
 uni_folder=$path'02_unification_out'
