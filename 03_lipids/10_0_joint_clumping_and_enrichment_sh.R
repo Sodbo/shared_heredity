@@ -4,8 +4,8 @@ library('data.table')
 library('dplyr')
 library('pROC')
 
-path_for_output_results <- "/mnt/polyomica/projects/shared_heredity/data/02_Lipids/three_traits/"
-
+path_for_output_results <- "/mnt/polyomica/projects/shared_heredity/data/02_Lipids/three_traits/new_sh_gc_corrected/"
+dir.create(path_for_output_results, showWarnings = FALSE)
 # Original traits
 input_file_name <- c('/mnt/polyomica/projects/shared_heredity/data/02_Lipids/original_traits/02_unification_out/ID_1287001/ID_1287001_done.csv',
 		     '/mnt/polyomica/projects/shared_heredity/data/02_Lipids/original_traits/02_unification_out/ID_1287003/ID_1287003_done.csv',
@@ -14,7 +14,7 @@ gwas <- lapply(input_file_name, fread)
 gwas <- lapply(gwas, function(x) x[(x$p != 0) & (x$eaf >= 0.01) & (x$eaf <= 0.99), ])
 
 # GWAS for shared heredity
-gwas_sh <- fread("/mnt/polyomica/projects/shared_heredity/data/02_Lipids/three_traits/SH/02_unification_results/sh_output_done.csv.gz", data.table = F)
+gwas_sh <- fread("/mnt/polyomica/projects/shared_heredity/data/02_Lipids/three_traits/SH/03_gc_corrected/sh_gc_corrected.csv", data.table = F)
 gwas_sh <- gwas_sh[(gwas_sh$p != 0) & (gwas_sh$eaf >= 0.01) & (gwas_sh$eaf <= 0.99), ]
 
 # Reordering of all original GWASs and SH
@@ -30,7 +30,7 @@ gwas_sh <- gwas_sh[ind, ]
 
 # Forming the input tables 
 pval_orig <- sapply(gwas_reordered, function(x) x$p)
-pval_sh <- gwas_sh$p
+pval_sh <- gwas_sh$p_gc
 chr <- gwas_sh$chr
 pos <- gwas_sh$bp
 

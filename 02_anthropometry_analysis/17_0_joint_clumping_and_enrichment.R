@@ -4,7 +4,7 @@ if (!require('data.table')) install.packages('data.table'); library('data.table'
 if (!require('dplyr')) install.packages('dplyr'); library('dplyr')
 if (!require('pROC')) install.packages('pROC'); library('pROC')
 
-path_for_output_results="../../data/01_anthropometry_results/five_traits/joint_clumping_and_enrichment_new/"
+path_for_output_results="../../data/01_anthropometry_results/five_traits/joint_clumping_and_enrichment_new_sh_with_gc_correction/"
 dir.create(path_for_output_results, showWarnings = FALSE)
 #GC corrected original GWASes
 gwas_files<-list.files('../../data/01_anthropometry_results/five_traits/GWAS/', full.names=T, pattern='ID_\\d+_gc_corrected.csv')
@@ -26,7 +26,7 @@ gwas<-lapply(gwas, function(x){
 					tmp=x;
 					ind=which(tmp$eaf>=0.01 & tmp$eaf<=0.99);
 					tmp[ind,];
-					} )
+					})
 
 
 #reordering of all original GWASs and SH
@@ -42,7 +42,7 @@ gwas_sh=gwas_sh[ind,]
 
 # Forming the input tables 
 pval_orig <- sapply(gwas_reordered, function(x) x$p_gc)
-pval_sh=gwas_sh$p
+pval_sh <- gwas_sh$p_gc
 chr=gwas_sh$chr
 pos=gwas_sh$pos
 
