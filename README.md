@@ -1,4 +1,4 @@
-# This folder contains project code related to the "A novel framework for analysis of the shared genetic background of correlated traits" manuscript.
+# The project code related to the "A novel framework for analysis of the shared genetic background of correlated traits" manuscript.
 
 ## 00_core_functions
 This folder contains code for all core (basic) functions implementing steps of SHAHER analysis framework. 
@@ -6,7 +6,7 @@ This folder contains code for all core (basic) functions implementing steps of S
 **Two main fucntions for MaxSH, GIP and SumCOT approaches are located here.**
 
 ## 01_upload_GWAS
-This folder contains code and auxiliary files for GWAS data unification and upload to the GWAS-MAP database (doi: 10.18699/VJ20.686).
+This folder contains code and auxiliary files for GWAS data unification and upload to the [GWAS-MAP](https://www.polyknomics.com/solutions/gwas-map-biomarker-and-intervention-target-discovery-platform/) database (doi: [10.18699/VJ20.686](https://doi.org/10.18699/VJ20.686)).
 
 ## 02_anthropometry_analysis
 This folder contains code for real data analysis on the set of anthropometric traits using SHAHER core functions.

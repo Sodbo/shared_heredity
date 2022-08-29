@@ -2,7 +2,7 @@ This folder contains core (basic) functions needed to perform analysis using SHA
 
 The function, that implements MaxSH and GIP aproaches, is shared_heredity.R (see bellow).
 
-The function, that implements sumCOT approch, is linear_combination_v3.R (see bellow).
+The function, that implements sumCOT approach, is linear_combination_v3.R and its faster version linear_combination_v4.cpp (see bellow).
 
 ## cor_g_a.R
 This function counts genetic correlation of linear combination with a coefficient "a" with trait "i".
