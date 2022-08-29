@@ -139,6 +139,9 @@ This script counts loci genome-wide significant both for particular original tra
 ## 22_matrix_visualisation_shared_loci.R
 This script for heatmap visualization of overlapping loci.
 
+## 23_check_new_snps_in_bigger_gwas.R
+This script extracts p-values for SNPs genome-wide significantly associated with at least one anthropometric trait from the bigger GWAS on BMI.
+
 ## DEPICT
 This folder contains config files and script for DEPICT analysis for all anthropometric traits.
 

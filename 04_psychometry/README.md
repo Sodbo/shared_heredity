@@ -123,5 +123,8 @@ This script counts loci genome-wide significant both for particular original tra
 ## 15_matrix_visualisation_shared_loci.R
 This script performs a heatmap visualization of loci overlap between traits. 
 
+## 16_check_new_snps_in_bigger_gwas.R
+This script extracts p-values of SNPs genowide-significantly associated with at least one of the traits from the psychometry dataset from the bigger GWAS on MDD.
+
 ## DEPICT
 This folder contains config files and script for DEPICT analysis for all psychometric traits.
