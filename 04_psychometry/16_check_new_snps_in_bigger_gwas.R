@@ -17,13 +17,11 @@ colnames(snips)
 snips$p_from_biggest_gwas <- NA
 
 i1 <- match(snips$SNP, mdd$rs_id)
-table(is.na(i1))
-i1 <- na.omit(i1)
+which(is.na(i1))
 mdd <- mdd[i1, ]
 
-i2 <- match(mdd$rs_id, snips$SNP)
-table(snips$SNP[i2] == mdd$rs_id)
-snips$p_from_biggest_gwas[i2] <- mdd$p
+snips$p_from_biggest_gwas <- mdd$p[i1]
+table(snips$p_from_biggest_gwas == mdd$p[i1])
 
 fwrite(snips, "~/ST3b.txt", dec = ".", sep = "\t")
 

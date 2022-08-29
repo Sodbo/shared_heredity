@@ -5,8 +5,6 @@ library(data.table)
 library(openxlsx)
 
 bmi <- fread("/mnt/polyomica/projects/shared_heredity/data/01_anthropometry_results/five_traits/GWAS/bmi.giant-ukbb.meta-analysis.combined.23May2018.txt", data.table = F)
-#mdd <- fread("/mnt/polyomica/projects/MR_BP/00_data/RF/01_biggest_gwases/05_unified/07_Depression_done.csv, data.table = F)
-#snips <- read.xlsx("~/20211214_Supplementary_Tables_1-3.xlsx", sheet = "ST3b", startRow = 4)
 snips <- read.xlsx("~/20211214_Supplementary_Tables_1-3.xlsx", sheet = "ST3a", startRow = 4)
 
 dim(bmi)
