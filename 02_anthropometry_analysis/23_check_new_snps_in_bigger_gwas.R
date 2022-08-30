@@ -2,10 +2,9 @@
 # (significant in SGIT but not in original traits) SNPs in a bigger GWAS on BMI
 
 library(data.table)
-library(openxlsx)
 
 bmi <- fread("/mnt/polyomica/projects/shared_heredity/data/01_anthropometry_results/five_traits/GWAS/bmi.giant-ukbb.meta-analysis.combined.23May2018.txt", data.table = F)
-snips <- read.xlsx("~/20211214_Supplementary_Tables_1-3.xlsx", sheet = "ST3a", startRow = 4)
+snips <- fread("/mnt/polyomica/projects/shared_heredity/data/01_anthropometry_results/five_traits/antro_sign_v2.txt", data.table = F)
 
 dim(bmi)
 colnames(bmi)
@@ -26,5 +25,5 @@ table(is.na(i1))
 table(snips$SNP == bmi_snp[i1])
 snips$p_from_biggest_gwas <- bmi$P[i1]
 
-fwrite(snips, "~/ST3a.txt", dec = ".", sep = "\t")
+fwrite(snips, "/mnt/polyomica/projects/shared_heredity/data/01_anthropometry_results/five_traits/antro_sign_bmi_added.txt", dec = ".", sep = "\t")
 
