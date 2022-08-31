@@ -1,9 +1,9 @@
 library(data.table)
 library(corrplot)
 
-clump_res<-fread('../../data/02_Lipids/three_traits/joint_clumping_full_set/clumping_of_SGCT_and_orig_traits_partII_5e-8.txt')
+clump_res<-fread("/mnt/polyomica/projects/shared_heredity/data/02_Lipids/lipid_sign_v2.txt")
 
-trait_names<-c('LDL', 'Triglycerides', 'Cholesterol', 'SGIT', 'LDL UGIT', 'Triglycerides UGIT', 'Cholesterol UGIT')
+trait_names<-c('LDL', 'Triglycerides', 'Cholesterol', 'SGCT', 'LDL.UGCT', 'Triglycerides.UGCT', 'Cholesterol.UGCT')
 
 shared_loci<-matrix(0, nrow=length(trait_names), ncol=length(trait_names))
 for(locus in clump_res$traits){
@@ -16,6 +16,8 @@ for(locus in clump_res$traits){
 		}
 	}
 }
+trait_names<-c('LDL', 'Triglycerides', 'Cholesterol', 'SGIT', 'LDL UGIT', 'Triglycerides UGIT', 'Cholesterol UGIT')
+
 colnames(shared_loci)<-trait_names
 rownames(shared_loci)<-trait_names
 #shared_loci_portion<-shared_loci/nrow(clump_res)
@@ -34,6 +36,6 @@ scale_matrix<-function(x){
 shared_loci_portion<-scale_matrix(shared_loci)
 
 
-pdf("../../data/02_Lipids/three_traits/joint_clumping_full_set/lipids_shared_loci.pdf",width = 7,height = 7)
+pdf("../../data/02_Lipids/three_traits/joint_clumping_full_set/lipids_shared_loci_v2.pdf",width = 7,height = 7)
 corrplot(shared_loci_portion,method = "square",p.mat=shared_loci, sig.level=-1,insig='p-value',tl.col="black", cl.cex = 1)
 dev.off()

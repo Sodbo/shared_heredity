@@ -1,9 +1,8 @@
 library(data.table)
 library(corrplot)
 
-clump_res<-fread('../../data/01_anthropometry_results/five_traits/joint_clumping_and_enrichment_full_set/clumping_of_SGCT_and_orig_traits_partII_5e-8.txt')
-
-trait_names<-c('BMI', 'Weight', 'Hip', 'Waist', 'Fat', 'SGIT', 'BMI UGIT', 'Weight UGIT', 'Hip UGIT', 'Waist UGIT', 'Fat UGIT')
+clump_res <- fread("/mnt/polyomica/projects/shared_heredity/data/01_anthropometry_results/five_traits/antro_sign_v2.txt")
+trait_names<-c('BMI', 'Weight', 'Hip', 'Waist', 'Fat', 'SGCT', 'BMI.UGCT', 'Weight.UGCT', 'Hip.UGCT', 'Waist.UGCT', 'Fat.UGCT')
 
 shared_loci<-matrix(0, nrow=length(trait_names), ncol=length(trait_names))
 for(locus in clump_res$traits){
@@ -16,6 +15,7 @@ for(locus in clump_res$traits){
 		}
 	}
 }
+trait_names<-c('BMI', 'Weight', 'Hip', 'Waist', 'Fat', 'SGIT', 'BMI UGIT', 'Weight UGIT', 'Hip UGIT', 'Waist UGIT', 'Fat UGIT')
 colnames(shared_loci)<-trait_names
 rownames(shared_loci)<-trait_names
 #shared_loci_portion<-shared_loci/nrow(clump_res)
@@ -34,6 +34,6 @@ scale_matrix<-function(x){
 shared_loci_portion<-scale_matrix(shared_loci)
 
 
-pdf("../../data/01_anthropometry_results/five_traits/joint_clumping_and_enrichment_full_set/antro_shared_loci.pdf",width = 7,height = 7)
+pdf("../../data/01_anthropometry_results/five_traits/joint_clumping_and_enrichment_full_set/antro_shared_loci_v2.pdf",width = 7,height = 7)
 corrplot(shared_loci_portion,method = "square",p.mat=shared_loci, sig.level=-1,insig='p-value',tl.col="black", cl.cex = 1)
 dev.off()
